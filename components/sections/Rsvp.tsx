@@ -46,9 +46,11 @@ export function Rsvp() {
     // Thứ tự các key ở đây chính là thứ tự cột trong Sheet của khách.
     const values: Record<string, string | number> = {
       name: guest?.name ?? String(data.get("name") ?? "").trim(),
+      contact: String(data.get("contact") ?? "").trim(),
       attending,
       guests: going ? guests : 0,
-      side: String(data.get("side") ?? ""),
+      companions: going ? String(data.get("companions") ?? "").trim() : "",
+      meal: going ? String(data.get("meal") ?? "").trim() : "",
       message: String(data.get("message") ?? "").trim(),
     };
 
@@ -119,6 +121,18 @@ export function Rsvp() {
               </Field>
             )}
 
+            <Field label={fields.contact.label} htmlFor="rsvp-contact">
+              <input
+                id="rsvp-contact"
+                name="contact"
+                required
+                autoComplete="tel"
+                maxLength={120}
+                placeholder={fields.contact.placeholder}
+                className="field-input"
+              />
+            </Field>
+
             <fieldset className="flex flex-col gap-tight">
               <FieldLabel as="legend">{fields.attending.label}</FieldLabel>
               <Choice
@@ -164,16 +178,32 @@ export function Rsvp() {
               </fieldset>
             ) : null}
 
-            <Field label={fields.side.label} htmlFor="rsvp-side">
-              <select id="rsvp-side" name="side" defaultValue="" className="field-input">
-                <option value="">—</option>
-                {fields.side.options.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
-            </Field>
+            {attending === "yes" ? (
+              <>
+                {guests > 0 ? (
+                  <Field label={fields.companions.label} htmlFor="rsvp-companions">
+                    <textarea
+                      id="rsvp-companions"
+                      name="companions"
+                      rows={2}
+                      maxLength={300}
+                      placeholder={fields.companions.placeholder}
+                      className="field-input"
+                    />
+                  </Field>
+                ) : null}
+
+                <Field label={fields.meal.label} htmlFor="rsvp-meal">
+                  <input
+                    id="rsvp-meal"
+                    name="meal"
+                    maxLength={160}
+                    placeholder={fields.meal.placeholder}
+                    className="field-input"
+                  />
+                </Field>
+              </>
+            ) : null}
 
             <Field label={fields.message.label} htmlFor="rsvp-message">
               <textarea

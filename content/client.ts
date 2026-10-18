@@ -375,7 +375,7 @@ export const dresscode = {
 export const rsvp = {
   mode: "general" as "general" | "personalized",
   /** URL của Glow RSVP Hub — skill glow-rsvp điền vào. */
-  endpoint: "",
+  endpoint: "https://script.google.com/macros/s/AKfycbxB9Oc65toi-UmEfTB_J6d3l8LQoNQvhpyY1IaIIKR2h8I59K1NxvCGTZckTqLaT5y_/exec",
   /** Slug của khách, trùng subdomain: ten-khach.gloweb.site → "ten-khach" */
   client: "quangducthanhtruc",
 
@@ -384,20 +384,32 @@ export const rsvp = {
   note: "Nhắn giúp chúng mình một tiếng để gia đình chuẩn bị chỗ ngồi chu đáo.",
   deadline: "Vui lòng phản hồi trước ngày 10 . 12 . 2026",
 
+  /**
+   * Thứ tự ở đây = thứ tự cột trong Sheet của khách. Đổi key hoặc thêm field
+   * thì phải chạy lại: ~/glow-tools/glow-rsvp.sh fields <client> --fields "…"
+   */
   fields: {
     name: { label: "Họ và tên", placeholder: "Nguyễn Văn A" },
+    contact: {
+      label: "Số điện thoại / Email",
+      placeholder: "09xx xxx xxx hoặc email",
+    },
     attending: {
       label: "Quý khách có tham dự?",
       yes: "Có, tôi sẽ đến",
       no: "Rất tiếc, tôi xin vắng",
     },
-    guests: { label: "Số người đi cùng", none: "Tôi đi một mình", max: 4 },
-    side: {
-      label: "Khách nhà",
-      options: ["Nhà trai", "Nhà gái"],
+    guests: { label: "Số lượng khách", none: "Tôi đi một mình", max: 4 },
+    companions: {
+      label: "Tên khách đi cùng (nếu có)",
+      placeholder: "Mỗi người một dòng, hoặc cách nhau bằng dấu phẩy",
+    },
+    meal: {
+      label: "Ưu tiên món ăn (không bắt buộc)",
+      placeholder: "Ăn chay, dị ứng hải sản…",
     },
     message: {
-      label: "Lời chúc gửi cô dâu chú rể",
+      label: "Lời chúc gửi cô dâu chú rể (không bắt buộc)",
       placeholder: "Chúc hai bạn trăm năm hạnh phúc…",
     },
   },
