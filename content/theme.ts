@@ -20,21 +20,21 @@
 
 export const palette = {
   /** Nền chính của trang và của các section sáng */
-  cream: "#fbf7f0",
-  creamDeep: "#f1e7d6",
-  /** Nền của các section tối */
-  forest: "#1d3a2b",
-  forestDeep: "#132619",
-  forestSoft: "#3c6049",
+  cream: "#fbf6ec",
+  creamDeep: "#f2e8d7",
+  /** Nền của các section tối — rượu vang, tông chủ đạo của bộ nhận diện */
+  wine: "#600f20",
+  wineDeep: "#400a15",
+  wineSoft: "#7d2436",
   /** Chữ trên nền sáng */
-  ink: "#33302a",
-  inkSoft: "#6b6559",
+  ink: "#40121e",
+  inkSoft: "#6d4450",
   /** Nhấn: dùng cho eyebrow, gạch chân, viền nút */
-  gold: "#b99a5b",
-  goldSoft: "#e2d2ae",
+  gold: "#a48210",
+  goldSoft: "#d3b25c",
   /** Nền thẻ, khung ảnh */
-  surface: "#ffffff",
-  line: "#d9cfbd",
+  surface: "#fffdf8",
+  line: "#e0cfb4",
 } as const;
 
 /**
@@ -49,7 +49,7 @@ export const tones = {
     muted: palette.inkSoft,
     accent: palette.gold,
     line: palette.line,
-    contrast: palette.forest,
+    contrast: palette.wine,
   },
   paper: {
     bg: palette.creamDeep,
@@ -57,14 +57,14 @@ export const tones = {
     muted: palette.inkSoft,
     accent: palette.gold,
     line: palette.line,
-    contrast: palette.forest,
+    contrast: palette.wine,
   },
   dark: {
-    bg: palette.forest,
+    bg: palette.wine,
     fg: palette.cream,
     muted: palette.goldSoft,
     accent: palette.goldSoft,
-    line: "rgba(251, 247, 240, 0.28)",
+    line: "rgba(251, 246, 236, 0.3)",
     contrast: palette.cream,
   },
 } as const;
@@ -144,8 +144,8 @@ export const radius = {
 } as const;
 
 export const shadow = {
-  paper: "0 10px 28px -14px rgb(51 48 42 / 0.3)",
-  lift: "0 22px 50px -22px rgb(51 48 42 / 0.45)",
+  paper: "0 10px 28px -14px rgb(64 18 30 / 0.3)",
+  lift: "0 22px 50px -22px rgb(64 18 30 / 0.45)",
 } as const;
 
 /* ----------------------------------------------------------------- MOTION */
