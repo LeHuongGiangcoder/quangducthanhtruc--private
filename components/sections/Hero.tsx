@@ -12,7 +12,10 @@ import { ceremony, couple, hero, venue } from "@/content/client";
 export function Hero() {
   return (
     <SectionWrapper section="hero" flush width="bleed" labelledBy="hero-title">
-      <div className="container-site flex min-h-[100svh] flex-col items-center justify-center gap-stack py-section text-center">
+      {/* `pt-valance` chừa chỗ cho dải lụa treo ở mép trên (xem decor của hero
+          trong content/client.ts): không có nó thì trên màn rộng-thấp khối chữ
+          canh giữa trôi lên nằm dưới lụa và tên cặp đôi không đọc được. */}
+      <div className="container-site flex min-h-[100svh] flex-col items-center justify-center gap-stack py-section pt-valance text-center short:pt-section">
         <Eyebrow data-reveal data-hero>
           {hero.eyebrow}
         </Eyebrow>

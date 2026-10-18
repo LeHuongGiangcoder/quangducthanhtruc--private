@@ -101,27 +101,107 @@ export type SectionDesign = {
  * Khung nền để trống hết phần nền — site chạy bằng màu phẳng của theme.
  */
 export const design: Record<SectionId, SectionDesign> = {
-  intro: { anchor: "intro", tone: "dark", background: "/images/intro.jpg", overlay: 0.55 },
-  hero: { anchor: "hero", tone: "light", background: "/images/hero.jpg", overlay: 0.7 },
-  loveStory: { anchor: "love-story", tone: "paper" },
-  gallery: { anchor: "gallery", tone: "light" },
-  weddingInfo: { anchor: "wedding-info", tone: "dark" },
-  agenda: { anchor: "agenda", tone: "light" },
-  dresscode: { anchor: "dresscode", tone: "paper" },
-  rsvp: { anchor: "rsvp", tone: "light" },
-  thankYou: { anchor: "thank-you", tone: "dark" },
+  intro: {
+    anchor: "intro",
+    tone: "dark",
+    background: "silk-wine",
+    overlay: 0.42,
+    decor: [
+      { name: "crest", at: "top-[7%] left-1/2 -translate-x-1/2 w-[26%]" },
+      { name: "bouquet-foot", at: "bottom-[-2%] -left-[10%] w-[46%]", parallax: 14 },
+      { name: "bouquet-top", at: "bottom-[-4%] -right-[12%] w-[44%]", parallax: 20, hideOnMobile: true },
+    ],
+  },
+  hero: {
+    anchor: "hero",
+    tone: "light",
+    background: "/images/hero.jpg",
+    overlay: 0.62,
+    texture: "paper-ivory",
+    decor: [
+      /* Dải lụa là một cái "valance" vắt ngang mép trên. Phải CHẶN BỀ RỘNG:
+         file 800×523 nên để w-full thì màn càng rộng lụa càng cao, và trên
+         màn rộng-thấp nó rủ xuống đúng chỗ tên cặp đôi — chữ mực sẫm nằm
+         trên lụa đỏ sẫm, không đọc được. Chặn ở 24rem thì lụa cao tối đa
+         ~250px ở mọi tỉ lệ màn. `short:hidden` cho máy nằm ngang: ở đó
+         chiều cao không đủ cho cả lụa lẫn tên, nên bỏ lụa. */
+      { name: "silk-swag", at: "short:hidden -top-[18%] left-1/2 -translate-x-1/2 w-[min(100%,24rem)]" },
+      /* Hoa ở góc trái — góc phải đã có nút nhạc đứng. */
+      { name: "rose", at: "bottom-[4%] -left-[9%] w-[28%]", rotate: -6, sway: true },
+    ],
+  },
+  loveStory: {
+    anchor: "love-story",
+    tone: "paper",
+    texture: "paper-ivory",
+    divider: "lace-band",
+    decor: [
+      { name: "ribbon-bow", at: "top-[3%] -left-[7%] w-[24%]", rotate: -10, parallax: 18 },
+      { name: "butterfly", at: "top-[14%] right-[4%] w-[16%]", sway: true, hideOnMobile: true },
+    ],
+  },
+  gallery: {
+    anchor: "gallery",
+    tone: "light",
+    texture: "paper-ivory",
+    decor: [{ name: "gilt-bloom", at: "top-[4%] -right-[6%] w-[22%]", rotate: 8, parallax: 24 }],
+  },
+  weddingInfo: {
+    anchor: "wedding-info",
+    tone: "dark",
+    background: "damask-wine",
+    overlay: 0.74,
+    divider: "lace-band",
+    decor: [
+      { name: "calla-bouquet", at: "top-[5%] -left-[9%] w-[32%]", parallax: 16 },
+      { name: "tassel", at: "top-0 right-[7%] w-[9%]", sway: true },
+    ],
+  },
+  agenda: {
+    anchor: "agenda",
+    tone: "light",
+    background: "damask-cream",
+    overlay: 0.82,
+    decor: [{ name: "line-rings", at: "top-[5%] left-[5%] w-[14%]", hideOnMobile: true }],
+  },
+  dresscode: {
+    anchor: "dresscode",
+    tone: "paper",
+    texture: "paper-ivory",
+    divider: "lace-band",
+    decor: [{ name: "wax-seal", at: "bottom-[6%] -right-[5%] w-[22%]", rotate: 6 }],
+  },
+  rsvp: {
+    anchor: "rsvp",
+    tone: "light",
+    texture: "paper-ivory",
+    decor: [{ name: "stamp", at: "top-[4%] right-[5%] w-[16%]", rotate: -7, hideOnMobile: true }],
+  },
+  thankYou: {
+    anchor: "thank-you",
+    tone: "dark",
+    background: "silk-wine",
+    overlay: 0.74,
+    divider: "lace-band",
+    /* Huy hiệu đóng trang, nằm dưới chữ ký. ThankYou chừa `pb-valance` ở dưới
+       cho nó; bề rộng chặn ở 4.5rem để chiều cao không chạy theo bề rộng màn
+       rồi trèo lên chữ ký như lần trước. */
+    decor: [
+      { name: "crest", at: "bottom-tight left-1/2 -translate-x-1/2 w-[min(20%,4.5rem)]" },
+    ],
+  },
 };
 
 /* ------------------------------------------------------------------ COUPLE */
 
 export const couple = {
   /** Tên hiển thị lớn ở hero và màn mở thiệp */
-  groom: "Tên Chú Rể",
-  bride: "Tên Cô Dâu",
+  groom: "Quang Đức",
+  bride: "Thanh Trúc",
   /** Tên đầy đủ, dùng trong phần thông tin lễ cưới */
   groomFull: "Họ Tên Đầy Đủ Chú Rể",
   brideFull: "Họ Tên Đầy Đủ Cô Dâu",
-  hashtag: "#TenChuReCuoiTenCoDau",
+  hashtag: "#QuangDucThanhTruc",
 };
 
 /** Bố mẹ hai bên — hiện ở section Thông tin lễ cưới */
@@ -154,15 +234,15 @@ export const ceremony = {
   weekday: "Chủ Nhật",
   dateShort: "20 . 12 . 2026",
   timeLabel: "17:30",
-  /** Ngày âm — gia đình tự đọc, không tính tự động. */
+  /** Ngày âm — gia đình tự đọc, không tính tự động. PLACEHOLDER, nhờ gia đình xác nhận. */
   lunar: "Tức ngày 02 tháng 11 năm Bính Ngọ",
 };
 
 export const venue = {
-  name: "Tên Nhà Hàng / Trung Tâm Tiệc Cưới",
+  name: "GEM Center",
   hall: "Tên sảnh — Tầng X",
-  address: "Số nhà, đường, phường, quận, thành phố",
-  /** Link Maps của khách. Nên dùng link chia sẻ ghim sẵn, đừng để ?query= tự tìm. */
+  address: "8 Nguyễn Bỉnh Khiêm, Phường Đa Kao, Quận 1, TP. Hồ Chí Minh",
+  /** PLACEHOLDER — thay bằng link Maps ghim sẵn của sảnh. */
   mapUrl: "https://www.google.com/maps",
   mapLabel: "Xem bản đồ",
   note: "Kính mời quý khách tới sớm ít phút để kịp chụp hình cùng gia đình.",
@@ -190,43 +270,43 @@ export const hero = {
 export const loveStory = {
   eyebrow: "Chuyện của chúng mình",
   title: "Love Story",
-  intro: "Vuốt sang để xem những khoảnh khắc chúng mình giữ lại.",
-  /** Mỗi chương là một thẻ trong băng ảnh kéo ngang. */
+  intro: "Vuốt sang để đi lại chặng đường mười năm của chúng mình.",
+  /** Bốn chương, đúng bốn bảng trưng bày ở tiệc cưới. */
   chapters: [
     {
-      year: "2020",
-      title: "Lần đầu gặp nhau",
-      body: "Một dòng kể ngắn về lần đầu hai người gặp nhau.",
+      year: "Chương 1",
+      title: "Những ánh nhìn thoáng qua",
+      body: "Kỷ niệm thời học sinh và những rung cảm đầu đời, khi hai đứa chỉ đứng từ xa nhìn nhau, thoáng qua nhau.",
       photo: "/images/couple-01.jpg",
-      alt: "Cô dâu và chú rể trong lần đầu gặp nhau",
+      alt: "PLACEHOLDER — ảnh pre-wedding chụp ở bối cảnh thời học sinh",
     },
     {
-      year: "2022",
-      title: "Chính thức yêu",
-      body: "Một dòng kể ngắn về lúc hai người thành một đôi.",
+      year: "06 . 02 . 2016",
+      title: "5 năm yêu xa",
+      body: "Ngày chúng mình chọn làm ngày kỷ niệm, mở đầu cho năm năm thương nhau qua màn hình và những chuyến bay.",
       photo: "/images/couple-02.jpg",
-      alt: "Cô dâu và chú rể khi mới yêu",
+      alt: "PLACEHOLDER — ảnh chụp trong những năm yêu xa",
     },
     {
-      year: "2024",
-      title: "Cùng nhau đi khắp nơi",
-      body: "Một dòng kể ngắn về những chuyến đi của hai người.",
+      year: "2020 — 2023",
+      title: "Cuộc gặp lại & Sự dung hoà",
+      body: "Năm 2020 Đức về Việt Nam, và năm 2023 chúng mình chính thức về chung một nhà.",
       photo: "/images/couple-03.jpg",
-      alt: "Cô dâu và chú rể trong một chuyến đi",
+      alt: "PLACEHOLDER — ảnh những năm về chung một nhà",
     },
     {
-      year: "2026",
-      title: "Lời cầu hôn",
-      body: "Một dòng kể ngắn về lời cầu hôn.",
+      year: "Chương 4",
+      title: "A decade of quiet love & timeless harmony",
+      body: "Một thập kỷ thương nhau lặng lẽ — thanh xuân đi qua và ở lại thành một đời sống yên bình.",
       photo: "/images/couple-04.jpg",
-      alt: "Cô dâu và chú rể trong ngày cầu hôn",
+      alt: "PLACEHOLDER — ảnh pre-wedding cô dâu mặc váy cưới",
     },
   ],
   /** Nhịp kết, đứng riêng dưới băng ảnh. Để null thì không hiện. */
   finale: {
-    year: "Tháng 12 . 2026",
+    year: "20 . 12 . 2026",
     title: "Và chúng mình cưới",
-    body: "Hẹn gặp quý khách trong ngày trọng đại.",
+    body: "Hẹn gặp quý khách tại GEM Center trong ngày trọng đại.",
   },
 };
 
@@ -253,7 +333,7 @@ export const gallery = {
 export const weddingInfo = {
   eyebrow: "Thông tin lễ cưới",
   title: "Ngày chúng mình về chung một nhà",
-  intro: "Kính mời quý khách tới dự tiệc mừng lễ thành hôn.",
+  intro: "Kính mời quý khách tới dự tiệc mừng lễ thành hôn của chúng mình tại GEM Center.",
   saveTheDateLabel: "Save the date",
   venueLabel: "Địa điểm",
   calendarLabel: "Thêm vào lịch",
@@ -284,9 +364,9 @@ export const dresscode = {
   note: "Để khung hình ngày cưới thật hoà hợp, kính mời quý khách chọn trang phục theo bảng màu dưới đây.",
   /** Để mảng rỗng thì phần bảng màu tự ẩn. */
   swatches: [
-    { name: "Xanh rêu", hex: "#1d3a2b" },
-    { name: "Kem", hex: "#f1e7d6" },
-    { name: "Vàng đồng", hex: "#b99a5b" },
+    { name: "Đỏ rượu vang", hex: "#600f20" },
+    { name: "Kem ngà", hex: "#f2e8d7" },
+    { name: "Vàng đồng", hex: "#a48210" },
     { name: "Trắng", hex: "#ffffff" },
   ],
   avoid: "Xin hạn chế trang phục màu trắng tinh của cô dâu.",
@@ -307,29 +387,41 @@ export const dresscode = {
 export const rsvp = {
   mode: "general" as "general" | "personalized",
   /** URL của Glow RSVP Hub — skill glow-rsvp điền vào. */
-  endpoint: "",
+  endpoint: "https://script.google.com/macros/s/AKfycbxB9Oc65toi-UmEfTB_J6d3l8LQoNQvhpyY1IaIIKR2h8I59K1NxvCGTZckTqLaT5y_/exec",
   /** Slug của khách, trùng subdomain: ten-khach.gloweb.site → "ten-khach" */
-  client: "",
+  client: "quangducthanhtruc",
 
   eyebrow: "R.S.V.P",
   title: "Quý khách sẽ đến chứ?",
   note: "Nhắn giúp chúng mình một tiếng để gia đình chuẩn bị chỗ ngồi chu đáo.",
   deadline: "Vui lòng phản hồi trước ngày 10 . 12 . 2026",
 
+  /**
+   * Thứ tự ở đây = thứ tự cột trong Sheet của khách. Đổi key hoặc thêm field
+   * thì phải chạy lại: ~/glow-tools/glow-rsvp.sh fields <client> --fields "…"
+   */
   fields: {
     name: { label: "Họ và tên", placeholder: "Nguyễn Văn A" },
+    contact: {
+      label: "Số điện thoại / Email",
+      placeholder: "09xx xxx xxx hoặc email",
+    },
     attending: {
       label: "Quý khách có tham dự?",
       yes: "Có, tôi sẽ đến",
       no: "Rất tiếc, tôi xin vắng",
     },
-    guests: { label: "Số người đi cùng", none: "Tôi đi một mình", max: 4 },
-    side: {
-      label: "Khách nhà",
-      options: ["Nhà trai", "Nhà gái"],
+    guests: { label: "Số lượng khách", none: "Tôi đi một mình", max: 4 },
+    companions: {
+      label: "Tên khách đi cùng (nếu có)",
+      placeholder: "Mỗi người một dòng, hoặc cách nhau bằng dấu phẩy",
+    },
+    meal: {
+      label: "Ưu tiên món ăn (không bắt buộc)",
+      placeholder: "Ăn chay, dị ứng hải sản…",
     },
     message: {
-      label: "Lời chúc gửi cô dâu chú rể",
+      label: "Lời chúc gửi cô dâu chú rể (không bắt buộc)",
       placeholder: "Chúc hai bạn trăm năm hạnh phúc…",
     },
   },
@@ -352,7 +444,7 @@ export const thankYou = {
     "Cảm ơn quý khách đã dành thời gian",
     "đồng hành cùng chúng mình trong ngày trọng đại.",
   ],
-  signature: "Tên Chú Rể & Tên Cô Dâu",
+  signature: "Quang Đức & Thanh Trúc",
   image: "/images/couple-06.jpg",
   imageAlt: "Cô dâu và chú rể",
 };
@@ -367,7 +459,7 @@ export const thankYou = {
 export const music = {
   src: "/audio/music.mp3",
   enabled: true,
-  title: "Tên bài hát — Nghệ sĩ",
+  title: "PLACEHOLDER — tên bài hát & nghệ sĩ",
   volume: 0.55,
 };
 
@@ -375,10 +467,10 @@ export const music = {
 
 export const meta = {
   /** Domain thật của site — dùng để dựng link ảnh OG tuyệt đối. */
-  siteUrl: "https://ten-khach.gloweb.site",
-  title: "Tên Chú Rể & Tên Cô Dâu — Thiệp cưới",
+  siteUrl: "https://quangducthanhtruc.gloweb.site",
+  title: "Quang Đức & Thanh Trúc — Thiệp cưới",
   description:
-    "Trân trọng kính mời quý khách đến chung vui cùng gia đình chúng tôi ngày 20.12.2026.",
+    "Trân trọng kính mời quý khách đến chung vui cùng gia đình chúng tôi ngày 20.12.2026 tại GEM Center.",
   /** Ảnh hiện khi dán link lên Zalo / Facebook. */
   ogImage: "/images/hero.jpg",
   locale: "vi_VN",
