@@ -136,7 +136,7 @@ export const sizes = {
    * Section nào treo valance thì chừa đúng khoảng này ở trên (`pt-valance`),
    * để nội dung canh giữa không trôi lên nằm dưới hoạ tiết trên màn rộng-thấp.
    */
-  valance: "clamp(6rem, 18vw, 11rem)",
+  valance: "clamp(7rem, 18vw, 11rem)",
   /** Nút dùng chung một bề rộng để không so le khi đứng cạnh nhau */
   btn: "14rem",
   containerSite: "72rem",

@@ -8,7 +8,14 @@ import { couple, thankYou } from "@/content/client";
 /** Màn cuối: lời cảm ơn, ảnh hai người và hashtag. */
 export function ThankYou() {
   return (
-    <SectionWrapper section="thankYou" width="prose" labelledBy="thank-you-title">
+    /* `pb-valance`: chừa chỗ dưới cùng cho huy hiệu treo ở mép (xem decor của
+       thankYou trong content/client.ts), để nó không đè lên chữ ký. */
+    <SectionWrapper
+      section="thankYou"
+      width="prose"
+      labelledBy="thank-you-title"
+      className="pb-valance"
+    >
       <Reveal className="flex flex-col items-center gap-stack text-center">
         <Eyebrow>{thankYou.eyebrow}</Eyebrow>
         <Heading level="h2" id="thank-you-title">

@@ -183,7 +183,12 @@ export const design: Record<SectionId, SectionDesign> = {
     background: "silk-wine",
     overlay: 0.74,
     divider: "lace-band",
-    decor: [{ name: "crest", at: "bottom-[6%] left-1/2 -translate-x-1/2 w-[22%]" }],
+    /* Huy hiệu đóng trang, nằm dưới chữ ký. ThankYou chừa `pb-valance` ở dưới
+       cho nó; bề rộng chặn ở 4.5rem để chiều cao không chạy theo bề rộng màn
+       rồi trèo lên chữ ký như lần trước. */
+    decor: [
+      { name: "crest", at: "bottom-tight left-1/2 -translate-x-1/2 w-[min(20%,4.5rem)]" },
+    ],
   },
 };
 
