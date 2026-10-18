@@ -119,8 +119,11 @@ export const design: Record<SectionId, SectionDesign> = {
     overlay: 0.62,
     texture: "paper-ivory",
     decor: [
-      { name: "silk-swag", at: "top-[-2%] left-0 w-full" },
-      { name: "rose", at: "bottom-[6%] -right-[8%] w-[30%]", rotate: -6, sway: true },
+      /* Dải lụa là một cái "valance" vắt ngang mép trên: kéo lên cao để chỉ
+         còn nếp rủ phía dưới, tên cặp đôi không bao giờ chạm vào nó. */
+      { name: "silk-swag", at: "-top-[16%] left-0 w-full" },
+      /* Hoa ở góc trái — góc phải đã có nút nhạc đứng. */
+      { name: "rose", at: "bottom-[4%] -left-[9%] w-[28%]", rotate: -6, sway: true },
     ],
   },
   loveStory: {
