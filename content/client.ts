@@ -119,9 +119,13 @@ export const design: Record<SectionId, SectionDesign> = {
     overlay: 0.62,
     texture: "paper-ivory",
     decor: [
-      /* Dải lụa là một cái "valance" vắt ngang mép trên: kéo lên cao để chỉ
-         còn nếp rủ phía dưới, tên cặp đôi không bao giờ chạm vào nó. */
-      { name: "silk-swag", at: "-top-[16%] left-0 w-full" },
+      /* Dải lụa là một cái "valance" vắt ngang mép trên. Phải CHẶN BỀ RỘNG:
+         file 800×523 nên để w-full thì màn càng rộng lụa càng cao, và trên
+         màn rộng-thấp nó rủ xuống đúng chỗ tên cặp đôi — chữ mực sẫm nằm
+         trên lụa đỏ sẫm, không đọc được. Chặn ở 24rem thì lụa cao tối đa
+         ~250px ở mọi tỉ lệ màn. `short:hidden` cho máy nằm ngang: ở đó
+         chiều cao không đủ cho cả lụa lẫn tên, nên bỏ lụa. */
+      { name: "silk-swag", at: "short:hidden -top-[18%] left-1/2 -translate-x-1/2 w-[min(100%,24rem)]" },
       /* Hoa ở góc trái — góc phải đã có nút nhạc đứng. */
       { name: "rose", at: "bottom-[4%] -left-[9%] w-[28%]", rotate: -6, sway: true },
     ],

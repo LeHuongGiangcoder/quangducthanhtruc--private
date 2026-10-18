@@ -131,6 +131,12 @@ export const spacing = {
 export const sizes = {
   /** Vùng chạm tối thiểu — WCAG 2.5.8 / iOS HIG */
   tap: "2.75rem",
+  /**
+   * Chiều cao một "valance" — dải hoạ tiết vắt ngang mép trên một section.
+   * Section nào treo valance thì chừa đúng khoảng này ở trên (`pt-valance`),
+   * để nội dung canh giữa không trôi lên nằm dưới hoạ tiết trên màn rộng-thấp.
+   */
+  valance: "clamp(6rem, 18vw, 11rem)",
   /** Nút dùng chung một bề rộng để không so le khi đứng cạnh nhau */
   btn: "14rem",
   containerSite: "72rem",
