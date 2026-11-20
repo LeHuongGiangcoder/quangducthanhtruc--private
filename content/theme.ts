@@ -19,22 +19,27 @@
 /* ---------------------------------------------------------------- PALETTE */
 
 export const palette = {
-  /** Nền chính của trang và của các section sáng */
-  cream: "#fbf6ec",
-  creamDeep: "#f2e8d7",
-  /** Nền của các section tối — rượu vang, tông chủ đạo của bộ nhận diện */
-  wine: "#600f20",
-  wineDeep: "#400a15",
-  wineSoft: "#7d2436",
-  /** Chữ trên nền sáng */
-  ink: "#40121e",
-  inkSoft: "#6d4450",
-  /** Nhấn: dùng cho eyebrow, gạch chân, viền nút */
-  gold: "#a48210",
-  goldSoft: "#d3b25c",
+  /** Nền chính của trang và của các section sáng — trùng màu kem của bộ asset */
+  cream: "#fcebd3",
+  creamDeep: "#f3dcbd",
+  /** Nền của các section tối — đỏ rượu của bộ nhận diện (dải ruy băng, ô chữ nhật) */
+  wine: "#620000",
+  wineDeep: "#470000",
+  /** Đỏ nhung — màu trung bình của nền nhung trong Love Story */
+  wineSoft: "#812023",
+  /** Chữ trên nền sáng: chính màu đỏ rượu, như chữ trên tấm kem */
+  ink: "#620000",
+  inkSoft: "#7d3a2c",
+  /** Nhấn: vàng nhẫn cưới */
+  gold: "#a3824f",
+  goldSoft: "#e2c99c",
+  /** Vàng sáng của tên cặp đôi trên cánh cửa màn mở thiệp */
+  goldLight: "#f6dba3",
+  /** Màu rèm tối nhất của sân khấu màn mở thiệp — lấp hai bên trên màn rộng */
+  night: "#170409",
   /** Nền thẻ, khung ảnh */
-  surface: "#fffdf8",
-  line: "#e0cfb4",
+  surface: "#fffaf2",
+  line: "#dcbf98",
 } as const;
 
 /**
@@ -64,7 +69,7 @@ export const tones = {
     fg: palette.cream,
     muted: palette.goldSoft,
     accent: palette.goldSoft,
-    line: "rgba(251, 246, 236, 0.3)",
+    line: "rgba(252, 235, 211, 0.35)",
     contrast: palette.cream,
   },
 } as const;
@@ -75,7 +80,7 @@ export type Tone = keyof typeof tones;
 
 /**
  * Ba họ chữ. Giá trị là CSS variable do next/font sinh ra trong layout.tsx
- * (--ff-display / --ff-body / --ff-script) — đổi font thì sửa cả hai nơi.
+ * (--ff-display / --ff-script / --ff-flourish; body dùng chung Benguiat với display) — đổi font thì sửa cả hai nơi.
  *
  * Lưu ý tiếng Việt: chỉ chọn font có subset "vietnamese" trên Google Fonts.
  * Font script mua ngoài thường thiếu dấu (ơ, ư, đ, dấu chồng) nên không dùng
@@ -83,8 +88,14 @@ export type Tone = keyof typeof tones;
  */
 export const fonts = {
   display: 'var(--ff-display), Georgia, "Times New Roman", serif',
-  body: "var(--ff-body), ui-sans-serif, system-ui, sans-serif",
+  body: 'var(--ff-display), Georgia, "Times New Roman", serif',
   script: 'var(--ff-script), "Apple Chancery", cursive',
+  /**
+   * Chữ hoa mỹ của bộ nhận diện (Bellissima). Font này THIẾU ơ ư ứ ậ ễ — chỉ
+   * dùng cho chữ Latin không dấu: "Thank", "Dress Code", "Gem Center"…
+   * Chữ tiếng Việt viết tay thì dùng `script`.
+   */
+  flourish: 'var(--ff-flourish), var(--ff-script), cursive',
 } as const;
 
 /** Thang chữ. Không được dùng size nào ngoài danh sách này. */
@@ -98,7 +109,24 @@ export const typeScale = {
   body: { size: "1rem", line: "1.7", tracking: "0em" },
   small: { size: "0.875rem", line: "1.6", tracking: "0em" },
   /** Dòng chữ nhỏ in hoa trên tiêu đề section */
-  eyebrow: { size: "0.75rem", line: "1.2", tracking: "0.26em" },
+  eyebrow: { size: "0.8125rem", line: "1.2", tracking: "0.22em" },
+} as const;
+
+/**
+ * Thang chữ trong <Stage> — các trang dàn theo mockup (hero, thông tin, love
+ * story, thank you). Đơn vị `cqw` = % bề rộng của Stage, nên chữ co giãn
+ * cùng ảnh và luôn nằm đúng chỗ trong tấm kem / khung ảnh ở mọi bề rộng máy.
+ * Số trong chú thích là cỡ chữ trên iPhone 390px.
+ */
+export const stageScale = {
+  xs: { size: "2.9cqw", line: "1.35" }, // ~11px
+  sm: { size: "3.3cqw", line: "1.5" }, // ~13px
+  md: { size: "3.9cqw", line: "1.35" }, // ~15px
+  lg: { size: "5cqw", line: "1.15" }, // ~19.5px
+  xl: { size: "6.2cqw", line: "1.05" }, // ~24px
+  "2xl": { size: "8.8cqw", line: "1" }, // ~34px
+  "3xl": { size: "12.5cqw", line: "1" }, // ~49px
+  "4xl": { size: "11.5cqw", line: "1.15" }, // ~45px — tên cặp đôi ở màn mở thiệp
 } as const;
 
 export const weights = {
@@ -126,6 +154,9 @@ export const spacing = {
   block: "clamp(2rem, 5vw, 4rem)",
   stack: "1.25rem",
   tight: "0.625rem",
+  /** Hai bậc khoảng cách bên trong <Stage>, co theo bề rộng Stage như chữ */
+  stage: "1.6cqw",
+  stageLg: "4.5cqw",
 } as const;
 
 export const sizes = {
@@ -140,6 +171,11 @@ export const sizes = {
   /** Nút dùng chung một bề rộng để không so le khi đứng cạnh nhau */
   btn: "14rem",
   containerSite: "72rem",
+  /**
+   * Bề rộng tối đa của cả trang. Thiệp dựng cho điện thoại; trên máy tính
+   * trang đứng thành một cột giữa nền đỏ rượu thay vì kéo giãn mockup.
+   */
+  page: "30rem",
   containerProse: "40rem",
 } as const;
 
@@ -154,6 +190,14 @@ export const shadow = {
   lift: "0 22px 50px -22px rgb(64 18 30 / 0.45)",
 } as const;
 
+/**
+ * Quầng sáng của chữ vàng trên cánh cửa ở màn mở thiệp — chữ phát sáng như
+ * đèn sân khấu hắt vào. Không phải bóng đổ: không lệch, chỉ toả đều.
+ */
+export const textGlow = {
+  gold: "0 0 0.35em rgb(255 214 150 / 0.45)",
+} as const;
+
 /* ----------------------------------------------------------------- MOTION */
 
 export const motion = {
@@ -161,6 +205,9 @@ export const motion = {
   durationFast: "200ms",
   durationBase: "420ms",
   durationSlow: "900ms",
+  /** Màn mở thiệp: hai cánh cửa mở, rồi cả sân khấu tiến vào ô cửa sáng */
+  gateDoors: "1500ms",
+  gateZoom: "1000ms",
   /** GSAP đọc hai số này trong components/ui/Motion.tsx */
   revealDistance: 28,
   revealStagger: 0.12,
@@ -183,6 +230,12 @@ export function themeCssVars(): string {
   push("font-display", fonts.display);
   push("font-body", fonts.body);
   push("font-script", fonts.script);
+  push("font-flourish", fonts.flourish);
+
+  for (const [key, step] of Object.entries(stageScale)) {
+    push(`stage-${key}`, step.size);
+    push(`stage-leading-${key}`, step.line);
+  }
 
   for (const [key, step] of Object.entries(typeScale)) {
     push(`text-${kebab(key)}`, step.size);
@@ -214,6 +267,12 @@ export function themeCssVars(): string {
   push("duration-fast", motion.durationFast);
   push("duration-base", motion.durationBase);
   push("duration-slow", motion.durationSlow);
+  push("gate-doors", motion.gateDoors);
+  push("gate-zoom", motion.gateZoom);
+
+  for (const [key, value] of Object.entries(textGlow)) {
+    push(`glow-${kebab(key)}`, value);
+  }
 
   /* Tông mặc định của trang, trước khi section nào đặt tông của nó. */
   const base = tones.light;

@@ -20,7 +20,13 @@ type ExperienceValue = {
   /** Có file nhạc và phát được không. False thì nút nhạc tự ẩn. */
   hasAudio: boolean;
   musicOn: boolean;
-  open: () => void;
+  /**
+   * Mở thiệp + bật nhạc. Màn mở thiệp có hiệu ứng (cửa mở) thì truyền
+   * `{ reveal: false }` rồi tự gọi `revealHero()` khi hiệu ứng gần xong, để
+   * hero không hiện xong xuôi từ lúc còn bị cửa che.
+   */
+  open: (options?: { reveal?: boolean }) => void;
+  revealHero: () => void;
   toggleMusic: () => void;
 };
 
@@ -90,9 +96,13 @@ export function ExperienceProvider({
     return audioRef.current;
   }, []);
 
-  const open = useCallback(() => {
-    setOpened(true);
+  const revealHero = useCallback(() => {
     window.dispatchEvent(new Event(OPEN_EVENT));
+  }, []);
+
+  const open = useCallback((options?: { reveal?: boolean }) => {
+    setOpened(true);
+    if (options?.reveal !== false) revealHero();
     if (!enabled) return;
     getAudio()
       .play()
@@ -101,7 +111,7 @@ export function ExperienceProvider({
         setMusicOn(true);
       })
       .catch(() => setMusicOn(false));
-  }, [enabled, getAudio]);
+  }, [enabled, getAudio, revealHero]);
 
   const toggleMusic = useCallback(() => {
     if (!enabled) return;
@@ -123,8 +133,8 @@ export function ExperienceProvider({
   useEffect(() => () => audioRef.current?.pause(), []);
 
   const value = useMemo(
-    () => ({ opened, hasAudio: enabled && hasAudio, musicOn, open, toggleMusic }),
-    [opened, enabled, hasAudio, musicOn, open, toggleMusic],
+    () => ({ opened, hasAudio: enabled && hasAudio, musicOn, open, revealHero, toggleMusic }),
+    [opened, enabled, hasAudio, musicOn, open, revealHero, toggleMusic],
   );
 
   return <ExperienceContext.Provider value={value}>{children}</ExperienceContext.Provider>;

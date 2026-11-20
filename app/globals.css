@@ -22,6 +22,8 @@
   --color-ink-soft: var(--t-color-ink-soft);
   --color-gold: var(--t-color-gold);
   --color-gold-soft: var(--t-color-gold-soft);
+  --color-gold-light: var(--t-color-gold-light);
+  --color-night: var(--t-color-night);
   --color-surface: var(--t-color-surface);
   --color-line: var(--t-color-line);
 
@@ -37,6 +39,25 @@
   --font-display: var(--t-font-display);
   --font-body: var(--t-font-body);
   --font-script: var(--t-font-script);
+  --font-flourish: var(--t-font-flourish);
+
+  /* Chữ trong <Stage>, tính theo bề rộng Stage (cqw) — xem stageScale trong theme.ts */
+  --text-stage-xs: var(--t-stage-xs);
+  --text-stage-xs--line-height: var(--t-stage-leading-xs);
+  --text-stage-sm: var(--t-stage-sm);
+  --text-stage-sm--line-height: var(--t-stage-leading-sm);
+  --text-stage-md: var(--t-stage-md);
+  --text-stage-md--line-height: var(--t-stage-leading-md);
+  --text-stage-lg: var(--t-stage-lg);
+  --text-stage-lg--line-height: var(--t-stage-leading-lg);
+  --text-stage-xl: var(--t-stage-xl);
+  --text-stage-xl--line-height: var(--t-stage-leading-xl);
+  --text-stage-2xl: var(--t-stage-2xl);
+  --text-stage-2xl--line-height: var(--t-stage-leading-2xl);
+  --text-stage-3xl: var(--t-stage-3xl);
+  --text-stage-3xl--line-height: var(--t-stage-leading-3xl);
+  --text-stage-4xl: var(--t-stage-4xl);
+  --text-stage-4xl--line-height: var(--t-stage-leading-4xl);
 
   --text-display: var(--t-text-display);
   --text-display--line-height: var(--t-leading-display);
@@ -67,11 +88,14 @@
   --spacing-block: var(--t-space-block);
   --spacing-stack: var(--t-space-stack);
   --spacing-tight: var(--t-space-tight);
+  --spacing-stage: var(--t-space-stage);
+  --spacing-stage-lg: var(--t-space-stage-lg);
   --spacing-tap: var(--t-size-tap);
   --spacing-valance: var(--t-size-valance);
 
   --container-site: var(--t-size-container-site);
   --container-prose: var(--t-size-container-prose);
+  --container-page: var(--t-size-page);
 
   /* ---- hình khối, chuyển động ------------------------------ */
   --radius-paper: var(--t-radius-paper);
@@ -108,7 +132,7 @@
 
 html {
   scroll-behavior: smooth;
-  background-color: var(--t-color-cream);
+  background-color: var(--t-color-wine-deep);
   /* iOS: không phóng chữ khi quay ngang, không nảy quá mép trang */
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
@@ -116,13 +140,16 @@ html {
 }
 
 body {
-  background-color: var(--t-color-cream);
+  background-color: var(--t-color-wine-deep);
   color: var(--t-color-ink);
   font-family: var(--t-font-body);
   font-size: var(--t-text-body);
   line-height: var(--t-leading-body);
   font-weight: var(--t-weight-body);
   -webkit-font-smoothing: antialiased;
+  /* Font của khách chỉ có một nét (Book). Cấm trình duyệt tự tô đậm / kéo
+     nghiêng — nét giả làm nhoè chân chữ và lệch dấu tiếng Việt. */
+  font-synthesis: none;
   /* Không loé xám khi chạm — cả trang điều khiển bằng ngón tay */
   -webkit-tap-highlight-color: transparent;
 }
@@ -189,6 +216,137 @@ h4 {
     /* max() để chừa chỗ cho tai thỏ khi máy nằm ngang */
     padding-left: max(var(--t-space-gutter), env(safe-area-inset-left));
     padding-right: max(var(--t-space-gutter), env(safe-area-inset-right));
+  }
+
+  /* Cột trang: thiệp dựng cho điện thoại, trên màn rộng đứng thành một cột. */
+  .page-column {
+    width: 100%;
+    max-width: var(--t-size-page);
+    margin-inline: auto;
+    overflow-x: clip;
+    background-color: var(--t-color-cream);
+    box-shadow: var(--t-shadow-lift);
+  }
+
+  /*
+    Stage — một "tấm poster" dàn theo mockup. Bề rộng = bề rộng cột trang, tỉ
+    lệ cố định; mọi lớp bên trong đặt bằng toạ độ của mockup (--x, --y, --w
+    tính theo đơn vị của Stage, ví dụ mockup 270px bề ngang). Chữ bên trong
+    dùng `text-stage-*` (cqw) nên co cùng ảnh.
+  */
+  .stage {
+    position: relative;
+    width: 100%;
+    aspect-ratio: var(--sw) / var(--sh);
+    container-type: inline-size;
+    overflow: hidden;
+  }
+
+  .stage-layer {
+    position: absolute;
+    left: calc(var(--x) / var(--sw) * 100%);
+    top: calc(var(--y) / var(--sh) * 100%);
+    width: calc(var(--w) / var(--sw) * 100%);
+  }
+
+  /* Nút "vé": chữ nhật khuyết bốn góc, như nút XEM BẢN ĐỒ của bộ nhận diện */
+  .btn-ticket {
+    --notch: 0.45em;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: var(--t-size-tap);
+    padding: 0.35em 1.4em;
+    background-color: var(--t-section-fg);
+    color: var(--t-section-bg);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    mask:
+      radial-gradient(circle var(--notch) at 0 0, #0000 98%, #000) top left,
+      radial-gradient(circle var(--notch) at 100% 0, #0000 98%, #000) top right,
+      radial-gradient(circle var(--notch) at 0 100%, #0000 98%, #000) bottom left,
+      radial-gradient(circle var(--notch) at 100% 100%, #0000 98%, #000) bottom right;
+    mask-size: 51% 51%;
+    mask-repeat: no-repeat;
+    transition: transform var(--t-duration-fast) var(--t-ease);
+  }
+
+  @media (hover: hover) {
+    .btn-ticket:hover {
+      transform: translateY(-1px);
+    }
+  }
+
+  /*
+    Màn mở thiệp dạng sân khấu (components/sections/Intro.tsx).
+
+    `.gate` phủ kín màn hình; `.gate-scene` là Stage cao đúng bằng màn hình —
+    máy dọc hẹp hơn mockup 9:16 thì cắt bớt hai mép, máy rộng thì hai bên là
+    màu rèm. Khi `.gate` có `data-phase="opening"`:
+      1. chữ, nút, hoa mờ đi;
+      2. hai cánh cửa xoay quanh bản lề ở mép ngoài, lộ ô cửa sáng phía sau;
+      3. cả sân khấu tiến vào ô cửa rồi tan, để lộ hero bên dưới.
+  */
+  .gate {
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    overflow: hidden;
+    background-color: var(--t-color-night);
+    transition: opacity var(--t-gate-zoom) var(--t-ease) calc(var(--t-gate-doors) * 0.8);
+  }
+
+  .gate-scene {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: calc(100svh * 9 / 16);
+    translate: -50% -50%;
+    perspective: 100svh;
+    transform-origin: 50% 48%;
+    transition: scale var(--t-gate-zoom) var(--t-ease) calc(var(--t-gate-doors) * 0.7);
+  }
+
+  .gate-door {
+    transition: transform var(--t-gate-doors) cubic-bezier(0.65, 0, 0.25, 1) var(--t-duration-fast);
+    backface-visibility: hidden;
+  }
+
+  .gate-door[data-side="left"] {
+    transform-origin: left center;
+  }
+
+  .gate-door[data-side="right"] {
+    transform-origin: right center;
+  }
+
+  .gate-fade {
+    transition: opacity var(--t-duration-base) var(--t-ease);
+  }
+
+  .gate[data-phase="opening"] {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .gate[data-phase="opening"] .gate-scene {
+    scale: 1.6;
+  }
+
+  .gate[data-phase="opening"] .gate-door[data-side="left"] {
+    transform: rotateY(-100deg);
+  }
+
+  .gate[data-phase="opening"] .gate-door[data-side="right"] {
+    transform: rotateY(100deg);
+  }
+
+  .gate[data-phase="opening"] .gate-fade {
+    opacity: 0;
+  }
+
+  .text-glow-gold {
+    text-shadow: var(--t-glow-gold);
   }
 
   .container-prose {

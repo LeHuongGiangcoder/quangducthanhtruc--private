@@ -1,29 +1,33 @@
 import type { Metadata, Viewport } from "next";
-import { Be_Vietnam_Pro, Cormorant_Garamond, Pinyon_Script } from "next/font/google";
+import localFont from "next/font/local";
+import { Pinyon_Script } from "next/font/google";
 
 import { meta } from "@/content/client";
 import { palette, themeCssVars } from "@/content/theme";
 import "./globals.css";
 
 /*
-  Cả ba font đều phải có subset "vietnamese", nếu không dấu tiếng Việt sẽ rơi
-  về font hệ thống và chữ bị lệch nét giữa các từ.
+  Font của bộ nhận diện, nằm ở public/font.
 
-  Cormorant khai báo cả italic thật: italic giả do trình duyệt kéo nghiêng làm
-  méo dấu (dấu huyền trong "và" biến thành dấu móc).
+  ITC Benguiat Book Condensed có đủ dấu tiếng Việt (đã kiểm ơ ư đ ứ ậ ỹ ễ) —
+  dùng cho cả tiêu đề lẫn chữ thường, như trên mockup. Có italic thật cho
+  tên chương Love Story, nên trình duyệt không phải kéo nghiêng giả.
+
+  Bellissima Script THIẾU ơ ư ứ ậ ễ, nên chỉ được gắn vào `font-flourish` cho
+  chữ Latin không dấu. Chữ viết tay tiếng Việt vẫn đi qua Pinyon Script.
 */
-const display = Cormorant_Garamond({
+const benguiat = localFont({
   variable: "--ff-display",
-  subsets: ["latin", "vietnamese"],
-  weight: ["300", "400", "500", "600"],
-  style: ["normal", "italic"],
+  src: [
+    { path: "../public/font/ITC Benguiat Book Condensed Regular.ttf", weight: "400", style: "normal" },
+    { path: "../public/font/ITC Benguiat Book Condensed Italic.ttf", weight: "400", style: "italic" },
+  ],
   display: "swap",
 });
 
-const body = Be_Vietnam_Pro({
-  variable: "--ff-body",
-  subsets: ["latin", "vietnamese"],
-  weight: ["300", "400", "500", "600"],
+const flourish = localFont({
+  variable: "--ff-flourish",
+  src: "../public/font/BellissimaScriptPro.otf",
   display: "swap",
 });
 
@@ -53,14 +57,14 @@ export const viewport: Viewport = {
   /* Cho layout chạm tới sát tai thỏ — đó là điều làm env(safe-area-inset-*)
      trong globals.css có tác dụng. */
   viewportFit: "cover",
-  themeColor: palette.cream,
+  themeColor: palette.wine,
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
       lang={meta.lang}
-      className={`${display.variable} ${body.variable} ${script.variable}`}
+      className={`${benguiat.variable} ${script.variable} ${flourish.variable}`}
     >
       <head>
         {/* Token của content/theme.ts, in ra dưới dạng CSS variable */}

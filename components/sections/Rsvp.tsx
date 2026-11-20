@@ -1,14 +1,19 @@
 "use client";
 
+import Image from "next/image";
 import { useState, type FormEvent } from "react";
 
 import { useGuest } from "@/components/experience/GuestProvider";
 import { Button } from "@/components/ui/Button";
-import { Caption, Heading, Script, SectionHead } from "@/components/ui/Heading";
+import { Caption, Eyebrow, Heading, Lead, Script } from "@/components/ui/Heading";
 import { Choice, Field, FieldLabel } from "@/components/ui/Field";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionWrapper } from "@/components/ui/SectionWrapper";
 import { rsvp } from "@/content/client";
+import { element } from "@/lib/assets";
+
+const dear = element("dear");
+const archTop = element("arch-top");
 
 type Status = "idle" | "sending" | "sent" | "error";
 
@@ -85,17 +90,40 @@ export function Rsvp() {
   }
 
   return (
-    <SectionWrapper section="rsvp" width="prose" labelledBy="rsvp-title">
-      <SectionHead
-        eyebrow={rsvp.eyebrow}
-        title={
-          personalized && guest ? `${rsvp.greeting} ${guest.name}` : rsvp.title
-        }
-        titleId="rsvp-title"
-        intro={rsvp.note}
-      />
+    <SectionWrapper section="rsvp" width="prose" labelledBy="rsvp-title" className="pt-valance">
+      {/* Đầu section: chữ "Dear," của bộ nhận diện, rồi lời hỏi */}
+      <Reveal className="mb-block flex flex-col items-start gap-tight">
+        {dear ? (
+          <Image
+            src={dear.src}
+            alt=""
+            width={dear.width ?? 500}
+            height={dear.height ?? 274}
+            sizes="12rem"
+            className="h-auto w-[42%]"
+          />
+        ) : null}
+        <Eyebrow>{rsvp.eyebrow}</Eyebrow>
+        <Heading level="h2" id="rsvp-title" className="uppercase">
+          {personalized && guest ? `${rsvp.greeting} ${guest.name}` : rsvp.title}
+        </Heading>
+        <Lead>{rsvp.note}</Lead>
+      </Reveal>
 
+      {/* Tấm kem: đỉnh vòm của bộ nhận diện + thân kem cùng màu, form đi tông sáng */}
       <Reveal>
+        <div data-tone="light" className="text-tone-fg">
+        {archTop ? (
+          <Image
+            src={archTop.src}
+            alt=""
+            width={archTop.width ?? 800}
+            height={archTop.height ?? 551}
+            sizes="(max-width: 30rem) 90vw, 27rem"
+            className="-mb-px block h-auto w-full"
+          />
+        ) : null}
+        <div className="bg-tone-bg px-gutter pb-block">
         {status === "sent" ? (
           <div role="status" className="flex flex-col items-center gap-stack text-center">
             <Heading level="h3">{rsvp.successTitle}</Heading>
@@ -228,6 +256,8 @@ export function Rsvp() {
             </div>
           </form>
         )}
+          </div>
+        </div>
       </Reveal>
     </SectionWrapper>
   );

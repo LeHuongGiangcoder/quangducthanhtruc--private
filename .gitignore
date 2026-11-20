@@ -28,3 +28,7 @@ yarn-debug.log*
 yarn-error.log*
 .eslintcache
 *.tsbuildinfo
+
+# ảnh gốc & file thiết kế gốc của khách — nặng, không đưa vào repo
+/photos-original/
+/brand/source/

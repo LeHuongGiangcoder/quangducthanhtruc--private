@@ -7,7 +7,7 @@ import { Hero } from "@/components/sections/Hero";
 import { Intro } from "@/components/sections/Intro";
 import { LoveStory } from "@/components/sections/LoveStory";
 import { Rsvp } from "@/components/sections/Rsvp";
-import { ThankYou } from "@/components/sections/ThankYou";
+import { ThankYou, ThankYouGrid } from "@/components/sections/ThankYou";
 import { WeddingInfo } from "@/components/sections/WeddingInfo";
 import { Motion } from "@/components/ui/Motion";
 import { MusicToggle } from "@/components/ui/MusicToggle";
@@ -27,6 +27,7 @@ const SECTIONS: Record<SectionId, () => React.ReactNode> = {
   dresscode: Dresscode,
   rsvp: Rsvp,
   thankYou: ThankYou,
+  thankYouGrid: ThankYouGrid,
 };
 
 /** Màn mở thiệp phủ kín màn hình nên nó đứng ngoài <main>. */
@@ -48,7 +49,8 @@ export default function Page() {
           return <Section key={id} />;
         })}
 
-        <main>
+        {/* Cột trang: thiệp dựng cho điện thoại, trên màn rộng đứng giữa nền đỏ rượu */}
+        <main className="page-column">
           {/* Thứ tự render đúng theo mảng `sections` trong content/client.ts */}
           {flow.map((id) => {
             const Section = SECTIONS[id];

@@ -1,4 +1,4 @@
-import { Caption, Heading, SectionHead } from "@/components/ui/Heading";
+import { Caption, Eyebrow, Heading } from "@/components/ui/Heading";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionWrapper } from "@/components/ui/SectionWrapper";
 import { dresscode } from "@/content/client";
@@ -13,11 +13,14 @@ import { dresscode } from "@/content/client";
 export function Dresscode() {
   return (
     <SectionWrapper section="dresscode" width="prose" labelledBy="dresscode-title">
-      <SectionHead
-        eyebrow={dresscode.eyebrow}
-        title={dresscode.title}
-        titleId="dresscode-title"
-      />
+      {/* "Dress Code" là chữ Latin không dấu — dùng chữ hoa mỹ của bộ nhận diện */}
+      <Reveal className="mb-block flex flex-col items-center gap-tight text-center">
+        <Eyebrow>{dresscode.eyebrow}</Eyebrow>
+        <h2 id="dresscode-title" className="text-display">
+          {/* font đặt trên span: h1–h4 nhận font display từ globals.css */}
+          <span className="font-flourish">{dresscode.title}</span>
+        </h2>
+      </Reveal>
 
       <Reveal className="flex flex-col items-center gap-stack text-center">
         <Heading level="h3">{dresscode.headline}</Heading>
@@ -31,10 +34,10 @@ export function Dresscode() {
               <li key={swatch.hex} className="flex flex-col items-center gap-tight">
                 <span
                   aria-hidden
-                  className="aspect-[3/4] w-full rounded-paper border border-tone-line"
+                  className="aspect-square w-full rounded-full border-2 border-cream shadow-paper"
                   style={{ backgroundColor: swatch.hex }}
                 />
-                <span className="text-small text-tone-muted">{swatch.name}</span>
+                <span className="text-center text-small text-tone-muted">{swatch.name}</span>
               </li>
             ))}
           </ul>

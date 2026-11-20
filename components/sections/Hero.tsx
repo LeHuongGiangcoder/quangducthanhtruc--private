@@ -1,52 +1,46 @@
-import { Divider } from "@/components/ui/Divider";
-import { Caption, Eyebrow, Heading, Lead } from "@/components/ui/Heading";
+import { Layer, Stage } from "@/components/ui/Stage";
 import { SectionWrapper } from "@/components/ui/SectionWrapper";
-import { ceremony, couple, hero, venue } from "@/content/client";
+import { couple, hero } from "@/content/client";
 
 /**
- * Trang bìa: tên hai người, ngày giờ, một dòng mời.
+ * Trang bìa, dàn theo mockup của khách (khổ 270px): khung ảnh viền vỏ sò,
+ * chữ "Wedding Day" vắt trên rèm, hai dòng mời ở chân ảnh, rồi tên hai người
+ * nối bằng chữ "&" hoa mỹ.
  *
- * Các khối gắn `data-hero` nên chúng hiện theo cú chạm mở thiệp chứ không chờ
- * cuộn — hero nằm ngay dưới màn mở thiệp nên sẽ không bao giờ "cuộn tới".
+ * Các lớp gắn `reveal="hero"` nên hiện theo cú chạm mở thiệp, không chờ cuộn.
  */
 export function Hero() {
   return (
     <SectionWrapper section="hero" flush width="bleed" labelledBy="hero-title">
-      {/* `pt-valance` chừa chỗ cho dải lụa treo ở mép trên (xem decor của hero
-          trong content/client.ts): không có nó thì trên màn rộng-thấp khối chữ
-          canh giữa trôi lên nằm dưới lụa và tên cặp đôi không đọc được. */}
-      <div className="container-site flex min-h-[100svh] flex-col items-center justify-center gap-stack py-section pt-valance text-center short:pt-section">
-        <Eyebrow data-reveal data-hero>
-          {hero.eyebrow}
-        </Eyebrow>
+      <Stage width={270} height={418}>
+        <Layer name="hero-frame" alt={hero.photoAlt} x={7} y={12} w={256} priority reveal="hero" />
+        <Layer name="wedding-day" alt="Wedding Day" x={64} y={44} w={142} z={2} reveal="hero" revealDelay={150} />
 
-        <Heading
-          level="display"
-          id="hero-title"
-          data-reveal
-          data-hero
-          className="flex flex-col items-center short:text-h1"
-        >
-          <span>{couple.groom}</span>
-          <span className="font-script text-h2 text-tone-accent">&amp;</span>
-          <span>{couple.bride}</span>
-        </Heading>
-
-        <div data-reveal data-hero className="flex flex-col items-center gap-tight">
-          <Divider diamond />
-          <Lead>{hero.headline}</Lead>
-          <p className="font-display text-h3">
-            {ceremony.weekday}, {ceremony.dateShort}
+        <Layer x={35} y={284} w={200} z={2} reveal="hero">
+          <p className="text-center font-display text-stage-md text-cream">
+            {hero.invite.map((line) => (
+              <span key={line} className="block">
+                {line}
+              </span>
+            ))}
           </p>
-          <Caption>
-            {ceremony.timeLabel} · {venue.name}
-          </Caption>
-        </div>
+        </Layer>
 
-        <p data-reveal data-hero className="mt-block text-eyebrow uppercase text-tone-muted">
-          {hero.scrollHint} ↓
-        </p>
-      </div>
+        {/* Tên hai người: nhãn nhỏ nghiêng ở trên, tên in hoa ở dưới */}
+        <Layer x={0} y={360} w={270} z={2} as="h1" reveal="hero" className="font-display">
+          <span id="hero-title" className="grid grid-cols-2">
+            <span className="flex flex-col items-center gap-tight">
+              <span className="text-stage-xs italic">{hero.groomLabel}</span>
+              <span className="text-stage-xl uppercase">{couple.groom}</span>
+            </span>
+            <span className="flex flex-col items-center gap-tight">
+              <span className="text-stage-xs italic">{hero.brideLabel}</span>
+              <span className="text-stage-xl uppercase">{couple.bride}</span>
+            </span>
+          </span>
+        </Layer>
+        <Layer name="ampersand" x={108} y={344} w={54} z={3} reveal="hero" />
+      </Stage>
     </SectionWrapper>
   );
 }

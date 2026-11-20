@@ -10,7 +10,7 @@ import { agenda } from "@/content/client";
  */
 export function Agenda() {
   return (
-    <SectionWrapper section="agenda" labelledBy="agenda-title">
+    <SectionWrapper section="agenda" labelledBy="agenda-title" className="pt-valance">
       <SectionHead
         eyebrow={agenda.eyebrow}
         title={agenda.title}
@@ -41,7 +41,11 @@ export function Agenda() {
               )}
             </div>
 
-            <div className="flex flex-col gap-tight pb-block last:pb-0">
+            {/* Hàng cuối không chừa đáy — trước đây `last:pb-0` luôn khớp (div này là con
+                cuối của <li>) nên không hàng nào có khoảng đáy và các hàng dính nhau */}
+            <div
+              className={`flex flex-col gap-tight ${i === agenda.items.length - 1 ? "" : "pb-block"}`}
+            >
               <Heading level="h4">{item.title}</Heading>
               {item.note ? <p className="text-small text-tone-muted">{item.note}</p> : null}
             </div>
