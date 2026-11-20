@@ -28,7 +28,8 @@ export function LoveStory() {
       <Stage width={270} height={height} className="bg-wine-soft">
         <Layer name="velvet-long" x={0} y={VELVET_TOP - INFO_HEIGHT} w={270} />
 
-        <Layer name="love-story-title" x={42} y={2} w={186} z={2} reveal />
+        {/* Nét chữ trong file quá mảnh trên nền nhung — `ink-bold` tô dày nét */}
+        <Layer name="love-story-title" x={42} y={2} w={186} z={2} reveal className="ink-bold" />
 
         <Layer name="love-oval" alt={loveStory.photoAlt} x={60} y={98} w={150} z={1} reveal />
         <Layer name="bouquet-left" x={-16} y={196} w={104} z={3} sway />

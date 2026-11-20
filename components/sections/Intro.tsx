@@ -22,11 +22,12 @@ type Phase = "idle" | "opening" | "done";
  *
  * Bấm "Mở thiệp":
  *   1. nhạc bật ngay trong cú chạm (trình duyệt chỉ cho phát nhạc như vậy);
- *   2. chữ mờ đi, hai cánh cửa xoay quanh bản lề mép ngoài, lộ ô cửa sáng;
- *   3. sân khấu tiến vào ô cửa rồi tan — đúng lúc đó hero bắt đầu hiện.
+ *   2. chữ mờ đi, hai cánh cửa từ từ xoay quanh bản lề mép ngoài;
+ *   3. cửa đang mở thì sân khấu đã tiến dần vào ô cửa sáng;
+ *   4. gần cuối cú tiến, cả màn nhoè đi và tan — hero hiện ra từ chỗ nhoè.
  *
  * Toàn bộ chuyển động là CSS transition theo `data-phase` (xem `.gate` trong
- * globals.css), thời lượng lấy từ `motion.gateDoors` / `motion.gateZoom`.
+ * globals.css), thời lượng lấy từ `motion.gateDoors` / `gateZoom` / `gateBlur`.
  * Ai bật giảm chuyển động thì bỏ qua hiệu ứng, vào thẳng hero.
  */
 export function Intro() {
@@ -51,11 +52,13 @@ export function Intro() {
     open({ reveal: false });
     setPhase("opening");
 
-    const doors = ms(motion.gateDoors);
-    const zoom = ms(motion.gateZoom);
+    // Cùng hai mốc với `--gate-zoom-at` / `--gate-blur-at` trong globals.css
+    const zoomAt = ms(motion.gateDoors) * 0.35;
+    const blurAt = zoomAt + ms(motion.gateZoom) * 0.6;
     timers.current.push(
-      window.setTimeout(revealHero, doors * 0.8),
-      window.setTimeout(() => setPhase("done"), doors * 0.8 + zoom + 100),
+      // Hero bắt đầu hiện đúng lúc màn cửa nhoè đi — hai lớp nhoè chéo nhau
+      window.setTimeout(revealHero, blurAt),
+      window.setTimeout(() => setPhase("done"), blurAt + ms(motion.gateBlur) + 100),
     );
   }
 

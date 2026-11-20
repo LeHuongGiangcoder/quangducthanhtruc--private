@@ -205,9 +205,14 @@ export const motion = {
   durationFast: "200ms",
   durationBase: "420ms",
   durationSlow: "900ms",
-  /** Màn mở thiệp: hai cánh cửa mở, rồi cả sân khấu tiến vào ô cửa sáng */
-  gateDoors: "1500ms",
-  gateZoom: "1000ms",
+  /**
+   * Màn mở thiệp, ba nhịp gối lên nhau:
+   *   cửa mở chậm → khi cửa mở được ~1/3 thì sân khấu bắt đầu tiến dần vào ô
+   *   cửa → gần cuối cú tiến, cả màn nhoè đi và tan, hero hiện ra từ chỗ nhoè.
+   */
+  gateDoors: "2600ms",
+  gateZoom: "3400ms",
+  gateBlur: "1600ms",
   /** GSAP đọc hai số này trong components/ui/Motion.tsx */
   revealDistance: 28,
   revealStagger: 0.12,
@@ -269,6 +274,7 @@ export function themeCssVars(): string {
   push("duration-slow", motion.durationSlow);
   push("gate-doors", motion.gateDoors);
   push("gate-zoom", motion.gateZoom);
+  push("gate-blur", motion.gateBlur);
 
   for (const [key, value] of Object.entries(textGlow)) {
     push(`glow-${kebab(key)}`, value);

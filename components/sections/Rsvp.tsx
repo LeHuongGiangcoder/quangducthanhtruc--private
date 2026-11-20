@@ -15,6 +15,7 @@ import { element, texture } from "@/lib/assets";
 const dear = element("dear");
 const archTop = element("arch-top");
 const paper = texture("paper-ivory");
+const monogram = element("monogram-wine");
 
 type Status = "idle" | "sending" | "sent" | "error";
 
@@ -92,8 +93,8 @@ export function Rsvp() {
 
   return (
     <SectionWrapper section="rsvp" width="prose" labelledBy="rsvp-title" className="pt-valance">
-      {/* Đầu section: chữ "Dear," của bộ nhận diện, rồi lời hỏi */}
-      <Reveal className="mb-block flex flex-col items-start gap-tight">
+      {/* Đầu section: chữ "Dear," của bộ nhận diện trên nền đỏ */}
+      <Reveal className="mb-stack flex flex-col items-start gap-tight">
         {dear ? (
           <Image
             src={dear.src}
@@ -105,14 +106,12 @@ export function Rsvp() {
           />
         ) : null}
         <Eyebrow>{rsvp.eyebrow}</Eyebrow>
-        <Heading level="h2" id="rsvp-title" className="uppercase">
-          {personalized && guest ? `${rsvp.greeting} ${guest.name}` : rsvp.title}
-        </Heading>
-        <Lead>{rsvp.note}</Lead>
       </Reveal>
 
       {/* Tấm giấy kem: đỉnh vòm của bộ nhận diện và thân là một khối liền, có
-          vân giấy; form bên trong đi tông sáng */}
+          vân giấy; form bên trong đi tông sáng. Lời hỏi nằm trong lòng vòm —
+          `--sheet-cap-inset` cho nội dung bắt đầu từ 22% chiều cao vòm, chứ
+          không để cả vòm trống. */}
       <Reveal className="paper-sheet">
         <div
           data-tone="light"
@@ -123,9 +122,27 @@ export function Rsvp() {
               "--sheet-cap-ratio":
                 archTop?.width && archTop.height ? archTop.height / archTop.width : undefined,
               "--sheet-grain": paper ? `url(${paper.src})` : undefined,
+              "--sheet-cap-inset": 0.22,
             } as CSSProperties
           }
         >
+        {/* Vòm thu hẹp dần lên đỉnh, nên khối chữ hẹp hơn bề ngang tấm giấy */}
+        <div className="mx-auto mb-block flex w-[78%] flex-col items-center gap-stack text-center">
+          {monogram ? (
+            <Image
+              src={monogram.src}
+              alt=""
+              width={monogram.width ?? 400}
+              height={monogram.height ?? 311}
+              sizes="6rem"
+              className="h-auto w-[34%]"
+            />
+          ) : null}
+          <Heading level="h2" id="rsvp-title" className="uppercase">
+            {personalized && guest ? `${rsvp.greeting} ${guest.name}` : rsvp.title}
+          </Heading>
+          <Lead>{rsvp.note}</Lead>
+        </div>
         <div className="px-gutter pb-block">
         {status === "sent" ? (
           <div role="status" className="flex flex-col items-center gap-stack text-center">

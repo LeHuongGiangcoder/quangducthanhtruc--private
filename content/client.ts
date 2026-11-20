@@ -124,8 +124,11 @@ export const design: Record<SectionId, SectionDesign> = {
     anchor: "agenda",
     tone: "light",
     decor: [
-      { name: "contour-lines", at: "top-[4%] left-0 w-full" },
-      { name: "monogram-wine", at: "top-[5%] left-1/2 -translate-x-1/2 w-[30%]" },
+      // Vân đồng mức bị cắt thẳng ở mép trên và mép dưới của file — phủ kín
+      // section để hai đường cắt luôn trùng mép section, không lơ lửng giữa nền
+      { name: "contour-lines", at: "inset-0 [&_img]:h-full" },
+      // Nằm gọn trong khoảng valance phía trên, không chạm chữ "Chương trình"
+      { name: "monogram-wine", at: "top-[2%] left-1/2 -translate-x-1/2 w-[19%]" },
     ],
   },
   dresscode: {
@@ -266,8 +269,8 @@ export const loveStory = {
 /* ---------------------------------------------------------------- GALLERY */
 
 export const gallery = {
-  /** Tiêu đề là chữ hoa mỹ "Our Journey" của bộ nhận diện (brand/elements/our-journey). */
-  title: "Our Journey",
+  /** Viết bằng font-flourish (Bellissima — chỉ có chữ Latin không dấu). */
+  title: "Our Gallery",
   note: "Những tấm hình chúng mình thương nhất.",
   shots: [
     { src: "/images/gallery-01.jpg", alt: "Cô dâu chú rể hôn nhau giữa vườn" },

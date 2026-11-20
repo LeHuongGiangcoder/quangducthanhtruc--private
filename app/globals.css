@@ -288,12 +288,17 @@ h4 {
       3. cả sân khấu tiến vào ô cửa rồi tan, để lộ hero bên dưới.
   */
   .gate {
+    /* Nhịp của ba bước — Intro.tsx tính lại đúng hai mốc này để gọi hero */
+    --gate-zoom-at: calc(var(--t-gate-doors) * 0.35);
+    --gate-blur-at: calc(var(--gate-zoom-at) + var(--t-gate-zoom) * 0.6);
     position: fixed;
     inset: 0;
     z-index: 40;
     overflow: hidden;
     background-color: var(--t-color-night);
-    transition: opacity var(--t-gate-zoom) var(--t-ease) calc(var(--t-gate-doors) * 0.8);
+    transition:
+      filter var(--t-gate-blur) cubic-bezier(0.4, 0, 0.2, 1) var(--gate-blur-at),
+      opacity var(--t-gate-blur) cubic-bezier(0.55, 0, 0.45, 1) var(--gate-blur-at);
   }
 
   .gate-scene {
@@ -304,11 +309,12 @@ h4 {
     translate: -50% -50%;
     perspective: 100svh;
     transform-origin: 50% 48%;
-    transition: scale var(--t-gate-zoom) var(--t-ease) calc(var(--t-gate-doors) * 0.7);
+    /* Khởi đầu rất chậm rồi trôi đều — như bước dần qua ô cửa, không bị hút vào */
+    transition: scale var(--t-gate-zoom) cubic-bezier(0.5, 0, 0.3, 1) var(--gate-zoom-at);
   }
 
   .gate-door {
-    transition: transform var(--t-gate-doors) cubic-bezier(0.65, 0, 0.25, 1) var(--t-duration-fast);
+    transition: transform var(--t-gate-doors) cubic-bezier(0.6, 0, 0.3, 1) var(--t-duration-fast);
     backface-visibility: hidden;
   }
 
@@ -321,16 +327,17 @@ h4 {
   }
 
   .gate-fade {
-    transition: opacity var(--t-duration-base) var(--t-ease);
+    transition: opacity var(--t-duration-slow) var(--t-ease);
   }
 
   .gate[data-phase="opening"] {
     opacity: 0;
+    filter: blur(18px);
     pointer-events: none;
   }
 
   .gate[data-phase="opening"] .gate-scene {
-    scale: 1.6;
+    scale: 2.2;
   }
 
   .gate[data-phase="opening"] .gate-door[data-side="left"] {
@@ -353,6 +360,9 @@ h4 {
       --sheet-cap        url() ảnh đỉnh, chỉ dùng kênh alpha làm mặt nạ
       --sheet-cap-ratio  cao / rộng của ảnh đỉnh
       --sheet-grain      url() vân giấy (tuỳ chọn), nhân lên màu nền của tông
+      --sheet-cap-inset  nội dung bắt đầu ở đâu trong phần đỉnh: 1 = dưới đáy
+                         đỉnh (mặc định), 0.3 = từ 30% chiều cao đỉnh — dùng
+                         khi đặt khối chữ căn giữa vào lòng vòm
 
     Ảnh đỉnh chiếm đúng phần trên theo tỉ lệ; thân kéo dài theo nội dung. Đặt
     trong `.paper-sheet` (khung đo bề rộng) rồi `.paper-sheet-body` bên trong.
@@ -363,7 +373,7 @@ h4 {
 
   .paper-sheet-body {
     --cap-h: calc(100cqw * var(--sheet-cap-ratio, 0));
-    padding-top: var(--cap-h);
+    padding-top: calc(var(--cap-h) * var(--sheet-cap-inset, 1));
     background-color: var(--t-section-bg);
     background-image: var(--sheet-grain, none);
     /* Hạt giấy giữ cỡ cố định như vân giấy của SectionWrapper */
@@ -373,6 +383,18 @@ h4 {
       var(--sheet-cap) top / 100% auto no-repeat,
       /* +2px để thân gối lên mép dưới ảnh đỉnh, không hở một sợi tóc */
       linear-gradient(#000 0 0) bottom / 100% calc(100% - var(--cap-h) + 2px) no-repeat;
+  }
+
+  /*
+    Làm đậm nét một ảnh chữ / nét vẽ mảnh (chữ hoa mỹ xuất sẵn thành ảnh):
+    hai lớp drop-shadow sát nét tô thêm viền cùng màu chữ của section, rồi một
+    quầng vàng nhẹ để nét tách khỏi nền nhung. Không làm mờ gì cả.
+  */
+  .ink-bold {
+    filter:
+      drop-shadow(0 0 0.6px var(--t-section-fg))
+      drop-shadow(0 0 0.6px var(--t-section-fg))
+      drop-shadow(var(--t-glow-gold));
   }
 
   .text-glow-gold {
