@@ -35,7 +35,7 @@ export function LoveStory() {
         </Layer>
 
         <Layer name="love-oval" alt={loveStory.photoAlt} x={60} y={98} w={150} z={1} reveal />
-        <Layer name="bouquet-left" x={-16} y={196} w={104} z={3} sway />
+        <Layer name="bouquet-left" x={-16} y={196} w={104} z={3} />
         <Layer name="story-quote" x={30} y={286} w={210} z={4} reveal revealDelay={120} />
 
         {loveStory.chapters.map((chapter, i) => {

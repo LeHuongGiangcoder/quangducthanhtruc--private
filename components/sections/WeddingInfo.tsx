@@ -71,7 +71,7 @@ export function WeddingInfo() {
         </Layer>
 
         <Layer name="velvet-long" x={0} y={VELVET_TOP} w={270} z={4} />
-        <Layer name="bouquet-right" x={158} y={452} w={115} z={5} sway />
+        <Layer name="bouquet-right" x={158} y={452} w={115} z={5} />
       </Stage>
     </SectionWrapper>
   );

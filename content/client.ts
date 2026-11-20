@@ -124,9 +124,13 @@ export const design: Record<SectionId, SectionDesign> = {
     anchor: "agenda",
     tone: "light",
     decor: [
-      // Vân đồng mức bị cắt thẳng ở mép trên và mép dưới của file — phủ kín
-      // section để hai đường cắt luôn trùng mép section, không lơ lửng giữa nền
-      { name: "contour-lines", at: "inset-0 [&_img]:h-full" },
+      // Vân đồng mức: ~26% phía trên của file có các nét dừng lơ lửng theo một
+      // đường chéo (file bị cắt bằng mặt nạ). Ảnh cao 137% section, neo đáy:
+      // đoạn đó bị đẩy lên quá mép trên và cắt đi; đáy file trùng đáy section.
+      {
+        name: "contour-lines",
+        at: "inset-0 overflow-hidden [&_img]:absolute [&_img]:bottom-0 [&_img]:h-[137%]",
+      },
       // Nằm gọn trong khoảng valance phía trên, không chạm chữ "Chương trình"
       { name: "monogram-wine", at: "top-[2%] left-1/2 -translate-x-1/2 w-[19%]" },
     ],
@@ -138,13 +142,13 @@ export const design: Record<SectionId, SectionDesign> = {
     overlay: 0,
     decor: [
       { name: "drape-left", at: "top-0 left-0 w-[22%]" },
-      { name: "bouquet-right", at: "-bottom-[6%] -right-[8%] w-[32%]", sway: true },
+      { name: "bouquet-right", at: "-bottom-[6%] -right-[8%] w-[32%]" },
     ],
   },
   rsvp: {
     anchor: "rsvp",
     tone: "dark",
-    decor: [{ name: "bouquet-right", at: "-top-[3%] -right-[6%] w-[30%]", sway: true }],
+    decor: [{ name: "bouquet-right", at: "-top-[3%] -right-[6%] w-[30%]" }],
   },
   thankYou: { anchor: "thank-you", tone: "dark" },
   thankYouGrid: { anchor: "thank-you-album", tone: "dark" },
