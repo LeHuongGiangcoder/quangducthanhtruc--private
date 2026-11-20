@@ -5,14 +5,13 @@ import { useState, type CSSProperties, type FormEvent } from "react";
 
 import { useGuest } from "@/components/experience/GuestProvider";
 import { Button } from "@/components/ui/Button";
-import { Caption, Eyebrow, Heading, Lead, Script } from "@/components/ui/Heading";
+import { Caption, Heading, Lead, Script, SectionHead } from "@/components/ui/Heading";
 import { Choice, Field, FieldLabel } from "@/components/ui/Field";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionWrapper } from "@/components/ui/SectionWrapper";
 import { rsvp } from "@/content/client";
 import { element, texture } from "@/lib/assets";
 
-const dear = element("dear");
 const archTop = element("arch-top");
 const paper = texture("paper-ivory");
 const monogram = element("monogram-wine");
@@ -92,21 +91,9 @@ export function Rsvp() {
   }
 
   return (
-    <SectionWrapper section="rsvp" width="prose" labelledBy="rsvp-title" className="pt-valance">
-      {/* Đầu section: chữ "Dear," của bộ nhận diện trên nền đỏ */}
-      <Reveal className="mb-stack flex flex-col items-start gap-tight">
-        {dear ? (
-          <Image
-            src={dear.src}
-            alt=""
-            width={dear.width ?? 500}
-            height={dear.height ?? 274}
-            sizes="12rem"
-            className="h-auto w-[42%]"
-          />
-        ) : null}
-        <Eyebrow>{rsvp.eyebrow}</Eyebrow>
-      </Reveal>
+    <SectionWrapper section="rsvp" width="prose" labelledBy="rsvp-heading">
+      {/* Đầu section chung như mọi section: eyebrow + tiêu đề hoa mỹ "Dear," */}
+      <SectionHead eyebrow={rsvp.eyebrow} title={rsvp.heading} titleId="rsvp-heading" />
 
       {/* Tấm giấy kem: đỉnh vòm của bộ nhận diện và thân là một khối liền, có
           vân giấy; form bên trong đi tông sáng. Lời hỏi nằm trong lòng vòm —
@@ -138,7 +125,7 @@ export function Rsvp() {
               className="h-auto w-[34%]"
             />
           ) : null}
-          <Heading level="h2" id="rsvp-title" className="uppercase">
+          <Heading level="h3" className="uppercase">
             {personalized && guest ? `${rsvp.greeting} ${guest.name}` : rsvp.title}
           </Heading>
           <Lead>{rsvp.note}</Lead>

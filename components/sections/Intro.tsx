@@ -11,6 +11,10 @@ import { motion } from "@/content/theme";
 
 /** Hai cánh cửa phủ khít ô cửa sáng trên nền (x 146–964, y 297–1621 của 1080 × 1920). */
 const DOOR = { y: 271, w: 429, leftX: 126 };
+/** Mép trong của hai file cửa trong suốt ~4px — gối hai cánh lên nhau để khép kín, không lộ khe sáng. */
+const DOOR_OVERLAP = 8;
+/** Đường nối hai cánh, nơi vệt sáng lọt qua. */
+const SEAM_X = DOOR.leftX + DOOR.w - DOOR_OVERLAP / 2;
 
 const ms = (value: string) => Number.parseInt(value, 10);
 
@@ -22,7 +26,8 @@ type Phase = "idle" | "opening" | "done";
  *
  * Bấm "Mở thiệp":
  *   1. nhạc bật ngay trong cú chạm (trình duyệt chỉ cho phát nhạc như vậy);
- *   2. chữ mờ đi, hai cánh cửa từ từ xoay quanh bản lề mép ngoài;
+ *   2. chữ mờ đi, cửa hé một khe — vệt sáng vàng lọt qua — rồi hai cánh từ
+ *      từ xoay vào trong quanh bản lề mép ngoài, ánh vàng sau cửa sáng dần;
  *   3. cửa đang mở thì sân khấu đã tiến dần vào ô cửa sáng;
  *   4. gần cuối cú tiến, cả màn nhoè đi và tan — hero hiện ra từ chỗ nhoè.
  *
@@ -76,6 +81,11 @@ export function Intro() {
           <Image src={stage.src} alt="" fill priority unoptimized className="object-cover" />
         ) : null}
 
+        {/* Ánh vàng sau cánh cửa — nằm dưới hai cánh, sáng dần lên khi cửa mở */}
+        <Layer x={146} y={297} w={818}>
+          <div aria-hidden className="gate-glow" />
+        </Layer>
+
         {(["left", "right"] as const).map((side) => {
           const art = element(side === "left" ? "gate-door-left" : "gate-door-right");
           if (!art) return null;
@@ -87,7 +97,7 @@ export function Intro() {
               className="stage-layer gate-door"
               style={
                 {
-                  "--x": side === "left" ? DOOR.leftX : DOOR.leftX + DOOR.w,
+                  "--x": side === "left" ? DOOR.leftX : DOOR.leftX + DOOR.w - DOOR_OVERLAP,
                   "--y": DOOR.y,
                   "--w": DOOR.w,
                 } as CSSProperties
@@ -105,6 +115,11 @@ export function Intro() {
             </div>
           );
         })}
+
+        {/* Vệt sáng lọt qua khe cửa — trên hai cánh, dưới chữ và hoa */}
+        <Layer x={SEAM_X - 60} y={DOOR.y} w={120} z={1}>
+          <div aria-hidden className="gate-beam" />
+        </Layer>
 
         {monogram ? (
           <Layer x={474} y={70} w={132} className="gate-fade">
@@ -148,8 +163,8 @@ export function Intro() {
           </div>
         </Layer>
 
-        <Layer name="gate-flowers-left" x={-10} y={880} w={440} z={3} priority />
-        <Layer name="gate-flowers-right" x={650} y={890} w={440} z={3} priority />
+        <Layer name="gate-flowers-left" x={-10} y={980} w={440} z={3} priority />
+        <Layer name="gate-flowers-right" x={650} y={990} w={440} z={3} priority />
       </Stage>
     </div>
   );

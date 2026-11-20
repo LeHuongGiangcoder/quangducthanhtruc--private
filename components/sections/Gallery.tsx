@@ -1,6 +1,5 @@
-import { Caption } from "@/components/ui/Heading";
+import { SectionHead } from "@/components/ui/Heading";
 import { ImageFrame } from "@/components/ui/ImageFrame";
-import { Reveal } from "@/components/ui/Reveal";
 import { SectionWrapper } from "@/components/ui/SectionWrapper";
 import { gallery } from "@/content/client";
 
@@ -19,13 +18,12 @@ export function Gallery() {
 
   return (
     <SectionWrapper section="gallery" labelledBy="gallery-title">
-      <Reveal className="mb-block flex flex-col items-center gap-tight text-center">
-        {/* font đặt ở span: style chung của h2 (font display) thắng utility trên chính thẻ h2 */}
-        <h2 id="gallery-title" className="text-display">
-          <span className="ink-bold font-flourish">{gallery.title}</span>
-        </h2>
-        <Caption className="text-lead">{gallery.note}</Caption>
-      </Reveal>
+      <SectionHead
+        eyebrow={gallery.eyebrow}
+        title={gallery.title}
+        titleId="gallery-title"
+        intro={gallery.note}
+      />
 
       {lead ? (
         <ImageFrame src={lead.src} alt={lead.alt} ratio="4 / 5" sizes="(max-width: 30rem) 90vw, 27rem" />

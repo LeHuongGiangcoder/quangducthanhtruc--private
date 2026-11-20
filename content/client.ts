@@ -232,6 +232,8 @@ export const hero = {
 /* -------------------------------------------------------------- LOVE STORY */
 
 export const loveStory = {
+  eyebrow: "Chuyện của chúng mình",
+  /** Tiêu đề hoa mỹ — chỉ chữ Latin không dấu (xem `<Title>`). */
   title: "Our Love Story",
   /** Ảnh oval dưới tiêu đề — ảnh đã cắt sẵn trong brand/elements/love-oval. */
   photoAlt: "Thanh Trúc và Quang Đức trong ảnh cưới",
@@ -269,7 +271,8 @@ export const loveStory = {
 /* ---------------------------------------------------------------- GALLERY */
 
 export const gallery = {
-  /** Viết bằng font-flourish (Bellissima — chỉ có chữ Latin không dấu). */
+  eyebrow: "Album ảnh",
+  /** Tiêu đề hoa mỹ — chỉ chữ Latin không dấu (xem `<Title>`). */
   title: "Our Gallery",
   note: "Những tấm hình chúng mình thương nhất.",
   shots: [
@@ -298,8 +301,9 @@ export const weddingInfo = {
 
 export const agenda = {
   eyebrow: "Chương trình",
-  title: "Trình tự buổi lễ",
-  intro: "Giờ dự kiến của buổi tiệc.",
+  /** Tiêu đề hoa mỹ — chỉ chữ Latin không dấu (xem `<Title>`). */
+  title: "Agenda",
+  intro: "Trình tự buổi lễ và giờ dự kiến của buổi tiệc.",
   items: [
     { time: "17:30", title: "Đón khách", note: "Quý khách nhận chỗ và chụp hình lưu niệm" },
     { time: "18:00", title: "Làm lễ", note: "Nghi thức thành hôn" },
@@ -345,6 +349,8 @@ export const rsvp = {
   client: "quangducthanhtruc",
 
   eyebrow: "R.S.V.P",
+  /** Tiêu đề hoa mỹ đầu section, như chữ "Dear," của bộ nhận diện. */
+  heading: "Dear,",
   title: "Quý khách sẽ đến chứ?",
   note: "Nhắn giúp chúng mình một tiếng để gia đình chuẩn bị chỗ ngồi chu đáo.",
   deadline: "Vui lòng phản hồi trước ngày 10 . 12 . 2026",
@@ -402,8 +408,8 @@ export const thankYou = {
   grid: "/images/thankyou-grid.webp",
   gridAlt: "Tám khoảnh khắc trong bộ ảnh cưới của Quang Đức và Thanh Trúc",
   /** Ô giữa: một chữ hoa mỹ (Latin, không dấu) và một dòng chữ hoa. */
-  word: "Thank",
-  caps: "YOU",
+  /** Tiêu đề hoa mỹ ở ô giữa lưới ảnh, mỗi phần tử một dòng. */
+  words: ["Thank", "you"],
 };
 
 /* ------------------------------------------------------------------ NHẠC */

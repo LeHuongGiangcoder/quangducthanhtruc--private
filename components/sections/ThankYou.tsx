@@ -1,5 +1,6 @@
 import Image from "next/image";
 
+import { Title } from "@/components/ui/Heading";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionWrapper } from "@/components/ui/SectionWrapper";
 import { Layer, Stage } from "@/components/ui/Stage";
@@ -62,8 +63,8 @@ export function ThankYou() {
 }
 
 /**
- * Trang cảm ơn thứ hai: lưới 3×3 ảnh, ô giữa là lời cảm ơn — một chữ hoa mỹ
- * đứng trên một dòng chữ hoa, cùng bố cục với ô "Save the date" của mockup.
+ * Trang cảm ơn thứ hai: lưới 3×3 ảnh, ô giữa là tiêu đề "Thank you" — cùng
+ * kiểu và cỡ với tiêu đề của mọi section.
  * Ô giữa trong ảnh đã để trống màu đỏ rượu; chữ là chữ thật đặt lên đó.
  */
 export function ThankYouGrid() {
@@ -81,10 +82,16 @@ export function ThankYouGrid() {
         {/* Ô giữa của lưới: x 368–712, y 467–904 trên ảnh 1080 × 1371 */}
         <Layer x={368} y={467} w={344} z={1}>
           <Reveal className="flex aspect-[344/437] flex-col items-center justify-center text-cream">
-            <h2 id="thank-you-grid-title" className="flex flex-col items-center text-center">
-              <span className="font-flourish text-stage-3xl">{thankYou.word}</span>
-              <span className="font-display text-stage-2xl">{thankYou.caps}</span>
-            </h2>
+            {/* Cùng kiểu và cỡ tiêu đề với mọi section, không trộn font như ô
+                "Save THE DATE" của mockup */}
+            <Title id="thank-you-grid-title" className="text-center">
+              {thankYou.words.map((word, i) => (
+                <span key={word} className="block">
+                  {i > 0 ? " " : null}
+                  {word}
+                </span>
+              ))}
+            </Title>
           </Reveal>
         </Layer>
       </Stage>

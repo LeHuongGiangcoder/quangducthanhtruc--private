@@ -4,7 +4,7 @@ import { SectionWrapper } from "@/components/ui/SectionWrapper";
 import { agenda } from "@/content/client";
 
 /**
- * Trình tự buổi lễ: giờ bên trái, một viên thoi trên trục dọc, nội dung bên
+ * Agenda — trình tự buổi lễ: giờ bên trái, một viên thoi trên trục dọc, nội dung bên
  * phải. Trục kẻ bằng border của phần tử giữa nên nó tự dài đúng bằng hàng,
  * không cần đo chiều cao bằng JS.
  */

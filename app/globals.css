@@ -59,6 +59,9 @@
   --text-stage-4xl: var(--t-stage-4xl);
   --text-stage-4xl--line-height: var(--t-stage-leading-4xl);
 
+  --text-title: var(--t-text-title);
+  --text-title--line-height: var(--t-leading-title);
+  --text-title--letter-spacing: var(--t-tracking-title);
   --text-display: var(--t-text-display);
   --text-display--line-height: var(--t-leading-display);
   --text-display--letter-spacing: var(--t-tracking-display);
@@ -196,6 +199,26 @@ h4 {
   }
 }
 
+/* Vệt sáng qua khe cửa ở màn mở thiệp — xem `.gate-beam` */
+@keyframes gate-beam {
+  0% {
+    opacity: 0;
+    transform: scaleX(0.15);
+  }
+  14% {
+    opacity: 1;
+    transform: scaleX(0.4);
+  }
+  55% {
+    opacity: 0.9;
+    transform: scaleX(3);
+  }
+  100% {
+    opacity: 0;
+    transform: scaleX(6);
+  }
+}
+
 /* ---------------------------------------------------- COMPONENTS */
 
 @layer components {
@@ -289,7 +312,7 @@ h4 {
   */
   .gate {
     /* Nhịp của ba bước — Intro.tsx tính lại đúng hai mốc này để gọi hero */
-    --gate-zoom-at: calc(var(--t-gate-doors) * 0.35);
+    --gate-zoom-at: calc(var(--t-gate-doors) * 0.45);
     --gate-blur-at: calc(var(--gate-zoom-at) + var(--t-gate-zoom) * 0.6);
     position: fixed;
     inset: 0;
@@ -313,9 +336,45 @@ h4 {
     transition: scale var(--t-gate-zoom) cubic-bezier(0.5, 0, 0.3, 1) var(--gate-zoom-at);
   }
 
+  /* Khởi đầu rất chậm: cửa hé một khe, ánh vàng lọt qua trước rồi mới mở hẳn */
   .gate-door {
-    transition: transform var(--t-gate-doors) cubic-bezier(0.6, 0, 0.3, 1) var(--t-duration-fast);
+    transition: transform var(--t-gate-doors) cubic-bezier(0.7, 0, 0.3, 1) var(--t-duration-fast);
     backface-visibility: hidden;
+  }
+
+  /*
+    Ánh vàng sau cánh cửa: phủ đúng ô cửa sáng của nền, sáng dần lên khi cửa
+    mở. Mép ngoài trong suốt để hoà vào ô cửa kem của ảnh nền.
+  */
+  .gate-glow {
+    aspect-ratio: 818 / 1324;
+    background: radial-gradient(
+      ellipse 62% 58% at 50% 50%,
+      var(--t-color-surface) 0%,
+      var(--t-color-gold-light) 38%,
+      color-mix(in srgb, var(--t-color-gold-soft) 70%, transparent) 72%,
+      transparent 100%
+    );
+    opacity: 0;
+    transition: opacity calc(var(--t-gate-doors) * 0.8) cubic-bezier(0.5, 0, 0.5, 1) var(--t-duration-fast);
+  }
+
+  /*
+    Vệt sáng lọt qua khe cửa: một dải vàng mảnh trên đường nối hai cánh, hiện
+    lên khi cửa vừa hé rồi toả rộng ra và tan khi cửa mở hẳn. `screen` để nó
+    rọi sáng lên mặt cửa đỏ chứ không phủ một mảng màu lên.
+  */
+  .gate-beam {
+    aspect-ratio: 120 / 1376;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--t-color-gold-light) 50%,
+      transparent
+    );
+    filter: blur(6px);
+    mix-blend-mode: screen;
+    opacity: 0;
   }
 
   .gate-door[data-side="left"] {
@@ -340,12 +399,22 @@ h4 {
     scale: 2.2;
   }
 
+  /* Hai cánh mở VÀO TRONG, về phía ô sáng — không quệt ra trước đè lên hai
+     chùm hoa ở tiền cảnh */
   .gate[data-phase="opening"] .gate-door[data-side="left"] {
-    transform: rotateY(-100deg);
+    transform: rotateY(100deg);
   }
 
   .gate[data-phase="opening"] .gate-door[data-side="right"] {
-    transform: rotateY(100deg);
+    transform: rotateY(-100deg);
+  }
+
+  .gate[data-phase="opening"] .gate-glow {
+    opacity: 1;
+  }
+
+  .gate[data-phase="opening"] .gate-beam {
+    animation: gate-beam var(--t-gate-doors) cubic-bezier(0.45, 0, 0.55, 1) var(--t-duration-fast) forwards;
   }
 
   .gate[data-phase="opening"] .gate-fade {
@@ -393,8 +462,21 @@ h4 {
   .ink-bold {
     filter:
       drop-shadow(0 0 0.6px var(--t-section-fg))
+      drop-shadow(0 0 0.6px var(--t-section-fg));
+  }
+
+  /* Quầng vàng chỉ có nghĩa trên nền tối; trên nền kem nó thành vệt bẩn */
+  [data-tone="dark"] .ink-bold {
+    filter:
+      drop-shadow(0 0 0.6px var(--t-section-fg))
       drop-shadow(0 0 0.6px var(--t-section-fg))
       drop-shadow(var(--t-glow-gold));
+  }
+
+  [data-tone="dark"] [data-tone="light"] .ink-bold {
+    filter:
+      drop-shadow(0 0 0.6px var(--t-section-fg))
+      drop-shadow(0 0 0.6px var(--t-section-fg));
   }
 
   .text-glow-gold {

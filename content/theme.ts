@@ -98,14 +98,27 @@ export const fonts = {
   flourish: 'var(--ff-flourish), var(--ff-script), cursive',
 } as const;
 
-/** Thang chữ. Không được dùng size nào ngoài danh sách này. */
+/**
+ * Thang chữ. Không được dùng size nào ngoài danh sách này.
+ *
+ * Trang là MỘT cột rộng tối đa `sizes.page` (30rem), nên mọi bậc co theo vw
+ * nhưng chặn trần đúng ở bề rộng cột: `min(Xvw, X% của 30rem)`. Nhờ vậy chữ
+ * ngoài Stage và chữ trong Stage (cqw) luôn cùng tỉ lệ với nhau, kể cả trên
+ * máy tính — trước đây vw không chặn làm chữ ngoài Stage phình to trên màn rộng.
+ * Số trong chú thích là cỡ trên iPhone 375px.
+ */
 export const typeScale = {
-  display: { size: "clamp(3rem, 12vw, 7rem)", line: "0.92", tracking: "-0.015em" },
-  h1: { size: "clamp(2.5rem, 8vw, 4.75rem)", line: "0.98", tracking: "-0.01em" },
-  h2: { size: "clamp(1.875rem, 5.2vw, 3rem)", line: "1.08", tracking: "-0.005em" },
-  h3: { size: "clamp(1.375rem, 3.2vw, 2rem)", line: "1.18", tracking: "0em" },
-  h4: { size: "clamp(1.125rem, 2.2vw, 1.375rem)", line: "1.3", tracking: "0em" },
-  lead: { size: "clamp(1.0625rem, 1.5vw, 1.1875rem)", line: "1.65", tracking: "0em" },
+  /**
+   * Tiêu đề section — chữ hoa mỹ Latin (`<Title>` / `<SectionHead>`). MỘT cỡ
+   * cho mọi section, kể cả trong Stage (12.5vw của cột = 12.5cqw của Stage).
+   */
+  title: { size: "min(12.5vw, 3.75rem)", line: "1.05", tracking: "0em" }, // ~47px
+  display: { size: "min(12.5vw, 3.75rem)", line: "0.92", tracking: "-0.015em" }, // ~47px
+  h1: { size: "clamp(2.5rem, 10.5vw, 3rem)", line: "0.98", tracking: "-0.01em" }, // 40px
+  h2: { size: "clamp(1.875rem, 8vw, 2.25rem)", line: "1.08", tracking: "-0.005em" }, // 30px
+  h3: { size: "clamp(1.375rem, 5.9vw, 1.75rem)", line: "1.18", tracking: "0em" }, // 22px
+  h4: { size: "clamp(1.125rem, 4.8vw, 1.375rem)", line: "1.3", tracking: "0em" }, // 18px
+  lead: { size: "clamp(1.0625rem, 4.5vw, 1.1875rem)", line: "1.65", tracking: "0em" }, // 17px
   body: { size: "1rem", line: "1.7", tracking: "0em" },
   small: { size: "0.875rem", line: "1.6", tracking: "0em" },
   /** Dòng chữ nhỏ in hoa trên tiêu đề section */
@@ -149,9 +162,10 @@ export const weights = {
  *   tight   khoảng cách giữa các dòng chữ đi liền nhau
  */
 export const spacing = {
-  gutter: "clamp(1.25rem, 5vw, 3rem)",
-  section: "clamp(3.5rem, 9vw, 8rem)",
-  block: "clamp(2rem, 5vw, 4rem)",
+  /* Chặn trần ở bề rộng cột 30rem, như thang chữ — xem chú thích typeScale */
+  gutter: "clamp(1.25rem, 5.3vw, 1.6rem)", // 20px trên 375
+  section: "clamp(3.5rem, 15vw, 4.5rem)", // 56px
+  block: "clamp(2rem, 9vw, 2.75rem)", // 34px
   stack: "1.25rem",
   tight: "0.625rem",
   /** Hai bậc khoảng cách bên trong <Stage>, co theo bề rộng Stage như chữ */
@@ -167,7 +181,7 @@ export const sizes = {
    * Section nào treo valance thì chừa đúng khoảng này ở trên (`pt-valance`),
    * để nội dung canh giữa không trôi lên nằm dưới hoạ tiết trên màn rộng-thấp.
    */
-  valance: "clamp(7rem, 18vw, 11rem)",
+  valance: "clamp(7rem, 30vw, 9rem)",
   /** Nút dùng chung một bề rộng để không so le khi đứng cạnh nhau */
   btn: "14rem",
   containerSite: "72rem",
@@ -210,9 +224,9 @@ export const motion = {
    *   cửa mở chậm → khi cửa mở được ~1/3 thì sân khấu bắt đầu tiến dần vào ô
    *   cửa → gần cuối cú tiến, cả màn nhoè đi và tan, hero hiện ra từ chỗ nhoè.
    */
-  gateDoors: "2600ms",
-  gateZoom: "3400ms",
-  gateBlur: "1600ms",
+  gateDoors: "4200ms",
+  gateZoom: "5000ms",
+  gateBlur: "2200ms",
   /** GSAP đọc hai số này trong components/ui/Motion.tsx */
   revealDistance: 28,
   revealStagger: 0.12,

@@ -1,3 +1,4 @@
+import { Eyebrow, Title } from "@/components/ui/Heading";
 import { Layer, Stage } from "@/components/ui/Stage";
 import { SectionWrapper } from "@/components/ui/SectionWrapper";
 import { INFO_HEIGHT, VELVET_TOP } from "@/components/sections/WeddingInfo";
@@ -19,17 +20,19 @@ export function LoveStory() {
 
   return (
     <SectionWrapper section="loveStory" flush width="bleed" labelledBy="love-story-title">
-      {/* Tiêu đề và câu dẫn là chữ vẽ sẵn trong asset — bản chữ thật cho trình đọc màn hình */}
-      <h2 id="love-story-title" className="sr-only">
-        {loveStory.title}
-      </h2>
+      {/* Câu dẫn là chữ vẽ sẵn trong asset — bản chữ thật cho trình đọc màn hình */}
       <p className="sr-only">{loveStory.quote}</p>
 
       <Stage width={270} height={height} className="bg-wine-soft">
         <Layer name="velvet-long" x={0} y={VELVET_TOP - INFO_HEIGHT} w={270} />
 
-        {/* Nét chữ trong file quá mảnh trên nền nhung — `ink-bold` tô dày nét */}
-        <Layer name="love-story-title" x={42} y={2} w={186} z={2} reveal className="ink-bold" />
+        {/* Đầu section chung như mọi section: eyebrow + tiêu đề hoa mỹ cùng cỡ */}
+        <Layer x={0} y={22} w={270} z={2} reveal>
+          <div className="flex flex-col items-center gap-tight text-center">
+            <Eyebrow>{loveStory.eyebrow}</Eyebrow>
+            <Title id="love-story-title">{loveStory.title}</Title>
+          </div>
+        </Layer>
 
         <Layer name="love-oval" alt={loveStory.photoAlt} x={60} y={98} w={150} z={1} reveal />
         <Layer name="bouquet-left" x={-16} y={196} w={104} z={3} sway />
