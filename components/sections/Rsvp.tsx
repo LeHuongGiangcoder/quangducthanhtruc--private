@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState, type FormEvent } from "react";
+import { useState, type CSSProperties, type FormEvent } from "react";
 
 import { useGuest } from "@/components/experience/GuestProvider";
 import { Button } from "@/components/ui/Button";
@@ -10,10 +10,11 @@ import { Choice, Field, FieldLabel } from "@/components/ui/Field";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionWrapper } from "@/components/ui/SectionWrapper";
 import { rsvp } from "@/content/client";
-import { element } from "@/lib/assets";
+import { element, texture } from "@/lib/assets";
 
 const dear = element("dear");
 const archTop = element("arch-top");
+const paper = texture("paper-ivory");
 
 type Status = "idle" | "sending" | "sent" | "error";
 
@@ -110,20 +111,22 @@ export function Rsvp() {
         <Lead>{rsvp.note}</Lead>
       </Reveal>
 
-      {/* Tấm kem: đỉnh vòm của bộ nhận diện + thân kem cùng màu, form đi tông sáng */}
-      <Reveal>
-        <div data-tone="light" className="text-tone-fg">
-        {archTop ? (
-          <Image
-            src={archTop.src}
-            alt=""
-            width={archTop.width ?? 800}
-            height={archTop.height ?? 551}
-            sizes="(max-width: 30rem) 90vw, 27rem"
-            className="-mb-px block h-auto w-full"
-          />
-        ) : null}
-        <div className="bg-tone-bg px-gutter pb-block">
+      {/* Tấm giấy kem: đỉnh vòm của bộ nhận diện và thân là một khối liền, có
+          vân giấy; form bên trong đi tông sáng */}
+      <Reveal className="paper-sheet">
+        <div
+          data-tone="light"
+          className="paper-sheet-body text-tone-fg"
+          style={
+            {
+              "--sheet-cap": archTop ? `url(${archTop.src})` : undefined,
+              "--sheet-cap-ratio":
+                archTop?.width && archTop.height ? archTop.height / archTop.width : undefined,
+              "--sheet-grain": paper ? `url(${paper.src})` : undefined,
+            } as CSSProperties
+          }
+        >
+        <div className="px-gutter pb-block">
         {status === "sent" ? (
           <div role="status" className="flex flex-col items-center gap-stack text-center">
             <Heading level="h3">{rsvp.successTitle}</Heading>

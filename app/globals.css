@@ -345,6 +345,36 @@ h4 {
     opacity: 0;
   }
 
+  /*
+    Tấm giấy có đỉnh cắt hình (vòm, nhãn…): MỘT khối liền chứ không phải ảnh
+    đỉnh ghép với hộp màu bên dưới — nên không có đường nối, và vân giấy chạy
+    liền từ đỉnh xuống đáy.
+
+      --sheet-cap        url() ảnh đỉnh, chỉ dùng kênh alpha làm mặt nạ
+      --sheet-cap-ratio  cao / rộng của ảnh đỉnh
+      --sheet-grain      url() vân giấy (tuỳ chọn), nhân lên màu nền của tông
+
+    Ảnh đỉnh chiếm đúng phần trên theo tỉ lệ; thân kéo dài theo nội dung. Đặt
+    trong `.paper-sheet` (khung đo bề rộng) rồi `.paper-sheet-body` bên trong.
+  */
+  .paper-sheet {
+    container-type: inline-size;
+  }
+
+  .paper-sheet-body {
+    --cap-h: calc(100cqw * var(--sheet-cap-ratio, 0));
+    padding-top: var(--cap-h);
+    background-color: var(--t-section-bg);
+    background-image: var(--sheet-grain, none);
+    /* Hạt giấy giữ cỡ cố định như vân giấy của SectionWrapper */
+    background-size: 340px;
+    background-blend-mode: multiply;
+    mask:
+      var(--sheet-cap) top / 100% auto no-repeat,
+      /* +2px để thân gối lên mép dưới ảnh đỉnh, không hở một sợi tóc */
+      linear-gradient(#000 0 0) bottom / 100% calc(100% - var(--cap-h) + 2px) no-repeat;
+  }
+
   .text-glow-gold {
     text-shadow: var(--t-glow-gold);
   }
