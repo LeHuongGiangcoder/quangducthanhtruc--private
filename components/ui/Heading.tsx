@@ -43,6 +43,29 @@ export function Heading({
   );
 }
 
+/**
+ * Tiêu đề section: chữ hoa mỹ Latin ("Our Gallery", "Agenda", "Dress Code"…),
+ * MỘT cỡ `text-title` cho mọi section, nét được tô dày (`ink-bold`).
+ *
+ * Font đặt ở span bên trong: h1–h4 nhận font display từ globals.css, và luật
+ * đó thắng utility đặt trên chính thẻ h.
+ *
+ * Bellissima chỉ có chữ Latin không dấu — tiêu đề tiếng Việt có dấu thì đừng
+ * dùng component này, nét sẽ vỡ sang font dự phòng.
+ */
+export function Title({
+  as: Tag = "h2",
+  className = "",
+  children,
+  ...rest
+}: TextProps & { as?: ElementType }) {
+  return (
+    <Tag className={`text-title ${className}`} {...rest}>
+      <span className="ink-bold font-flourish">{children}</span>
+    </Tag>
+  );
+}
+
 /** Dòng chữ nhỏ in hoa đứng trên tiêu đề. */
 export function Eyebrow({
   as: Tag = "p",
@@ -88,8 +111,9 @@ export function Script({ className = "", children, ...rest }: TextProps) {
 }
 
 /**
- * Đầu section: eyebrow + tiêu đề + câu dẫn, căn giữa, cách khối dưới một
- * `block`. Mọi section dùng chung khối này nên khoảng cách luôn khớp nhau.
+ * Đầu section: eyebrow (tiếng Việt) + tiêu đề hoa mỹ + câu dẫn, căn giữa,
+ * cách khối dưới một `block`. Mọi section có đầu mục dùng chung khối này nên
+ * cỡ chữ và khoảng cách luôn khớp nhau.
  */
 export function SectionHead({
   eyebrow,
@@ -107,9 +131,7 @@ export function SectionHead({
   return (
     <Reveal className="mb-block flex flex-col items-center gap-tight text-center">
       {eyebrow ? <Eyebrow>{eyebrow}</Eyebrow> : null}
-      <Heading level="h2" id={titleId}>
-        {title}
-      </Heading>
+      <Title id={titleId}>{title}</Title>
       {intro ? <Lead className="max-w-prose">{intro}</Lead> : null}
       {children}
     </Reveal>

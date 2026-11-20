@@ -3,17 +3,17 @@
 Tên file là cố định — `content/client.ts` trỏ thẳng vào các tên này, nên làm
 khách mới chỉ cần ghi đè file, không phải sửa code:
 
-| File | Dùng ở | Tỉ lệ nên dùng |
+| File | Dùng ở | Ghi chú |
 |---|---|---|
-| `intro.jpg` | nền màn mở thiệp | dọc, 3:4 |
-| `hero.jpg` | nền trang bìa | dọc, 4:5 — cũng là ảnh OG khi dán link |
-| `couple-01…04.jpg` | bốn chương Love Story | dọc, 3:4 |
-| `couple-05.jpg` | Thông tin lễ cưới | dọc, 4:5 |
-| `couple-06.jpg` | Lời cảm ơn | dọc, 4:5 |
-| `gallery-01…06.jpg` | Album | dọc, 2:3 |
+| `hero.jpg` | ảnh OG khi dán link (Zalo / Facebook) | dọc, 2:3 |
+| `gallery-01…09.jpg` | Album "Our Journey" | dọc, 2:3 — ảnh 01 trải ngang làm ảnh mở |
+| `thankyou-reflection.jpg` | nền trang cảm ơn 1 | ảnh đen trắng của cặp đôi ở nửa trên, nửa dưới là bóng phản chiếu mờ dựng từ chính ảnh đó (tỉ lệ 602:854 của mockup) |
+| `polaroid-groom.webp` / `polaroid-bride.webp` | hai tấm polaroid trang cảm ơn 1 | lấy từ `Group 10.png` / `Group 11 (1).png` của khách, đã phẳng nền trắng |
+| `thankyou-grid.webp` | lưới 3×3 trang cảm ơn 2 | lấy từ `thank you.png`; ô giữa đã tô trơn màu đỏ rượu, chữ "Thank / YOU" là chữ thật đặt lên |
 
-Thêm ảnh album thì thêm `gallery-07.jpg`… rồi khai trong `gallery.shots`.
-Ảnh nào cũng được `object-cover` nên tỉ lệ lệch một chút không bị méo, chỉ bị
-cắt bớt hai mép.
+Ảnh ở Hero, Love Story (oval, ba dải phim) KHÔNG nằm ở đây — chúng đã được
+lồng sẵn vào khung trong bộ nhận diện, nên nằm ở `brand/elements/`.
 
-Ảnh hiện tại là ảnh mẫu — phải thay hết trước khi gửi khách.
+Ảnh gốc của thợ chụp (40–60MB mỗi ảnh) nằm ở `/photos-original/` và file
+thiết kế gốc ở `/brand/source/` — cả hai đều gitignore. Bản trong thư mục
+này là bản web (cạnh dài 1400–1600px, JPEG q80 / WebP q84).

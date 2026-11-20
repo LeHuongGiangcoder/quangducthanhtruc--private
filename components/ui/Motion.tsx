@@ -74,13 +74,16 @@ export function Motion() {
       ExperienceProvider bắn sự kiện này ngay khi mount.
     */
     const onOpen = () => {
+      // Hiện ra từ nhoè, khớp với màn mở thiệp đang nhoè đi phía trên
       gsap.fromTo(
         "[data-hero]",
-        { opacity: 0, y: 24 },
+        { opacity: 0, y: 24, filter: "blur(12px)" },
         {
           opacity: 1,
           y: 0,
-          duration: 1.2,
+          filter: "blur(0px)",
+          clearProps: "filter",
+          duration: 1.6,
           ease: "power3.out",
           stagger: motion.revealStagger,
           delay: 0.15,

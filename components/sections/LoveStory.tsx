@@ -1,152 +1,71 @@
-"use client";
-
-import { useCallback, useEffect, useRef, useState } from "react";
-
-import { Divider } from "@/components/ui/Divider";
-import { Caption, Eyebrow, Heading, Lead, SectionHead } from "@/components/ui/Heading";
-import { ImageFrame } from "@/components/ui/ImageFrame";
-import { Reveal } from "@/components/ui/Reveal";
+import { Eyebrow, Title } from "@/components/ui/Heading";
+import { Layer, Stage } from "@/components/ui/Stage";
 import { SectionWrapper } from "@/components/ui/SectionWrapper";
+import { INFO_HEIGHT, VELVET_TOP } from "@/components/sections/WeddingInfo";
 import { loveStory } from "@/content/client";
 
+/** Toạ độ dọc của từng chương, và chương lẻ/chẵn đổi bên chữ — ảnh. */
+const CHAPTER_TOP = 368;
+const CHAPTER_STEP = 176;
+
 /**
- * Chuyện tình, kể bằng một băng thẻ kéo ngang.
+ * Love Story, dàn theo mockup: chữ "Our Love Story", ảnh oval, khung giấy
+ * mang câu dẫn, rồi ba chương xen kẽ chữ trái — dải phim phải.
  *
- * Dùng scroll-snap gốc của trình duyệt: trên điện thoại vuốt là xong, trên
- * máy tính có hai mũi tên và hàng chấm. Không cần thư viện carousel nào, và
- * cũng không có listener nào chạy khi khách không chạm tới.
+ * Nền nhung là cùng một tấm với WeddingInfo: lớp nhung đặt lệch lên đúng
+ * bằng phần đã hiện ở section trên, nên đường nối không lộ.
  */
 export function LoveStory() {
-  const trackRef = useRef<HTMLUListElement>(null);
-  const [index, setIndex] = useState(0);
-  const [hintDone, setHintDone] = useState(false);
-
-  const { chapters, finale } = loveStory;
-
-  /*
-    Vị trí thẻ đang xem được suy ra từ scrollLeft, không giữ state riêng — nhờ
-    vậy vuốt tay và bấm mũi tên không bao giờ nói hai điều khác nhau.
-  */
-  const syncIndex = useCallback(() => {
-    const track = trackRef.current;
-    const slide = track?.firstElementChild as HTMLElement | null;
-    if (!track || !slide) return;
-    const step = slide.offsetWidth + parseFloat(getComputedStyle(track).gap || "0");
-    setIndex(Math.round(track.scrollLeft / step));
-    if (track.scrollLeft > 8) setHintDone(true);
-  }, []);
-
-  useEffect(() => {
-    const track = trackRef.current;
-    if (!track) return;
-    track.addEventListener("scroll", syncIndex, { passive: true });
-    return () => track.removeEventListener("scroll", syncIndex);
-  }, [syncIndex]);
-
-  // Chữ "vuốt sang" chỉ nhắc một lần rồi tự tắt, không ngồi nhấp nháy mãi.
-  useEffect(() => {
-    if (hintDone) return;
-    const timer = setTimeout(() => setHintDone(true), 6000);
-    return () => clearTimeout(timer);
-  }, [hintDone]);
-
-  const goTo = useCallback((next: number) => {
-    setHintDone(true);
-    const track = trackRef.current;
-    const slide = track?.children[next] as HTMLElement | undefined;
-    if (!track || !slide) return;
-    track.scrollTo({ left: slide.offsetLeft - track.offsetLeft, behavior: "smooth" });
-  }, []);
+  const height = CHAPTER_TOP + CHAPTER_STEP * loveStory.chapters.length + 10;
 
   return (
-    <SectionWrapper section="loveStory" labelledBy="love-story-title">
-      <SectionHead
-        eyebrow={loveStory.eyebrow}
-        title={loveStory.title}
-        titleId="love-story-title"
-        intro={loveStory.intro}
-      />
+    <SectionWrapper section="loveStory" flush width="bleed" labelledBy="love-story-title">
+      {/* Câu dẫn là chữ vẽ sẵn trong asset — bản chữ thật cho trình đọc màn hình */}
+      <p className="sr-only">{loveStory.quote}</p>
 
-      <Reveal className="relative">
-        {!hintDone ? (
-          <p
-            aria-hidden
-            className="pointer-events-none absolute right-0 top-1/3 z-10 flex items-center gap-tight rounded-btn border border-tone-line bg-tone-bg/90 px-stack py-tight text-eyebrow uppercase text-tone-fg shadow-paper"
-          >
-            {/* Nhắc nhẹ, công cụ thật là mũi tên và hàng chấm bên dưới */}
-            Vuốt
-            <span className="animate-nudge">→</span>
-          </p>
-        ) : null}
+      <Stage width={270} height={height} className="bg-wine-soft">
+        <Layer name="velvet-long" x={0} y={VELVET_TOP - INFO_HEIGHT} w={270} />
 
-        <ul className="reel" ref={trackRef} onPointerDown={() => setHintDone(true)}>
-          {chapters.map((chapter, i) => (
-            <li key={chapter.title} className="w-[78%] sm:w-[22rem]">
-              <article
-                className="flex flex-col gap-stack"
-                style={{ transform: `rotate(${i % 2 === 0 ? -1.2 : 1.2}deg)` }}
-                aria-label={`${chapter.year} — ${chapter.title}`}
-              >
-                <ImageFrame
-                  src={chapter.photo}
-                  alt={chapter.alt}
-                  ratio="3 / 4"
-                  sizes="(max-width: 48rem) 78vw, 22rem"
-                />
-                <div className="flex flex-col gap-tight text-center">
-                  <Eyebrow>{chapter.year}</Eyebrow>
-                  <Heading level="h4">{chapter.title}</Heading>
-                  <Caption>{chapter.body}</Caption>
-                </div>
-              </article>
-            </li>
-          ))}
-        </ul>
-      </Reveal>
+        {/* Đầu section chung như mọi section: eyebrow + tiêu đề hoa mỹ cùng cỡ */}
+        <Layer x={0} y={22} w={270} z={2} reveal>
+          <div className="flex flex-col items-center gap-tight text-center">
+            <Eyebrow>{loveStory.eyebrow}</Eyebrow>
+            <Title id="love-story-title">{loveStory.title}</Title>
+          </div>
+        </Layer>
 
-      <div className="mt-stack flex items-center justify-center gap-stack">
-        <button
-          type="button"
-          onClick={() => goTo(index - 1)}
-          disabled={index <= 0}
-          aria-label="Chương trước"
-          className="flex size-tap items-center justify-center rounded-btn border border-tone-line text-tone-fg disabled:opacity-35"
-        >
-          <span aria-hidden>←</span>
-        </button>
+        <Layer name="love-oval" alt={loveStory.photoAlt} x={60} y={98} w={150} z={1} reveal />
+        <Layer name="bouquet-left" x={-16} y={196} w={104} z={3} />
+        <Layer name="story-quote" x={30} y={286} w={210} z={4} reveal revealDelay={120} />
 
-        <div className="flex items-center gap-tight">
-          {chapters.map((chapter, i) => (
-            <button
-              key={chapter.title}
-              type="button"
-              onClick={() => goTo(i)}
-              aria-current={i === index}
-              aria-label={`Xem ${chapter.year}`}
-              className="size-2 rounded-btn bg-tone-fg transition-opacity duration-200 aria-[current=true]:opacity-100 opacity-30"
-            />
-          ))}
-        </div>
+        {loveStory.chapters.map((chapter, i) => {
+          const top = CHAPTER_TOP + i * CHAPTER_STEP;
+          const textLeft = i % 2 === 0;
 
-        <button
-          type="button"
-          onClick={() => goTo(index + 1)}
-          disabled={index >= chapters.length - 1}
-          aria-label="Chương sau"
-          className="flex size-tap items-center justify-center rounded-btn border border-tone-line text-tone-fg disabled:opacity-35"
-        >
-          <span aria-hidden>→</span>
-        </button>
-      </div>
-
-      {finale ? (
-        <Reveal delay={90} className="mt-block flex flex-col items-center gap-tight text-center">
-          <Divider diamond />
-          <Eyebrow>{finale.year}</Eyebrow>
-          <Heading level="h3">{finale.title}</Heading>
-          <Lead>{finale.body}</Lead>
-        </Reveal>
-      ) : null}
+          return (
+            <div key={chapter.label}>
+              <Layer x={textLeft ? 16 : 146} y={top} w={textLeft ? 116 : 110} z={2} reveal>
+                <article className="flex flex-col gap-stage font-display text-cream">
+                  <p className="text-stage-xs italic">{chapter.label}</p>
+                  <h3 className="text-stage-lg uppercase italic">{chapter.title}</h3>
+                  <span aria-hidden className="h-px w-[22%] bg-cream" />
+                  <p className="text-stage-sm">{chapter.body}</p>
+                </article>
+              </Layer>
+              <Layer
+                name={chapter.film}
+                alt={chapter.alt}
+                x={textLeft ? 134 : 4}
+                y={top + 14}
+                w={134}
+                z={1}
+                reveal
+                revealDelay={120}
+              />
+            </div>
+          );
+        })}
+      </Stage>
     </SectionWrapper>
   );
 }

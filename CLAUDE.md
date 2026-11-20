@@ -83,8 +83,13 @@ Vì vậy **component không được viết số padding/margin cứng**. Luôn
 | `gap-stack` | giữa các phần tử trong một khối |
 | `gap-tight` | giữa các dòng chữ đi liền nhau |
 
-Cỡ chữ cũng vậy: `text-display`, `text-h1`…`text-h4`, `text-lead`, `text-base`,
-`text-small`, `text-eyebrow`. Không `text-[22px]`.
+Cỡ chữ cũng vậy: `text-title`, `text-display`, `text-h1`…`text-h4`, `text-lead`,
+`text-base`, `text-small`, `text-eyebrow`. Không `text-[22px]`.
+
+Tiêu đề section luôn đi qua `<SectionHead>` (eyebrow tiếng Việt + tiêu đề hoa
+mỹ Latin + câu dẫn) hoặc `<Title>` khi nằm trong Stage — một cỡ `text-title`
+cho mọi section. Thang chữ và khoảng cách chặn trần ở bề rộng cột trang
+(30rem), nên chữ ngoài Stage và trong Stage luôn cùng tỉ lệ.
 
 Màu thì dùng nhóm `tone`: `bg-tone-bg`, `text-tone-fg`, `text-tone-muted`,
 `text-tone-accent`, `border-tone-line`. `SectionWrapper` nhận prop `tone`
@@ -239,3 +244,13 @@ Chỉ dùng font có subset `vietnamese` trên Google Fonts. Font script mua ngo
 thường thiếu `ơ ư đ` và dấu chồng — đặt tên có dấu vào đó là chữ vỡ thành hai
 kiểu chữ khác nhau. Cormorant khai cả `italic` thật vì italic giả do trình duyệt
 kéo nghiêng làm méo dấu.
+
+<!-- BEGIN:nextjs-agent-rules -->
+
+# This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->
