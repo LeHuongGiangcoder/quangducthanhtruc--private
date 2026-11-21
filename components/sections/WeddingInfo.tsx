@@ -5,8 +5,13 @@ import { SectionWrapper } from "@/components/ui/SectionWrapper";
 import { ceremony, venue, weddingInfo } from "@/content/client";
 import { element } from "@/lib/assets";
 
-/** Đỉnh khía chữ V của nền nhung, tính theo đơn vị Stage — LoveStory nối tiếp từ đây. */
-export const VELVET_TOP = 600;
+/**
+ * Mép trên nền nhung (hai góc của khía chữ V), theo đơn vị Stage — LoveStory
+ * nối tiếp từ đây. Chọn để hai cạnh chữ V của nhung đè khít lên hai cạnh đáy
+ * tấm kem và cái bướu tròn của nhung lấp vào vết khuyết ở đáy tấm kem; lệch
+ * xuống là lộ một dải đỏ phẳng của nền section giữa kem và nhung.
+ */
+export const VELVET_TOP = 570;
 export const INFO_HEIGHT = 720;
 
 /**
@@ -29,12 +34,18 @@ export function WeddingInfo() {
 
       <Stage width={270} height={INFO_HEIGHT}>
         <Layer name="cream-panel" x={-30} y={40} w={330} z={1} />
-        <Layer name="contour-lines" x={0} y={170} w={270} z={1} />
-        <Layer name="florals-top" x={0} y={-6} w={270} z={2} parallax={8} />
+        {/* Nhóm vân bên phải bị cắt theo một đường chéo 45° trong file — đặt
+            để đường cắt nằm ngay dưới cạnh trái-dưới của tấm thoi, nét vân
+            trông như luồn xuống dưới tấm thoi chứ không dừng lơ lửng. */}
+        <Layer name="contour-lines" x={0} y={128} w={270} z={1} />
+        {/* Tấm thoi đỏ như nắp phong bì: đỉnh nằm trọn trong khung, không chạm mép trên */}
+        <Layer name="diamond-flap" x={127} y={8} w={143.3} z={2} />
+        <Layer name="florals-left" x={-14} y={-6} w={88} z={2} parallax={8} />
         <Layer name="drape-left" x={0} y={470} w={110} z={2} />
 
-        {/* Chữ trên tấm kem đi theo tông sáng: đỏ rượu trên nền kem */}
-        <Layer x={40} y={182} w={190} z={3} reveal>
+        {/* Chữ trên tấm kem đi theo tông sáng: đỏ rượu trên nền kem. Đặt dưới
+            đuôi chùm hoa trái và dưới cạnh tấm thoi để không lớp nào đè chữ. */}
+        <Layer x={40} y={202} w={190} z={3} reveal>
           <div data-tone="light" className="flex flex-col items-center text-center font-display text-tone-fg">
             <p className="text-stage-md">
               {weddingInfo.ceremonyLine} {ceremony.timeLabel}
@@ -71,7 +82,7 @@ export function WeddingInfo() {
         </Layer>
 
         <Layer name="velvet-long" x={0} y={VELVET_TOP} w={270} z={4} />
-        <Layer name="bouquet-right" x={158} y={452} w={115} z={5} />
+        <Layer name="bouquet-right" x={166} y={476} w={106} z={5} />
       </Stage>
     </SectionWrapper>
   );
