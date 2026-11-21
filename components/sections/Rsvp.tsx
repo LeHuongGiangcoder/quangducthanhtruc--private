@@ -1,11 +1,10 @@
 "use client";
 
-import Image from "next/image";
 import { useState, type CSSProperties, type FormEvent } from "react";
 
 import { useGuest } from "@/components/experience/GuestProvider";
 import { Button } from "@/components/ui/Button";
-import { Caption, Heading, Lead, Script, SectionHead } from "@/components/ui/Heading";
+import { Caption, Heading, Lead, Script, Title } from "@/components/ui/Heading";
 import { Choice, Field, FieldLabel } from "@/components/ui/Field";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionWrapper } from "@/components/ui/SectionWrapper";
@@ -14,7 +13,6 @@ import { element, texture } from "@/lib/assets";
 
 const archTop = element("arch-top");
 const paper = texture("paper-ivory");
-const monogram = element("monogram-wine");
 
 type Status = "idle" | "sending" | "sent" | "error";
 
@@ -92,13 +90,10 @@ export function Rsvp() {
 
   return (
     <SectionWrapper section="rsvp" width="prose" labelledBy="rsvp-heading">
-      {/* Đầu section chung như mọi section: eyebrow + tiêu đề hoa mỹ "Dear," */}
-      <SectionHead eyebrow={rsvp.eyebrow} title={rsvp.heading} titleId="rsvp-heading" />
-
       {/* Tấm giấy kem: đỉnh vòm của bộ nhận diện và thân là một khối liền, có
-          vân giấy; form bên trong đi tông sáng. Lời hỏi nằm trong lòng vòm —
-          `--sheet-cap-inset` cho nội dung bắt đầu từ 22% chiều cao vòm, chứ
-          không để cả vòm trống. */}
+          vân giấy; form bên trong đi tông sáng. Section không có đầu mục riêng
+          — tiêu đề "R.S.V.P" nằm ngay trong lòng vòm, `--sheet-cap-inset` cho
+          nó bắt đầu từ 30% chiều cao vòm, chỗ vòm đã đủ rộng. */}
       <Reveal className="paper-sheet">
         <div
           data-tone="light"
@@ -109,22 +104,13 @@ export function Rsvp() {
               "--sheet-cap-ratio":
                 archTop?.width && archTop.height ? archTop.height / archTop.width : undefined,
               "--sheet-grain": paper ? `url(${paper.src})` : undefined,
-              "--sheet-cap-inset": 0.22,
+              "--sheet-cap-inset": 0.3,
             } as CSSProperties
           }
         >
         {/* Vòm thu hẹp dần lên đỉnh, nên khối chữ hẹp hơn bề ngang tấm giấy */}
         <div className="mx-auto mb-block flex w-[78%] flex-col items-center gap-stack text-center">
-          {monogram ? (
-            <Image
-              src={monogram.src}
-              alt=""
-              width={monogram.width ?? 400}
-              height={monogram.height ?? 311}
-              sizes="6rem"
-              className="h-auto w-[34%]"
-            />
-          ) : null}
+          <Title id="rsvp-heading">{rsvp.heading}</Title>
           <Heading level="h3" className="uppercase">
             {personalized && guest ? `${rsvp.greeting} ${guest.name}` : rsvp.title}
           </Heading>

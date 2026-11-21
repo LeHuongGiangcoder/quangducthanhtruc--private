@@ -131,8 +131,6 @@ export const design: Record<SectionId, SectionDesign> = {
         name: "contour-lines",
         at: "inset-0 overflow-hidden [&_img]:absolute [&_img]:bottom-0 [&_img]:h-[137%]",
       },
-      // Nằm gọn trong khoảng valance phía trên, không chạm chữ "Chương trình"
-      { name: "monogram-wine", at: "top-[2%] left-1/2 -translate-x-1/2 w-[19%]" },
     ],
   },
   dresscode: {
@@ -352,9 +350,11 @@ export const rsvp = {
   /** Slug của khách, trùng subdomain: ten-khach.gloweb.site → "ten-khach" */
   client: "quangducthanhtruc",
 
-  eyebrow: "R.S.V.P",
-  /** Tiêu đề hoa mỹ đầu section, như chữ "Dear," của bộ nhận diện. */
-  heading: "Dear,",
+  /**
+   * Tiêu đề hoa mỹ ở đầu tấm giấy kem, cùng bậc chữ với tiêu đề các section
+   * khác (`<Title>`). Chỉ chữ Latin không dấu.
+   */
+  heading: "R.S.V.P",
   title: "Quý khách sẽ đến chứ?",
   note: "Nhắn giúp chúng mình một tiếng để gia đình chuẩn bị chỗ ngồi chu đáo.",
   deadline: "Vui lòng phản hồi trước ngày 10 . 12 . 2026",
