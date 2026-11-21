@@ -38,7 +38,7 @@ export const assets = {
     "circle-cream": { src: "/brand/elements/circle-cream.webp", width: 400, height: 400 },
     "contour-lines": { src: "/brand/elements/contour-lines.webp", width: 1000, height: 1696 },
     "contour-on-panel": { src: "/brand/elements/contour-on-panel.webp", width: 1000, height: 1696 },
-    "cream-panel-short": { src: "/brand/elements/cream-panel-short.webp", width: 1200, height: 1959 },
+    "cream-panel-short": { src: "/brand/elements/cream-panel-short.webp", width: 1200, height: 1777 },
     "crest": { src: "/brand/elements/crest.webp", width: 560, height: 635 },
     "date-spaced": { src: "/brand/elements/date-spaced.webp", width: 600, height: 68 },
     "dear": { src: "/brand/elements/dear.webp", width: 500, height: 274 },

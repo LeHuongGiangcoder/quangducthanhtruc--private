@@ -31,8 +31,8 @@ const [drape, bouquet] = SPILL_LAYERS;
  * tam giác đỏ sẫm và chùm hoa ở dưới, rồi nền nhung của Love Story cắt chữ V
  * lên đáy tấm kem.
  *
- * Thứ tự chồng lớp, từ dưới lên: nhung → chùm hoa phải (nấp sau mép kem, chỉ
- * lộ phần nằm trên nhung) → tấm kem → vân → tấm thoi, hoa trái, tam giác đỏ
+ * Thứ tự chồng lớp, từ dưới lên: nhung, hai chùm hoa và tấm thoi đỏ (đều nấp
+ * sau mép tấm kem — chỉ lộ phần nằm ngoài kem) → tấm kem → vân → tam giác đỏ
  * sẫm bên trái (đè cả kem lẫn nhung) → chữ.
  *
  * Nền nhung bắt đầu ở đây và chạy tiếp trong LoveStory (cùng toạ độ), nên
@@ -50,16 +50,17 @@ export function WeddingInfo() {
       <Stage width={270} height={INFO_HEIGHT}>
         <Layer name="velvet-long" x={0} y={VELVET_TOP} w={270} z={1} />
         <Layer {...bouquet} z={2} />
-        {/* Bản rút ngắn của tấm kem: bớt một đoạn thân thẳng để đáy chữ V nằm
-            ngay dưới nút bản đồ như mockup */}
-        <Layer name="cream-panel-short" x={-30} y={40} w={330} z={3} />
+        {/* Tấm thoi đỏ và chùm hoa trái nằm sau tấm kem: mép vai trên của kem
+            cắt ngang chúng, như mockup */}
+        <Layer name="diamond-flap" x={127} y={25.5} w={143.3} z={2} />
+        <Layer name="florals-left" x={-6} y={20} w={120} z={2} parallax={8} />
+        {/* Bản rút ngắn của tấm kem: bớt một đoạn thân thẳng để vai trên hạ
+            xuống sát dòng chữ đầu còn đáy chữ V nằm ngay dưới nút bản đồ */}
+        <Layer name="cream-panel-short" x={-30} y={90} w={330} z={3} />
         {/* Vân đã cắt sẵn theo hình tấm kem (nét chạy tới mép giấy là hết, không
-            tràn ra nhung). Nhóm bên phải còn một đường cắt chéo 45° ở đầu — đặt
-            để nó nằm ngay dưới cạnh tấm thoi, nét vân như luồn xuống dưới. */}
-        <Layer name="contour-on-panel" x={0} y={128} w={270} z={4} />
-        {/* Tấm thoi đỏ như nắp phong bì: đỉnh nằm trọn trong khung, không chạm mép trên */}
-        <Layer name="diamond-flap" x={127} y={8} w={143.3} z={5} />
-        <Layer name="florals-left" x={-14} y={-6} w={88} z={5} parallax={8} />
+            tràn ra ngoài). Đường cắt chéo 45° sẵn có của nhóm bên phải trùng
+            với vai phải của tấm kem. */}
+        <Layer name="contour-on-panel" x={0} y={91} w={270} z={4} />
         <Layer {...drape} z={5} />
 
         {/* Chữ trên tấm kem đi theo tông sáng: đỏ rượu trên nền kem. Đặt dưới
