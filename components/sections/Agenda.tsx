@@ -10,7 +10,7 @@ import { agenda } from "@/content/client";
  */
 export function Agenda() {
   return (
-    <SectionWrapper section="agenda" labelledBy="agenda-title" className="pt-valance">
+    <SectionWrapper section="agenda" labelledBy="agenda-title">
       <SectionHead
         eyebrow={agenda.eyebrow}
         title={agenda.title}
