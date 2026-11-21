@@ -6,7 +6,7 @@ import { loveStory } from "@/content/client";
 
 /** Toạ độ dọc của từng chương, và chương lẻ/chẵn đổi bên chữ — ảnh. */
 const CHAPTER_TOP = 368;
-const CHAPTER_STEP = 176;
+const CHAPTER_STEP = 200;
 
 /**
  * Love Story, dàn theo mockup: chữ "Our Love Story", ảnh oval, khung giấy
