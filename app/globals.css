@@ -199,23 +199,155 @@ h4 {
   }
 }
 
-/* Vệt sáng qua khe cửa ở màn mở thiệp — xem `.gate-beam` */
-@keyframes gate-beam {
-  0% {
+/* Màn mở thiệp (components/sections/Intro.tsx) — xem `.gate` */
+@keyframes gate-stage-in {
+  from {
     opacity: 0;
-    transform: scaleX(0.15);
+    transform: scale(1.06);
   }
-  14% {
+  to {
     opacity: 1;
-    transform: scaleX(0.4);
+    transform: none;
   }
-  55% {
-    opacity: 0.9;
-    transform: scaleX(3);
+}
+
+@keyframes gate-in-rise {
+  from {
+    opacity: 0;
+    transform: translateY(7%) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes gate-in-fall {
+  from {
+    opacity: 0;
+    transform: translateY(-22%);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Chữ: hiện từ một vệt nhoè, như mực vừa khô */
+@keyframes gate-in-focus {
+  from {
+    opacity: 0;
+    transform: translateY(12%) scale(0.97);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+  }
+}
+
+@keyframes gate-in-bloom-left {
+  from {
+    opacity: 0;
+    transform: translate(-16%, 18%) rotate(-5deg) scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes gate-in-bloom-right {
+  from {
+    opacity: 0;
+    transform: translate(12%, 20%) rotate(4deg) scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Khe cửa thở: ánh sáng sau cửa như đang lay động */
+@keyframes gate-breathe {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scaleX(0.85);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scaleX(1.15);
+  }
+}
+
+/* Lúc cửa hé: khe sáng loé lên, toả rộng rồi tan vào ánh sáng tràn ra */
+@keyframes gate-flare {
+  0% {
+    opacity: 0.6;
+    transform: scaleX(1);
+  }
+  22% {
+    opacity: 1;
+    transform: scaleX(1.8);
   }
   100% {
     opacity: 0;
-    transform: scaleX(6);
+    transform: scaleX(9);
+  }
+}
+
+/* Nút mở thiệp: một quầng vàng mềm thở chậm, gọi khách chạm */
+@keyframes gate-cta-glow {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 0 transparent);
+  }
+  50% {
+    filter: drop-shadow(0 0 0.5em color-mix(in srgb, var(--t-color-gold-light) 75%, transparent));
+  }
+}
+
+/* Tấm thiệp nhún nhẹ lên rồi trượt xuống khỏi màn */
+@keyframes gate-out-drop {
+  0% {
+    transform: none;
+    animation-timing-function: cubic-bezier(0.33, 0, 0.4, 1);
+  }
+  16% {
+    transform: translateY(-1.6%);
+    animation-timing-function: cubic-bezier(0.55, 0, 0.85, 0.35);
+  }
+  100% {
+    transform: translateY(120%);
+  }
+}
+
+@keyframes gate-out-part-left {
+  to {
+    transform: translate(-62%, 34%) rotate(-7deg);
+  }
+}
+
+@keyframes gate-out-part-right {
+  to {
+    transform: translate(48%, 40%) rotate(6deg);
+  }
+}
+
+@keyframes gate-out-fade {
+  to {
+    opacity: 0;
+    transform: translateY(-8%);
+    filter: blur(4px);
+  }
+}
+
+@keyframes gate-out-float {
+  to {
+    opacity: 0;
+    transform: translateY(-40%) scale(0.94);
   }
 }
 
@@ -301,80 +433,94 @@ h4 {
   }
 
   /*
-    Màn mở thiệp dạng sân khấu (components/sections/Intro.tsx).
+    Màn mở thiệp (components/sections/Intro.tsx).
 
-    `.gate` phủ kín màn hình; `.gate-scene` là Stage cao đúng bằng màn hình —
-    máy dọc hẹp hơn mockup 9:16 thì cắt bớt hai mép, máy rộng thì hai bên là
-    màu rèm. Khi `.gate` có `data-phase="opening"`:
-      1. chữ, nút, hoa mờ đi;
-      2. hai cánh cửa xoay quanh bản lề ở mép ngoài, lộ ô cửa sáng phía sau;
-      3. cả sân khấu tiến vào ô cửa rồi tan, để lộ hero bên dưới.
+    `.gate` phủ kín màn hình; `.gate-scene` là Stage theo tỉ lệ bộ layer của
+    khách (3544 × 7678, đúng khổ iPhone) — cao bằng màn hình, máy thấp hơn thì
+    cắt bớt trên dưới một chút thay vì để hai dải trống hai bên.
+
+    `data-phase`:
+      loading — chờ ảnh tải xong, chỉ có màu nền;
+      idle    — mọi lớp hiện lên theo `--in-at` (phần của --t-gate-enter);
+      opening — lớp rút đi theo `--out-at` (phần của --t-gate-clear), cửa mở ở
+                `--gate-doors-at`, tiến vào ô sáng ở `--gate-zoom-at`, nhoè và
+                tan ở `--gate-blur-at`. Ba mốc này Intro.tsx tính rồi truyền vào,
+                để chỗ gọi hero và CSS luôn cùng một nhịp.
   */
   .gate {
-    /* Nhịp của ba bước — Intro.tsx tính lại đúng hai mốc này để gọi hero */
-    --gate-zoom-at: calc(var(--t-gate-doors) * 0.45);
-    --gate-blur-at: calc(var(--gate-zoom-at) + var(--t-gate-zoom) * 0.6);
     position: fixed;
     inset: 0;
     z-index: 40;
     overflow: hidden;
-    background-color: var(--t-color-night);
+    /* Cùng tông mép nền nhung, để hai dải hở trên máy thấp không thành viền đen */
+    background-color: var(--t-color-wine-deep);
     transition:
       filter var(--t-gate-blur) cubic-bezier(0.4, 0, 0.2, 1) var(--gate-blur-at),
       opacity var(--t-gate-blur) cubic-bezier(0.55, 0, 0.45, 1) var(--gate-blur-at);
   }
 
   .gate-scene {
+    --gate-ratio: calc(3544 / 7678);
     position: absolute;
     left: 50%;
     top: 50%;
-    width: calc(100svh * 9 / 16);
+    --gate-w: min(
+      max(100svh * var(--gate-ratio), min(100vw, var(--t-size-page))),
+      100svh * var(--gate-ratio) * 1.12
+    );
+    width: var(--gate-w);
     translate: -50% -50%;
-    perspective: 100svh;
-    transform-origin: 50% 48%;
+    /* Tâm của ô sáng — cú tiến vào cửa nhắm vào đây */
+    transform-origin: 50% 56%;
     /* Khởi đầu rất chậm rồi trôi đều — như bước dần qua ô cửa, không bị hút vào */
-    transition: scale var(--t-gate-zoom) cubic-bezier(0.5, 0, 0.3, 1) var(--gate-zoom-at);
+    transition: scale var(--t-gate-zoom) cubic-bezier(0.45, 0, 0.25, 1) var(--gate-zoom-at);
   }
 
-  /* Khởi đầu rất chậm: cửa hé một khe, ánh vàng lọt qua trước rồi mới mở hẳn */
+  .gate-stage {
+    perspective: calc(var(--gate-w) * 1.6);
+    opacity: 0;
+  }
+
+  .gate:not([data-phase="loading"]) .gate-stage {
+    animation: gate-stage-in calc(var(--t-gate-enter) * 0.6) var(--t-ease) both;
+  }
+
+  /* Lớp hiện lên: chờ ảnh tải xong rồi mới chạy, so le theo --in-at */
+  .gate-in {
+    opacity: 0;
+  }
+
+  .gate:not([data-phase="loading"]) .gate-in {
+    animation: gate-in-rise calc(var(--t-gate-enter) * 0.5) cubic-bezier(0.16, 1, 0.3, 1)
+      calc(var(--t-gate-enter) * var(--in-at, 0)) both;
+  }
+
+  .gate:not([data-phase="loading"]) .gate-in[data-in="fall"] {
+    animation-name: gate-in-fall;
+  }
+
+  .gate:not([data-phase="loading"]) .gate-in[data-in="focus"] {
+    animation-name: gate-in-focus;
+    animation-duration: calc(var(--t-gate-enter) * 0.4);
+  }
+
+  .gate:not([data-phase="loading"]) .gate-in[data-in="bloom-left"] {
+    animation-name: gate-in-bloom-left;
+    animation-duration: calc(var(--t-gate-enter) * 0.65);
+    transform-origin: 0% 100%;
+  }
+
+  .gate:not([data-phase="loading"]) .gate-in[data-in="bloom-right"] {
+    animation-name: gate-in-bloom-right;
+    animation-duration: calc(var(--t-gate-enter) * 0.65);
+    transform-origin: 100% 100%;
+  }
+
+  /* Cửa mở vào trong, quanh bản lề ở mép ngoài — khởi đầu rất chậm: cửa hé
+     một khe, ánh sáng lọt qua trước rồi mới mở hẳn */
   .gate-door {
-    transition: transform var(--t-gate-doors) cubic-bezier(0.7, 0, 0.3, 1) var(--t-duration-fast);
     backface-visibility: hidden;
-  }
-
-  /*
-    Ánh vàng sau cánh cửa: phủ đúng ô cửa sáng của nền, sáng dần lên khi cửa
-    mở. Mép ngoài trong suốt để hoà vào ô cửa kem của ảnh nền.
-  */
-  .gate-glow {
-    aspect-ratio: 818 / 1324;
-    background: radial-gradient(
-      ellipse 62% 58% at 50% 50%,
-      var(--t-color-surface) 0%,
-      var(--t-color-gold-light) 38%,
-      color-mix(in srgb, var(--t-color-gold-soft) 70%, transparent) 72%,
-      transparent 100%
-    );
-    opacity: 0;
-    transition: opacity calc(var(--t-gate-doors) * 0.8) cubic-bezier(0.5, 0, 0.5, 1) var(--t-duration-fast);
-  }
-
-  /*
-    Vệt sáng lọt qua khe cửa: một dải vàng mảnh trên đường nối hai cánh, hiện
-    lên khi cửa vừa hé rồi toả rộng ra và tan khi cửa mở hẳn. `screen` để nó
-    rọi sáng lên mặt cửa đỏ chứ không phủ một mảng màu lên.
-  */
-  .gate-beam {
-    aspect-ratio: 120 / 1376;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      var(--t-color-gold-light) 50%,
-      transparent
-    );
-    filter: blur(6px);
-    mix-blend-mode: screen;
-    opacity: 0;
+    transition: transform var(--t-gate-doors) cubic-bezier(0.62, 0, 0.24, 1) var(--gate-doors-at);
   }
 
   .gate-door[data-side="left"] {
@@ -385,28 +531,94 @@ h4 {
     transform-origin: right center;
   }
 
-  .gate-fade {
-    transition: opacity var(--t-duration-slow) var(--t-ease);
+  /* Ánh sáng tràn ra: rọi `screen` lên cả nền, tâm ở giữa ô cửa */
+  .gate-glow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      ellipse 70% 46% at 50% 56%,
+      var(--t-color-surface) 0%,
+      var(--t-color-gold-light) 34%,
+      color-mix(in srgb, var(--t-color-gold-soft) 55%, transparent) 64%,
+      transparent 100%
+    );
+    mix-blend-mode: screen;
+    opacity: 0;
+    transition: opacity calc(var(--t-gate-doors) * 0.85) cubic-bezier(0.5, 0, 0.5, 1) var(--gate-doors-at);
   }
+
+  /* Dải sáng mảnh trên khe cửa — trên hai cánh, dưới tấm thiệp */
+  .gate-beam {
+    aspect-ratio: 554 / 6034;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in srgb, var(--t-color-gold-light) 70%, transparent) 38%,
+      var(--t-color-surface) 50%,
+      color-mix(in srgb, var(--t-color-gold-light) 70%, transparent) 62%,
+      transparent
+    );
+    filter: blur(4px);
+    mix-blend-mode: screen;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .gate[data-phase="idle"] .gate-beam {
+    animation: gate-breathe 4.2s ease-in-out calc(var(--t-gate-enter) * 0.5) infinite both;
+  }
+
+  /* Nút mở thiệp: chữ của thiết kế, vùng chạm phủ cả dải đỏ của bao thiệp */
+  .gate-cta {
+    position: relative;
+    display: block;
+    width: 100%;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform var(--t-duration-base) var(--t-ease);
+  }
+
+  .gate-cta::before {
+    content: "";
+    position: absolute;
+    inset: -80% -95%;
+  }
+
+  .gate-cta:focus-visible {
+    outline: 1px solid var(--t-color-gold-light);
+    outline-offset: 0.6em;
+  }
+
+  .gate-cta:active {
+    transform: scale(0.96);
+  }
+
+  .gate[data-phase="idle"] .gate-cta {
+    animation: gate-cta-glow 3.2s ease-in-out var(--t-gate-enter) infinite;
+  }
+
+  /* -------- mở thiệp */
 
   .gate[data-phase="opening"] {
     opacity: 0;
-    filter: blur(18px);
+    filter: blur(16px);
     pointer-events: none;
   }
 
   .gate[data-phase="opening"] .gate-scene {
-    scale: 2.2;
+    scale: 2.3;
   }
 
-  /* Hai cánh mở VÀO TRONG, về phía ô sáng — không quệt ra trước đè lên hai
-     chùm hoa ở tiền cảnh */
+  .gate[data-phase="opening"] .gate-door {
+    will-change: transform;
+  }
+
   .gate[data-phase="opening"] .gate-door[data-side="left"] {
-    transform: rotateY(100deg);
+    transform: rotateY(96deg);
   }
 
   .gate[data-phase="opening"] .gate-door[data-side="right"] {
-    transform: rotateY(-100deg);
+    transform: rotateY(-96deg);
   }
 
   .gate[data-phase="opening"] .gate-glow {
@@ -414,11 +626,35 @@ h4 {
   }
 
   .gate[data-phase="opening"] .gate-beam {
-    animation: gate-beam var(--t-gate-doors) cubic-bezier(0.45, 0, 0.55, 1) var(--t-duration-fast) forwards;
+    animation: gate-flare calc(var(--t-gate-doors) * 0.8) cubic-bezier(0.4, 0, 0.6, 1) var(--gate-doors-at) both;
   }
 
-  .gate[data-phase="opening"] .gate-fade {
-    opacity: 0;
+  .gate[data-phase="opening"] [data-exit] {
+    animation: gate-out-fade calc(var(--t-gate-clear) * 0.45) cubic-bezier(0.4, 0, 1, 1)
+      calc(var(--t-gate-clear) * var(--out-at, 0)) forwards;
+  }
+
+  .gate[data-phase="opening"] [data-exit="drop"] {
+    animation-name: gate-out-drop;
+    animation-duration: var(--t-gate-clear);
+  }
+
+  .gate[data-phase="opening"] [data-exit="part-left"] {
+    animation-name: gate-out-part-left;
+    animation-duration: var(--t-gate-clear);
+    animation-timing-function: cubic-bezier(0.5, 0, 0.75, 0.2);
+  }
+
+  .gate[data-phase="opening"] [data-exit="part-right"] {
+    animation-name: gate-out-part-right;
+    animation-duration: var(--t-gate-clear);
+    animation-timing-function: cubic-bezier(0.5, 0, 0.75, 0.2);
+  }
+
+  .gate[data-phase="opening"] [data-exit="float"] {
+    animation-name: gate-out-float;
+    animation-duration: var(--t-gate-doors);
+    animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
   }
 
   /*
