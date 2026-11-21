@@ -1,7 +1,7 @@
 import { Eyebrow, Title } from "@/components/ui/Heading";
 import { Layer, Stage } from "@/components/ui/Stage";
 import { SectionWrapper } from "@/components/ui/SectionWrapper";
-import { INFO_HEIGHT, VELVET_TOP } from "@/components/sections/WeddingInfo";
+import { INFO_HEIGHT, SPILL_LAYERS, VELVET_TOP } from "@/components/sections/WeddingInfo";
 import { loveStory } from "@/content/client";
 
 /** Toạ độ dọc của từng chương, và chương lẻ/chẵn đổi bên chữ — ảnh. */
@@ -25,6 +25,10 @@ export function LoveStory() {
 
       <Stage width={270} height={height} className="bg-wine-soft">
         <Layer name="velvet-long" x={0} y={VELVET_TOP - INFO_HEIGHT} w={270} />
+        {/* Phần đuôi của tấm thoi đỏ và chùm hoa vắt xuống từ WeddingInfo */}
+        {SPILL_LAYERS.map((layer) => (
+          <Layer key={layer.name} {...layer} y={layer.y - INFO_HEIGHT} z={1} />
+        ))}
 
         {/* Đầu section chung như mọi section: eyebrow + tiêu đề hoa mỹ cùng cỡ */}
         <Layer x={0} y={22} w={270} z={2} reveal>
