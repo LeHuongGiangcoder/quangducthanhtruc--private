@@ -5,7 +5,7 @@ khách mới chỉ cần ghi đè file, không phải sửa code:
 
 | File | Dùng ở | Ghi chú |
 |---|---|---|
-| `hero.jpg` | ảnh OG khi dán link (Zalo / Facebook) | dọc, 2:3 |
+| `og.jpg` | ảnh OG khi dán link (Zalo / Facebook) | **ngang, đúng 1200×630** — ảnh dọc bị nền tảng cắt giữa, mất mặt. Đặt mặt hai người ở giữa khung để bản cắt vuông (Zalo) vẫn đủ |
 | `gallery-01…09.jpg` | Album "Our Journey" | dọc, 2:3 — ảnh 01 trải ngang làm ảnh mở |
 | `thankyou-reflection.jpg` | nền trang cảm ơn 1 | ảnh đen trắng của cặp đôi ở nửa trên, nửa dưới là bóng phản chiếu mờ dựng từ chính ảnh đó (tỉ lệ 602:854 của mockup) |
 | `polaroid-groom.webp` / `polaroid-bride.webp` | hai tấm polaroid trang cảm ơn 1 | lấy từ `Group 10.png` / `Group 11 (1).png` của khách, đã phẳng nền trắng |

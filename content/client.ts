@@ -437,8 +437,11 @@ export const meta = {
   title: "Quang Đức & Thanh Trúc — Thiệp cưới",
   description:
     "Trân trọng kính mời quý khách đến chung vui cùng gia đình chúng tôi ngày 20.12.2026 tại GEM Center.",
-  /** Ảnh hiện khi dán link lên Zalo / Facebook. */
-  ogImage: "/images/hero.jpg",
+  /**
+   * Ảnh hiện khi dán link lên Zalo / Facebook — ảnh NGANG đúng 1200×630
+   * (1.91:1) để nền tảng khỏi tự cắt giữa. Ảnh dọc sẽ bị cắt mất mặt.
+   */
+  ogImage: "/images/og.jpg",
   locale: "vi_VN",
   lang: "vi",
 };
