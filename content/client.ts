@@ -140,7 +140,6 @@ export const design: Record<SectionId, SectionDesign> = {
     overlay: 0,
     decor: [
       { name: "drape-left", at: "top-0 left-0 w-[22%]" },
-      { name: "bouquet-right", at: "-bottom-[6%] -right-[8%] w-[32%]" },
     ],
   },
   rsvp: {
