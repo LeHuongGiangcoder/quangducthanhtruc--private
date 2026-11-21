@@ -4,48 +4,148 @@ import Image from "next/image";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 
 import { useExperience } from "@/components/experience/ExperienceProvider";
-import { Layer, Stage } from "@/components/ui/Stage";
+import { Stage } from "@/components/ui/Stage";
+import type { ElementName } from "@/content/assets";
 import { couple, intro } from "@/content/client";
-import { background, element } from "@/lib/assets";
 import { motion } from "@/content/theme";
+import { background, element } from "@/lib/assets";
 
-/** Hai cánh cửa phủ khít ô cửa sáng trên nền (x 146–964, y 297–1621 của 1080 × 1920). */
-const DOOR = { y: 271, w: 429, leftX: 126 };
-/** Mép trong của hai file cửa trong suốt ~4px — gối hai cánh lên nhau để khép kín, không lộ khe sáng. */
-const DOOR_OVERLAP = 8;
-/** Đường nối hai cánh, nơi vệt sáng lọt qua. */
-const SEAM_X = DOOR.leftX + DOOR.w - DOOR_OVERLAP / 2;
+/**
+ * Toạ độ đọc thẳng trên bộ tách layer của khách (khổ 3544 × 7678, xem
+ * brand/source/intro-layers). Mỗi lớp: góc trên-trái + bề rộng.
+ */
+const STAGE = { w: 3544, h: 7678 };
+const DOORS = { y: 1251, w: 1695, rightX: 1849 };
+/** Khe sáng giữa hai cánh cửa. */
+const SEAM = { x: 1695, w: 154 };
+const CTA = { x: 1291, y: 6231, w: 968 };
 
 const ms = (value: string) => Number.parseInt(value, 10);
 
-type Phase = "idle" | "opening" | "done";
+/** Ba mốc của cú mở thiệp, tính từ lúc chạm — CSS đọc lại qua biến `--gate-*-at`. */
+const doorsAt = ms(motion.gateClear) * 0.45;
+const zoomAt = doorsAt + ms(motion.gateDoors) * 0.32;
+const blurAt = zoomAt + ms(motion.gateZoom) * 0.55;
+
+/** Ảnh phải tải xong trước khi màn mở thiệp hiện lên, để không lớp nào hiện trễ. */
+const CRITICAL: ElementName[] = [
+  "intro-door-left",
+  "intro-door-right",
+  "intro-sleeve",
+  "intro-card",
+  "intro-names",
+  "intro-flowers-left",
+  "intro-flowers-right",
+];
+
+type Phase = "loading" | "idle" | "opening" | "done";
+
+/** Kiểu hiện lên lúc vào trang và kiểu rút đi lúc mở thiệp — xem `.gate-in` / `[data-exit]`. */
+type Enter = "rise" | "fall" | "focus" | "bloom-left" | "bloom-right";
+type Exit = "fade" | "drop" | "part-left" | "part-right" | "float";
 
 /**
- * Màn mở thiệp — sân khấu rèm nhung, hai cánh cửa đỏ khép, hai chùm hoa hai
- * bên, tên cặp đôi chữ vàng trên cửa. Dàn theo mockup khổ 1080 × 1920.
+ * Một lớp ảnh của màn mở thiệp. Lớp ngoài giữ vị trí và nhận chuyển động rút
+ * đi, lớp trong nhận chuyển động hiện lên — tách hai thẻ để khách bấm mở giữa
+ * chừng thì hai chuyển động cộng vào nhau chứ không giật.
+ */
+function Art({
+  name,
+  x,
+  y,
+  w,
+  enter,
+  at = 0,
+  exit,
+  outAt = 0,
+}: {
+  name: ElementName;
+  x: number;
+  y: number;
+  w: number;
+  enter: Enter;
+  /** Mốc bắt đầu hiện, theo phần của `motion.gateEnter` (0–1). */
+  at?: number;
+  exit: Exit;
+  /** Mốc bắt đầu rút, theo phần của `motion.gateClear` (0–1). */
+  outAt?: number;
+}) {
+  const art = element(name);
+  if (!art) return null;
+  return (
+    <div
+      aria-hidden
+      data-exit={exit}
+      className="stage-layer pointer-events-none select-none"
+      style={{ "--x": x, "--y": y, "--w": w, "--out-at": outAt } as CSSProperties}
+    >
+      <div className="gate-in" data-in={enter} style={{ "--in-at": at } as CSSProperties}>
+        <Image
+          src={art.src}
+          alt=""
+          width={art.width ?? 800}
+          height={art.height ?? 800}
+          priority
+          unoptimized
+          draggable={false}
+          className="h-auto w-full"
+        />
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Màn mở thiệp — ô cửa đỏ khép hờ, khe sáng giữa hai cánh, tấm thiệp kem đặt
+ * trong bao đỏ, hai chùm hoa rum ở chân. Dàn từ bộ tách layer của khách.
+ *
+ * Vào trang: nền hiện dần, monogram hạ xuống, bao thiệp rồi tấm thiệp trồi
+ * lên, chữ lần lượt rõ nét, hai chùm hoa nở vào từ hai góc. Khe cửa thở nhẹ.
  *
  * Bấm "Mở thiệp":
  *   1. nhạc bật ngay trong cú chạm (trình duyệt chỉ cho phát nhạc như vậy);
- *   2. chữ mờ đi, cửa hé một khe — vệt sáng vàng lọt qua — rồi hai cánh từ
- *      từ xoay vào trong quanh bản lề mép ngoài, ánh vàng sau cửa sáng dần;
- *   3. cửa đang mở thì sân khấu đã tiến dần vào ô cửa sáng;
- *   4. gần cuối cú tiến, cả màn nhoè đi và tan — hero hiện ra từ chỗ nhoè.
+ *   2. chữ tan, tấm thiệp nhún nhẹ rồi trượt xuống, hai chùm hoa dạt ra;
+ *   3. khe sáng loé lên, hai cánh cửa từ từ mở vào trong, ánh sáng tràn ra;
+ *   4. sân khấu tiến dần vào ô sáng, rồi cả màn nhoè đi — hero hiện từ chỗ nhoè.
  *
- * Toàn bộ chuyển động là CSS transition theo `data-phase` (xem `.gate` trong
- * globals.css), thời lượng lấy từ `motion.gateDoors` / `gateZoom` / `gateBlur`.
- * Ai bật giảm chuyển động thì bỏ qua hiệu ứng, vào thẳng hero.
+ * Mọi chuyển động là CSS theo `data-phase` (`.gate` trong globals.css), thời
+ * lượng lấy từ `motion.gate*` trong theme.ts. Ai bật giảm chuyển động thì vào
+ * thẳng hero.
  */
 export function Intro() {
   const { opened, open, revealHero } = useExperience();
-  const [phase, setPhase] = useState<Phase>("idle");
+  const [phase, setPhase] = useState<Phase>("loading");
   const timers = useRef<number[]>([]);
+
+  useEffect(() => {
+    let cancelled = false;
+    const ready = () => {
+      if (!cancelled) setPhase((p) => (p === "loading" ? "idle" : p));
+    };
+    const srcs = [background("intro-hall"), ...CRITICAL.map(element)]
+      .filter((a) => a !== null)
+      .map((a) => a.src);
+    Promise.all(
+      srcs.map((src) => {
+        const img = new window.Image();
+        img.src = src;
+        return img.decode().catch(() => undefined);
+      }),
+    ).then(ready);
+    // Mạng chậm thì không bắt khách chờ mãi — hiện với những gì đã có
+    const fallback = window.setTimeout(ready, 3500);
+    return () => {
+      cancelled = true;
+      window.clearTimeout(fallback);
+    };
+  }, []);
 
   useEffect(() => () => timers.current.forEach((t) => window.clearTimeout(t)), []);
 
-  if (phase === "done" || (opened && phase === "idle")) return null;
+  if (phase === "done" || (opened && phase !== "opening")) return null;
 
-  const stage = background("gate-stage");
-  const monogram = element("monogram-cream");
+  const hall = background("intro-hall");
+  const cta = element("intro-cta-label");
 
   function handleOpen() {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -56,10 +156,6 @@ export function Intro() {
 
     open({ reveal: false });
     setPhase("opening");
-
-    // Cùng hai mốc với `--gate-zoom-at` / `--gate-blur-at` trong globals.css
-    const zoomAt = ms(motion.gateDoors) * 0.35;
-    const blurAt = zoomAt + ms(motion.gateZoom) * 0.6;
     timers.current.push(
       // Hero bắt đầu hiện đúng lúc màn cửa nhoè đi — hai lớp nhoè chéo nhau
       window.setTimeout(revealHero, blurAt),
@@ -75,97 +171,107 @@ export function Intro() {
       aria-modal="true"
       aria-label={`${intro.lead} ${couple.groom} & ${couple.bride}`}
       className="gate text-tone-fg"
+      style={
+        {
+          "--gate-doors-at": `${doorsAt}ms`,
+          "--gate-zoom-at": `${zoomAt}ms`,
+          "--gate-blur-at": `${blurAt}ms`,
+        } as CSSProperties
+      }
     >
-      <Stage width={1080} height={1920} className="gate-scene">
-        {stage ? (
-          <Image src={stage.src} alt="" fill priority unoptimized className="object-cover" />
-        ) : null}
+      <div className="gate-scene">
+        <Stage width={STAGE.w} height={STAGE.h} className="gate-stage">
+          {/* Nền nhung + lòng cửa sáng. Ảnh này dựng từ layer 3 của khách,
+              phần dưới hai cánh cửa thay bằng ánh sáng để cửa mở ra là sáng */}
+          {hall ? (
+            <Image src={hall.src} alt="" fill priority unoptimized className="object-cover" />
+          ) : null}
 
-        {/* Ánh vàng sau cánh cửa — nằm dưới hai cánh, sáng dần lên khi cửa mở */}
-        <Layer x={146} y={297} w={818}>
+          {/* Ánh sáng tràn ra khi cửa mở — rọi lên cả nền, nằm dưới hai cánh */}
           <div aria-hidden className="gate-glow" />
-        </Layer>
 
-        {(["left", "right"] as const).map((side) => {
-          const art = element(side === "left" ? "gate-door-left" : "gate-door-right");
-          if (!art) return null;
-          return (
+          {(["left", "right"] as const).map((side) => {
+            const art = element(side === "left" ? "intro-door-left" : "intro-door-right");
+            if (!art) return null;
+            return (
+              <div
+                key={side}
+                aria-hidden
+                data-side={side}
+                className="stage-layer gate-door"
+                style={
+                  {
+                    "--x": side === "left" ? 0 : DOORS.rightX,
+                    "--y": DOORS.y,
+                    "--w": DOORS.w,
+                  } as CSSProperties
+                }
+              >
+                <Image
+                  src={art.src}
+                  alt=""
+                  width={art.width ?? 763}
+                  height={art.height ?? 2715}
+                  priority
+                  unoptimized
+                  draggable={false}
+                  className="h-auto w-full"
+                />
+              </div>
+            );
+          })}
+
+          {/* Khe sáng thở nhẹ khi chờ, loé lên lúc cửa bắt đầu mở */}
+          <div
+            aria-hidden
+            className="stage-layer gate-beam"
+            style={{ "--x": SEAM.x - 200, "--y": DOORS.y, "--w": SEAM.w + 400 } as CSSProperties}
+          />
+
+          <Art name="intro-monogram" x={1312} y={286} w={919} enter="fall" at={0.12} exit="float" outAt={0.35} />
+          <Art name="intro-sleeve" x={0} y={2312} w={STAGE.w} enter="rise" at={0.18} exit="drop" outAt={0.06} />
+          <Art name="intro-card" x={0} y={1783} w={STAGE.w} enter="rise" at={0.26} exit="drop" />
+          <Art name="intro-lead" x={1416} y={2436} w={683} enter="focus" at={0.44} exit="fade" />
+          <Art name="intro-names" x={742} y={3498} w={2090} enter="focus" at={0.52} exit="fade" outAt={0.04} />
+          <Art name="intro-note" x={1158} y={5679} w={1195} enter="focus" at={0.62} exit="fade" outAt={0.08} />
+
+          {cta ? (
             <div
-              key={side}
-              aria-hidden
-              data-side={side}
-              className="stage-layer gate-door"
-              style={
-                {
-                  "--x": side === "left" ? DOOR.leftX : DOOR.leftX + DOOR.w - DOOR_OVERLAP,
-                  "--y": DOOR.y,
-                  "--w": DOOR.w,
-                } as CSSProperties
-              }
+              className="stage-layer"
+              data-exit="fade"
+              style={{ "--x": CTA.x, "--y": CTA.y, "--w": CTA.w, "--out-at": 0 } as CSSProperties}
             >
-              <Image
-                src={art.src}
-                alt=""
-                width={art.width ?? 429}
-                height={art.height ?? 1376}
-                priority
-                unoptimized
-                className="h-auto w-full"
-              />
+              <div className="gate-in" data-in="focus" style={{ "--in-at": 0.7 } as CSSProperties}>
+                <button
+                  type="button"
+                  onClick={handleOpen}
+                  disabled={phase !== "idle"}
+                  className="gate-cta"
+                >
+                  <Image
+                    src={cta.src}
+                    alt={intro.cta}
+                    width={cta.width ?? 436}
+                    height={cta.height ?? 128}
+                    priority
+                    unoptimized
+                    draggable={false}
+                    className="h-auto w-full"
+                  />
+                </button>
+              </div>
             </div>
-          );
-        })}
+          ) : null}
 
-        {/* Vệt sáng lọt qua khe cửa — trên hai cánh, dưới chữ và hoa */}
-        <Layer x={SEAM_X - 60} y={DOOR.y} w={120} z={1}>
-          <div aria-hidden className="gate-beam" />
-        </Layer>
+          <Art name="intro-flowers-right" x={902} y={6041} w={2642} enter="bloom-right" at={0.3} exit="part-right" outAt={0.1} />
+          <Art name="intro-flowers-left" x={0} y={6401} w={1219} enter="bloom-left" at={0.36} exit="part-left" outAt={0.14} />
 
-        {monogram ? (
-          <Layer x={474} y={70} w={132} className="gate-fade">
-            <Image
-              src={monogram.src}
-              alt=""
-              width={monogram.width ?? 500}
-              height={monogram.height ?? 389}
-              priority
-              unoptimized
-              className="h-auto w-full"
-            />
-          </Layer>
-        ) : null}
-
-        <Layer x={90} y={500} w={900} z={2} className="gate-fade">
-          <h1 className="flex flex-col items-center text-center">
-            <span className="font-display text-stage-md text-cream">{intro.lead}</span>
-            <span className="mt-stage font-script text-stage-4xl text-gold-light text-glow-gold">
-              {couple.groom}
-            </span>
-            {/* "&" đậm nét kiểu serif như mockup — nét script của Pinyon quá mảnh ở cỡ này */}
-            <span className="font-display text-stage-xl italic text-gold-light text-glow-gold">&amp;</span>
-            <span className="font-script text-stage-4xl text-gold-light text-glow-gold">
-              {couple.bride}
-            </span>
+          {/* Chữ trên thiệp là ảnh của thiết kế — bản chữ thật cho trình đọc màn hình */}
+          <h1 className="sr-only">
+            {intro.lead} {couple.groom} &amp; {couple.bride}. {intro.note}
           </h1>
-        </Layer>
-
-        <Layer x={330} y={1340} w={420} z={2} className="gate-fade">
-          <div className="flex flex-col items-center gap-stage text-center">
-            <p className="font-display text-stage-sm text-cream">{intro.note}</p>
-            <button
-              type="button"
-              onClick={handleOpen}
-              disabled={phase !== "idle"}
-              className="min-h-tap w-[78%] rounded-btn border border-tone-line bg-wine-soft font-display text-stage-md uppercase text-cream shadow-lift transition-transform duration-200 ease-glow hover:[@media(hover:hover)]:-translate-y-px"
-            >
-              {intro.cta}
-            </button>
-          </div>
-        </Layer>
-
-        <Layer name="gate-flowers-left" x={-10} y={980} w={440} z={3} priority />
-        <Layer name="gate-flowers-right" x={650} y={990} w={440} z={3} priority />
-      </Stage>
+        </Stage>
+      </div>
     </div>
   );
 }
