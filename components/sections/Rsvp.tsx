@@ -92,7 +92,7 @@ export function Rsvp() {
     <SectionWrapper section="rsvp" width="prose" labelledBy="rsvp-heading">
       {/* Tấm giấy kem: đỉnh vòm của bộ nhận diện và thân là một khối liền, có
           vân giấy; form bên trong đi tông sáng. Section không có đầu mục riêng
-          — tiêu đề "R.S.V.P" nằm ngay trong lòng vòm, `--sheet-cap-inset` cho
+          — tiêu đề "Dear," nằm ngay trong lòng vòm, `--sheet-cap-inset` cho
           nó bắt đầu từ 30% chiều cao vòm, chỗ vòm đã đủ rộng. */}
       <Reveal className="paper-sheet">
         <div

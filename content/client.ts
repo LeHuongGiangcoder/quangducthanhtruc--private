@@ -354,7 +354,7 @@ export const rsvp = {
    * Tiêu đề hoa mỹ ở đầu tấm giấy kem, cùng bậc chữ với tiêu đề các section
    * khác (`<Title>`). Chỉ chữ Latin không dấu.
    */
-  heading: "R.S.V.P",
+  heading: "Dear,",
   title: "Quý khách sẽ đến chứ?",
   note: "Nhắn giúp chúng mình một tiếng để gia đình chuẩn bị chỗ ngồi chu đáo.",
   deadline: "Vui lòng phản hồi trước ngày 10 . 12 . 2026",
