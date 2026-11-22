@@ -222,10 +222,9 @@ export const intro = {
 /* ------------------------------------------------------------------- HERO */
 
 export const hero = {
-  /** Ảnh cặp đôi đã nằm sẵn trong khung của bộ nhận diện (brand/elements/hero-frame). */
-  photoAlt: "Quang Đức và Thanh Trúc trong khung ảnh Wedding Day",
-  /** Hai dòng mời đặt ở chân ảnh. */
-  invite: ["Trân trọng kính mời bạn đến", "chung vui cùng chúng mình"],
+  /** Ảnh cặp đôi tràn kín màn hình — ảnh dọc 2:3, xem public/images/README.md. */
+  photo: "/images/hero.jpg",
+  photoAlt: "Thanh Trúc và Quang Đức khoe nhẫn cưới trước tấm rèm",
   groomLabel: "chú rể",
   brideLabel: "cô dâu",
 };
