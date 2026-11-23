@@ -39,6 +39,8 @@ export const palette = {
   night: "#170409",
   /** Nền thẻ, khung ảnh */
   surface: "#fffaf2",
+  /** Giấy xám ngà dưới tấm rèm của Love Story — lấy đúng màu nền mockup */
+  mist: "#f3f0f0",
   line: "#dcbf98",
 } as const;
 
@@ -62,6 +64,15 @@ export const tones = {
     muted: palette.inkSoft,
     accent: palette.gold,
     line: palette.line,
+    contrast: palette.wine,
+  },
+  /** Nền giấy xám ngà, chữ đỏ rượu — Love Story */
+  mist: {
+    bg: palette.mist,
+    fg: palette.ink,
+    muted: palette.inkSoft,
+    accent: palette.gold,
+    line: palette.ink,
     contrast: palette.wine,
   },
   dark: {
@@ -220,18 +231,13 @@ export const motion = {
   durationBase: "420ms",
   durationSlow: "900ms",
   /**
-   * Màn mở thiệp (components/sections/Intro.tsx), bốn nhịp gối lên nhau:
-   *   gateEnter — lúc vào trang: thiệp, chữ, hoa lần lượt hiện lên;
-   *   gateClear — bấm "Mở thiệp": tấm thiệp trượt xuống, hai chùm hoa dạt ra;
-   *   gateDoors — giữa nhịp trên, hai cánh cửa từ từ mở vào trong, ánh sáng tràn ra;
-   *   gateZoom  — cửa mở được ~1/3 thì sân khấu tiến dần vào ô sáng;
-   *   gateBlur  — gần cuối cú tiến, cả màn nhoè đi và tan, hero hiện ra từ chỗ nhoè.
+   * Màn mở thiệp, ba nhịp gối lên nhau:
+   *   cửa mở chậm → khi cửa mở được ~1/3 thì sân khấu bắt đầu tiến dần vào ô
+   *   cửa → gần cuối cú tiến, cả màn nhoè đi và tan, hero hiện ra từ chỗ nhoè.
    */
-  gateEnter: "2600ms",
-  gateClear: "1500ms",
-  gateDoors: "3400ms",
-  gateZoom: "4400ms",
-  gateBlur: "1900ms",
+  gateDoors: "4200ms",
+  gateZoom: "5000ms",
+  gateBlur: "2200ms",
   /** GSAP đọc hai số này trong components/ui/Motion.tsx */
   revealDistance: 28,
   revealStagger: 0.12,
@@ -291,8 +297,6 @@ export function themeCssVars(): string {
   push("duration-fast", motion.durationFast);
   push("duration-base", motion.durationBase);
   push("duration-slow", motion.durationSlow);
-  push("gate-enter", motion.gateEnter);
-  push("gate-clear", motion.gateClear);
   push("gate-doors", motion.gateDoors);
   push("gate-zoom", motion.gateZoom);
   push("gate-blur", motion.gateBlur);
