@@ -6,16 +6,20 @@ import { SectionWrapper } from "@/components/ui/SectionWrapper";
 import { loveStory } from "@/content/client";
 import { element } from "@/lib/assets";
 
+/** Chiều cao ảnh story-finale (1080 × 1195) và mép trên đoạn chữ, đơn vị Stage. */
+const FINALE_HEIGHT = 298.75;
+const FINALE_TEXT_TOP = 205;
+
 /**
  * Love Story, dàn theo mockup 1080 × 4394, ba khúc:
  *
- *   1. Rèm nhung + khung vàng + "Our Love Story / Đức & Trúc" + câu dẫn —
- *      một ảnh vẽ sẵn trong Stage.
- *   2. Ba chương trên nền giấy xám ngà (tông `mist`): cụm ảnh polaroid và chữ
- *      xen kẽ trái — phải. Khúc này chạy theo dòng chảy chứ không đặt toạ độ,
+ *   1. Rèm nhung + "Our Love Story / Đức & Trúc" + câu dẫn — một ảnh vẽ sẵn
+ *      trong Stage (chữ thật nằm ở h2 và câu dẫn sr-only phía trên).
+ *   2. Ba đoạn kể trên nền giấy xám ngà (tông `mist`), nối nhau như một mạch
+ *      truyện — không nhãn hay tên chương: cụm ảnh polaroid và chữ xen kẽ
+ *      trái — phải. Khúc này chạy theo dòng chảy chứ không đặt toạ độ,
  *      vì chữ thật của cặp đôi dài hơn chữ mẫu và phải tự đẩy chiều cao.
- *   3. Chương cuối trên nền đỏ rượu — tiêu đề và ba ảnh vẽ sẵn, đoạn chữ
- *      dưới ảnh là chữ thật.
+ *   3. Đoạn kết trên nền đỏ rượu — ba ảnh vẽ sẵn, đoạn chữ dưới ảnh là chữ thật.
  */
 export function LoveStory() {
   const { chapters, finale } = loveStory;
@@ -27,8 +31,8 @@ export function LoveStory() {
       </h2>
       <p className="sr-only">{loveStory.quote}</p>
 
-      <Stage width={270} height={400}>
-        <Layer name="story-curtain" alt={loveStory.photoAlt} x={0} y={0} w={270} />
+      <Stage width={270} height={330}>
+        <Layer name="story-curtain" x={0} y={0} w={270} />
       </Stage>
 
       <ol className="stage-flow flex flex-col gap-block px-gutter pt-stack pb-section">
@@ -37,7 +41,7 @@ export function LoveStory() {
           const photoLeft = i % 2 === 0;
 
           return (
-            <li key={chapter.label} className="grid grid-cols-2 items-center gap-stack">
+            <li key={chapter.photo} className="grid grid-cols-2 items-center gap-stack">
               {photo ? (
                 <Reveal className={photoLeft ? "order-1" : "order-2"}>
                   <Image
@@ -52,26 +56,20 @@ export function LoveStory() {
               ) : null}
 
               <Reveal
-                as="article"
+                as="p"
                 delay={120}
-                className={`flex flex-col gap-stage font-display ${photoLeft ? "order-2" : "order-1"}`}
+                className={`font-display text-stage-sm ${photoLeft ? "order-2" : "order-1"}`}
               >
-                <p className="text-stage-lg italic">{chapter.label}</p>
-                <span aria-hidden className="h-px w-3/4 bg-tone-line" />
-                <h3 className="mt-stage text-stage-md uppercase">{chapter.title}</h3>
-                <p className="text-stage-sm text-tone-muted">{chapter.body}</p>
+                {chapter.body}
               </Reveal>
             </li>
           );
         })}
       </ol>
 
-      <Stage width={270} height={333.75}>
+      <Stage width={270} height={FINALE_HEIGHT}>
         <Layer name="story-finale" alt={finale.alt} x={0} y={0} w={270} />
-        <h3 className="sr-only">
-          {finale.label}: {finale.title}
-        </h3>
-        <Layer x={30} y={240} w={210} z={2} reveal>
+        <Layer x={30} y={FINALE_TEXT_TOP} w={210} z={2} reveal>
           <p data-tone="dark" className="text-center font-display text-stage-sm text-tone-fg">
             {finale.body}
           </p>

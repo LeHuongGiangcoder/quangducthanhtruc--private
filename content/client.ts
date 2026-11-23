@@ -236,48 +236,40 @@ export const hero = {
 
 export const loveStory = {
   /**
-   * Phần đầu section — rèm nhung, khung vàng có ảnh, "Our Love Story", tên
+   * Phần đầu section — rèm nhung, "Our Love Story", tên
    * "Đức & Trúc" và câu dẫn — là một ảnh vẽ sẵn (brand/elements/story-curtain).
    * Chữ ở đây chỉ cho trình đọc màn hình.
    */
   title: "Our Love Story",
   names: "Đức & Trúc",
-  photoAlt: "Thanh Trúc và Quang Đức nắm tay trong khung ảnh vàng giữa tấm rèm nhung đỏ",
   quote: "Mỗi câu chuyện tình yêu đều có một khởi đầu riêng. Và đây là câu chuyện của chúng mình.",
   /**
-   * Ba chương xen kẽ ảnh trái — chữ phải. `photo` là cụm ảnh polaroid + tấm
+   * Ba đoạn kể nối nhau như một mạch truyện, không nhãn chương hay tên chương,
+   * xen kẽ ảnh trái — chữ phải. `photo` là cụm ảnh polaroid + tấm
    * giấy đỏ + hoa ly đã ráp sẵn trong brand/elements.
    */
   chapters: [
     {
-      label: "chapter 1",
-      title: "Những ánh nhìn thoáng qua",
       body: "Trúc và Đức biết nhau từ những năm học trò ở trường Bùi Thị Xuân: hai người bạn khác lớp, vài lần kiếm cớ gặp gỡ vu vơ, những cái vẫy tay qua khung cửa lớp. Một lời kết bạn từ Đức mở đầu cho một mối quan hệ êm đềm mà bền bỉ. Rồi Đức đi du học, mỗi người một bước chuyển của riêng mình.",
       photo: "story-photo-1",
       alt: "Hai đứa đi ngang nhau trên hành lang trường",
     },
     {
-      label: "chapter 2",
-      title: "5 năm yêu xa",
       body: "Tưởng chỉ dừng lại ở tình bạn tuổi học trò, Đức và Trúc bất ngờ kết nối lại vào Tết năm 2016. Những cuộc trò chuyện lệch hai múi giờ, những cuộc gọi video cách nửa vòng trái đất, những lưu luyến trong buổi hẹn cuối mỗi dịp hè. Năm năm yêu xa trôi qua với thật nhiều kỉ niệm.",
       photo: "story-photo-2",
       alt: "Đức và Trúc nắm tay nhau bên khung cửa lớp học",
     },
     {
-      label: "chapter 3",
-      title: "Cuộc gặp lại & sự dung hoà",
       body: "Rồi thêm năm năm nữa cùng nhau trưởng thành, chứng kiến phiên bản hoàn thiện hơn mỗi ngày của nhau. Sau 13 năm quen biết và hơn 10 năm yêu thương, Trúc và Đức cùng mở một cánh cửa mới, trong phiên bản đặc biệt nhất của chính mình: cô dâu và chú rể.",
       photo: "story-photo-3",
       alt: "Cô dâu chú rể nắm tay giữa hai khóm hoa",
     },
   ] as const,
   /**
-   * Chương cuối trên nền đỏ rượu: tiêu đề và ba ảnh vườn đã vẽ sẵn trong
-   * brand/elements/story-finale, chỉ đoạn chữ dưới ảnh là chữ thật.
+   * Đoạn kết trên nền đỏ rượu: ba ảnh vườn đã vẽ sẵn trong
+   * brand/elements/story-finale, đoạn chữ dưới ảnh là chữ thật.
    */
   finale: {
-    label: "chapter 4",
-    title: "A decade of quiet love & timeless harmony",
     /** NHÁP — chờ cặp đôi gửi đoạn chữ chương 4. Giữ khoảng 4 dòng để vừa khung. */
     body: "Hơn mười năm thương nhau lặng lẽ, Trúc và Đức đã cùng đi qua đủ những mùa thanh xuân. Từ hôm nay, chúng mình viết tiếp câu chuyện ấy dưới cùng một mái nhà.",
     alt: "Ba ảnh cưới trong vườn: cô dâu ngoái lại, hai người ngồi trên lan can đá, nắm tay đi bên bức tường đá",
