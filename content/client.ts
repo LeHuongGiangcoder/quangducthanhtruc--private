@@ -115,10 +115,6 @@ export const design: Record<SectionId, SectionDesign> = {
   gallery: {
     anchor: "gallery",
     tone: "dark",
-    decor: [
-      { name: "bouquet-right", at: "-top-[2%] -right-[10%] w-[34%]", parallax: 12 },
-      { name: "bouquet-left", at: "-bottom-[3%] -left-[12%] w-[34%]", parallax: 18 },
-    ],
   },
   agenda: {
     anchor: "agenda",
