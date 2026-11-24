@@ -2,6 +2,7 @@ import Image from "next/image";
 
 import { Layer, Stage } from "@/components/ui/Stage";
 import { SectionWrapper } from "@/components/ui/SectionWrapper";
+import { Title } from "@/components/ui/Heading";
 import { couple, hero } from "@/content/client";
 
 /**
@@ -41,10 +42,13 @@ export function Hero() {
         <div className="absolute inset-x-0 bottom-0 h-1/2 bg-linear-to-t from-tone-bg via-tone-bg/50 to-transparent" />
       </div>
 
-      <div className="pt-section">
-        <Stage width={270} height={51}>
-          <Layer name="wedding-day" alt="Wedding Day" x={52} y={0} w={166} reveal="hero" revealDelay={150} />
-        </Stage>
+      {/* Chữ đỏ rượu trên rèm kem: mượn tông light để nét đậm của Title viền
+          màu mực, không phải màu kem + quầng vàng của tông dark. Đặt sát mép
+          trên để không đè lên đầu chú rể. */}
+      <div data-tone="light" className="pt-stack px-gutter text-center text-tone-fg">
+        <div data-hero data-reveal-delay={150}>
+          <Title as="p">Wedding Day</Title>
+        </div>
       </div>
 
       <div className="pb-section">
