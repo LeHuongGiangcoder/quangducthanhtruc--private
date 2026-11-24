@@ -147,6 +147,8 @@ export const design: Record<SectionId, SectionDesign> = {
   rsvp: {
     anchor: "rsvp",
     tone: "dark",
+    background: "damask-wine",
+    overlay: 0,
     decor: [{ name: "bouquet-right", at: "-top-[3%] -right-[6%] w-[30%]" }],
   },
   thankYou: { anchor: "thank-you", tone: "dark" },
@@ -415,6 +417,8 @@ export const thankYou = {
   ],
   /** Trang 2: lưới 3×3 ảnh, ô giữa là lời cảm ơn. */
   grid: "/images/thankyou-grid.webp",
+  /** Nền lụa hiện qua viền và ô giữa (đã khoét trong suốt) của lưới */
+  gridBackground: "/back.png",
   gridAlt: "Tám khoảnh khắc trong bộ ảnh cưới của Quang Đức và Thanh Trúc",
   /** Ô giữa: một chữ hoa mỹ (Latin, không dấu) và một dòng chữ hoa. */
   /** Tiêu đề hoa mỹ ở ô giữa lưới ảnh, mỗi phần tử một dòng. */

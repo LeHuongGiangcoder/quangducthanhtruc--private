@@ -71,6 +71,8 @@ export function ThankYouGrid() {
   return (
     <SectionWrapper section="thankYouGrid" flush width="bleed" labelledBy="thank-you-grid-title">
       <Stage width={1080} height={1371}>
+        {/* Viền và ô giữa của lưới đã khoét trong suốt: nền lụa đỏ hiện qua */}
+        <Image src={thankYou.gridBackground} alt="" fill unoptimized className="object-cover" />
         <Image
           src={thankYou.grid}
           alt={thankYou.gridAlt}
