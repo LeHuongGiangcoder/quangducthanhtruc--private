@@ -202,8 +202,8 @@ export const venue = {
   name: "Gem Center",
   hall: "POLLUX – tầng 3",
   address: "8 Nguyễn Bỉnh Khiêm, P. Sài Gòn, TP. HCM",
-  /** PLACEHOLDER — thay bằng link Maps ghim sẵn của sảnh. */
-  mapUrl: "https://www.google.com/maps",
+  mapUrl:
+    "https://www.google.com/maps/place/GEM+Center/@10.7901279,106.6997917,970m/data=!3m2!1e3!4b1!4m6!3m5!1s0x317528b4d5ef2cff:0x7119dc5f357813ee!8m2!3d10.7901279!4d106.702372!16s%2Fg%2F11b7hnnvfm",
   mapLabel: "Xem bản đồ",
   note: "Kính mời quý khách tới sớm ít phút để kịp chụp hình cùng gia đình.",
 };
