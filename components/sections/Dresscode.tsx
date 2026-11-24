@@ -16,16 +16,18 @@ import { dresscode } from "@/content/client";
 export function Dresscode() {
   return (
     <SectionWrapper section="dresscode" flush width="bleed" labelledBy="dresscode-title">
-      <Stage width={270} height={610}>
+      {/* Cao 662 = đáy chùm hoa phải (400 + 262): tam giác đỏ (đáy 654) và
+          hoa hiện trọn, không bị xén ở mép dưới section */}
+      <Stage width={270} height={662}>
         {/* Thoi đỏ và hai cụm hoa nấp sau tấm kem: chỉ lộ phần nằm ngoài mép kem */}
-        <Layer name="diamond-flap" x={127} y={25.5} w={143.3} z={1} />
-        <Layer name="florals-left" x={-6} y={20} w={120} z={1} parallax={8} />
-        <Layer name="bouquet-right" x={160} y={420} w={115} z={1} />
-        <Layer name="cream-panel-short" x={-30} y={90} w={330} z={2} />
-        <Layer name="drape-left" x={0} y={430} w={120} z={3} />
+        <Layer name="diamond-flap" x={127} y={5.5} w={143.3} z={1} />
+        <Layer name="florals-left" x={-6} y={0} w={120} z={1} parallax={8} />
+        <Layer name="bouquet-right" x={160} y={400} w={115} z={1} />
+        <Layer name="cream-panel-short" x={-30} y={70} w={330} z={2} />
+        <Layer name="drape-left" x={0} y={410} w={120} z={3} />
 
         {/* Chữ trên tấm kem theo tông sáng: đỏ rượu trên nền kem */}
-        <Layer x={40} y={146} w={190} z={4} reveal>
+        <Layer x={40} y={126} w={190} z={4} reveal>
           <div
             data-tone="light"
             className="flex flex-col items-center text-center font-display text-tone-fg"
