@@ -42,6 +42,8 @@ export const palette = {
   /** Giấy xám ngà dưới tấm rèm của Love Story — lấy đúng màu nền mockup */
   mist: "#f3f0f0",
   line: "#dcbf98",
+  /** Sợi chỉ đỏ nối các ảnh Love Story — đỏ tươi hơn wine để còn thấy trên nền đỏ rượu */
+  thread: "#c0262d",
 } as const;
 
 /**

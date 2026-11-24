@@ -519,6 +519,14 @@ h4 {
     inset: 10% 9% -3% -9%;
   }
 
+  /* Sợi chỉ đỏ — `d` và độ dài nét do Motion.tsx tính lúc chạy */
+  .thread-path {
+    fill: none;
+    stroke: var(--t-color-thread);
+    stroke-width: 1.6px;
+    stroke-linecap: round;
+  }
+
   /*
     Mốc sáng lên khi cuộn tới — Motion.tsx đặt `data-lit` lên `[data-light]`
     khi mốc chạm ~60% màn hình, gỡ ra khi cuộn ngược lên. Chưa tới thì chữ về

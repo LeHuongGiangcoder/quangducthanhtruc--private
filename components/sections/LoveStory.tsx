@@ -25,7 +25,12 @@ export function LoveStory() {
   const { chapters, finale } = loveStory;
 
   return (
-    <SectionWrapper section="loveStory" flush width="bleed" labelledBy="love-story-title">
+    <SectionWrapper
+      section="loveStory"
+      flush
+      width="bleed"
+      labelledBy="love-story-title"
+    >
       <h2 id="love-story-title" className="sr-only">
         {loveStory.title} — {loveStory.names}
       </h2>
@@ -35,55 +40,83 @@ export function LoveStory() {
         <Layer name="story-curtain" x={0} y={0} w={270} />
       </Stage>
 
-      <ol className="stage-flow flex flex-col gap-block px-gutter pt-stack pb-section">
-        {chapters.map((chapter, i) => {
-          const photo = element(chapter.photo);
-          const photoLeft = i % 2 === 0;
+      {/*
+        Sợi chỉ đỏ: đi sau ba tấm polaroid (vào ở mép trên, ra ở mép dưới), võng
+        hình chữ S giữa hai ảnh, rồi xuống tới cụm ảnh của đoạn kết. Đường cong
+        dựng lúc chạy từ vị trí thật của các `[data-thread-pin]`, và hiện dần
+        theo nhịp cuộn — xem `[data-thread]` trong Motion.tsx.
+      */}
+      <div data-thread className="relative">
+        <svg
+          data-thread-svg
+          aria-hidden
+          className="pointer-events-none absolute inset-0 z-10 size-full overflow-visible"
+        >
+          <path className="thread-path" />
+        </svg>
 
-          return (
-            <li key={chapter.photo} className="grid grid-cols-2 items-center gap-stack">
-              {photo ? (
-                <Reveal className={photoLeft ? "order-1" : "order-2"}>
-                  {/* Polaroid viền mỏng, xoay so le trái — phải; thẻ đỏ lệch phía sau */}
-                  <div className="relative isolate">
-                    <span
-                      aria-hidden
-                      data-side={photoLeft ? "left" : "right"}
-                      className={`polaroid-backing ${photoLeft ? "rotate-6" : "-rotate-6"}`}
-                    />
-                    <figure className={`polaroid ${photoLeft ? "-rotate-3" : "rotate-3"}`}>
-                      <Image
-                        src={photo.src}
-                        alt={chapter.alt}
-                        width={photo.width ?? 400}
-                        height={photo.height ?? 480}
-                        unoptimized
-                      />
-                    </figure>
-                  </div>
-                </Reveal>
-              ) : null}
+        <ol className="stage-flow relative z-20 flex flex-col gap-block px-gutter pt-stack pb-section">
+          {chapters.map((chapter, i) => {
+            const photo = element(chapter.photo);
+            const photoLeft = i % 2 === 0;
 
-              <Reveal
-                as="p"
-                delay={120}
-                className={`font-display text-stage-sm ${photoLeft ? "order-2" : "order-1"}`}
+            return (
+              <li
+                key={chapter.photo}
+                className="grid grid-cols-2 items-center gap-stack"
               >
-                {chapter.body}
-              </Reveal>
-            </li>
-          );
-        })}
-      </ol>
+                {photo ? (
+                  <Reveal className={photoLeft ? "order-1" : "order-2"}>
+                    {/* Polaroid viền mỏng, xoay so le trái — phải; thẻ đỏ lệch phía sau */}
+                    <div data-thread-pin className="relative isolate">
+                      <span
+                        aria-hidden
+                        data-side={photoLeft ? "left" : "right"}
+                        className={`polaroid-backing ${photoLeft ? "rotate-6" : "-rotate-6"}`}
+                      />
+                      <figure
+                        className={`polaroid ${photoLeft ? "-rotate-3" : "rotate-3"}`}
+                      >
+                        <Image
+                          src={photo.src}
+                          alt={chapter.alt}
+                          width={photo.width ?? 400}
+                          height={photo.height ?? 480}
+                          unoptimized
+                        />
+                      </figure>
+                    </div>
+                  </Reveal>
+                ) : null}
 
-      <Stage width={270} height={FINALE_HEIGHT}>
-        <Layer name="story-finale" alt={finale.alt} x={0} y={0} w={270} />
-        <Layer x={30} y={FINALE_TEXT_TOP} w={210} z={2} reveal>
-          <p data-tone="dark" className="text-center font-display text-stage-sm text-tone-fg">
-            {finale.body}
-          </p>
-        </Layer>
-      </Stage>
+                <Reveal
+                  as="p"
+                  delay={120}
+                  className={`font-display text-stage-sm ${photoLeft ? "order-2" : "order-1"}`}
+                >
+                  {chapter.body}
+                </Reveal>
+              </li>
+            );
+          })}
+        </ol>
+
+        <Stage width={270} height={FINALE_HEIGHT}>
+          <Layer name="story-finale" alt={finale.alt} x={0} y={0} w={270} />
+          {/* Điểm cuối sợi chỉ: khe giữa hai ảnh, ngay mép trên cụm ảnh */}
+          <Layer x={134} y={28.75} w={1}>
+            <span data-thread-pin className="block" />
+          </Layer>
+          <Layer x={30} y={FINALE_TEXT_TOP} w={210} z={2} reveal>
+            <p
+              data-tone="dark"
+              className="text-center font-display text-stage-sm text-tone-fg"
+            >
+              {finale.body}
+            </p>
+          </Layer>
+        </Stage>
+      </div>
     </SectionWrapper>
   );
 }
