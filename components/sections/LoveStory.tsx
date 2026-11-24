@@ -44,14 +44,23 @@ export function LoveStory() {
             <li key={chapter.photo} className="grid grid-cols-2 items-center gap-stack">
               {photo ? (
                 <Reveal className={photoLeft ? "order-1" : "order-2"}>
-                  <Image
-                    src={photo.src}
-                    alt={chapter.alt}
-                    width={photo.width ?? 406}
-                    height={photo.height ?? 440}
-                    unoptimized
-                    className="h-auto w-full"
-                  />
+                  {/* Polaroid viền mỏng, xoay so le trái — phải; thẻ đỏ lệch phía sau */}
+                  <div className="relative isolate">
+                    <span
+                      aria-hidden
+                      data-side={photoLeft ? "left" : "right"}
+                      className={`polaroid-backing ${photoLeft ? "rotate-6" : "-rotate-6"}`}
+                    />
+                    <figure className={`polaroid ${photoLeft ? "-rotate-3" : "rotate-3"}`}>
+                      <Image
+                        src={photo.src}
+                        alt={chapter.alt}
+                        width={photo.width ?? 400}
+                        height={photo.height ?? 480}
+                        unoptimized
+                      />
+                    </figure>
+                  </div>
                 </Reveal>
               ) : null}
 

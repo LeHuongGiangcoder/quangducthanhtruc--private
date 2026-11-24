@@ -493,14 +493,42 @@ h4 {
   }
 
   /*
+    Ảnh in polaroid viền mỏng: giấy trắng ngà, viền đều 3% và đáy dày hơn
+    một chút như ảnh in thật, bóng giấy mềm. Thẻ màu `.polaroid-backing`
+    (tuỳ chọn) nằm sau, xoay lệch, dùng màu contrast của tông.
+  */
+  .polaroid {
+    position: relative;
+    background-color: var(--t-color-surface);
+    padding: 3.5% 3.5% 9%;
+    box-shadow: var(--t-shadow-paper);
+  }
+  .polaroid > img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .polaroid-backing {
+    position: absolute;
+    inset: 10% -9% -3% 9%;
+    z-index: -1;
+    background-color: var(--t-section-contrast);
+  }
+  /* Ảnh nằm bên trái: thẻ lệch về mép trái, không lấn sang cột chữ */
+  .polaroid-backing[data-side="left"] {
+    inset: 10% 9% -3% -9%;
+  }
+
+  /*
     Mốc sáng lên khi cuộn tới — Motion.tsx đặt `data-lit` lên `[data-light]`
     khi mốc chạm ~60% màn hình, gỡ ra khi cuộn ngược lên. Chưa tới thì chữ về
-    màu muted (không hạ opacity), viên thoi về màu gạch; tới rồi thì giờ và
+    màu muted trộn với nền (không hạ opacity), viên thoi về màu gạch; tới rồi thì giờ và
     viên thoi đổi sang màu nhấn có quầng vàng, tiêu đề về màu chữ chính.
   */
   [data-light] .light-key,
   [data-light] .light-title {
-    color: var(--t-section-muted);
+    /* Màu đặc trộn sẵn với nền — nhạt hẳn mà vẫn là một màu, không phải opacity */
+    color: color-mix(in srgb, var(--t-section-muted) 45%, var(--t-section-bg));
     transition:
       color var(--t-duration-slow) var(--t-ease),
       text-shadow var(--t-duration-slow) var(--t-ease);

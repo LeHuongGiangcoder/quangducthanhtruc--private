@@ -252,17 +252,17 @@ export const loveStory = {
   chapters: [
     {
       body: "Trúc và Đức biết nhau từ những năm học trò ở trường Bùi Thị Xuân: hai người bạn khác lớp, vài lần kiếm cớ gặp gỡ vu vơ, những cái vẫy tay qua khung cửa lớp. Một lời kết bạn từ Đức mở đầu cho một mối quan hệ êm đềm mà bền bỉ. Rồi Đức đi du học, mỗi người một bước chuyển của riêng mình.",
-      photo: "story-photo-1",
+      photo: "story-shot-1",
       alt: "Hai đứa đi ngang nhau trên hành lang trường",
     },
     {
       body: "Tưởng chỉ dừng lại ở tình bạn tuổi học trò, Đức và Trúc bất ngờ kết nối lại vào Tết năm 2016. Những cuộc trò chuyện lệch hai múi giờ, những cuộc gọi video cách nửa vòng trái đất, những lưu luyến trong buổi hẹn cuối mỗi dịp hè. Năm năm yêu xa trôi qua với thật nhiều kỉ niệm.",
-      photo: "story-photo-2",
+      photo: "story-shot-2",
       alt: "Đức và Trúc nắm tay nhau bên khung cửa lớp học",
     },
     {
       body: "Rồi thêm năm năm nữa cùng nhau trưởng thành, chứng kiến phiên bản hoàn thiện hơn mỗi ngày của nhau. Sau 13 năm quen biết và hơn 10 năm yêu thương, Trúc và Đức cùng mở một cánh cửa mới, trong phiên bản đặc biệt nhất của chính mình: cô dâu và chú rể.",
-      photo: "story-photo-3",
+      photo: "story-shot-3",
       alt: "Cô dâu chú rể nắm tay giữa hai khóm hoa",
     },
   ] as const,
