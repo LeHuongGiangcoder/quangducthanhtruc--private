@@ -10,8 +10,7 @@ import { couple, hero } from "@/content/client";
  * rèm ở đầu ảnh, tên hai người nối bằng chữ "&" hoa mỹ ở chân ảnh.
  *
  * Ảnh phủ bằng `object-cover` nên mọi tỉ lệ màn đều kín, chỉ xén hai bên.
- * Chân ảnh có một dải chuyển sang màu nền của tông để tên đọc được trên váy
- * và áo vest, đồng thời nối liền ảnh với section bên dưới. Máy nằm ngang
+ * Ảnh để sạch, không phủ dải màu ở chân. Máy nằm ngang
  * (`short:`) thì bỏ chiều cao màn hình, giữ ảnh theo tỉ lệ 2:3 của nó.
  *
  * Hai cụm chữ vẫn dàn bằng <Stage> theo toạ độ mockup 270px, nên chữ co cùng
@@ -38,8 +37,6 @@ export function Hero() {
           sizes="(max-height: 32rem) 30rem, 67vh"
           className="object-cover"
         />
-        {/* Lớp phủ để chữ đọc được — không phải làm mờ hoạ tiết */}
-        <div className="absolute inset-x-0 bottom-0 h-1/2 bg-linear-to-t from-tone-bg via-tone-bg/50 to-transparent" />
       </div>
 
       {/* Chữ đỏ rượu trên rèm kem: mượn tông light để nét đậm của Title viền
@@ -51,7 +48,7 @@ export function Hero() {
         </div>
       </div>
 
-      <div className="pb-section">
+      <div className="glow-shade pb-section">
         {/* Tên hai người: nhãn nhỏ nghiêng ở trên, tên in hoa ở dưới */}
         <Stage width={270} height={74}>
           <Layer x={0} y={16} w={270} z={2} as="h1" reveal="hero" className="font-display">

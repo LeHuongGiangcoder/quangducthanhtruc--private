@@ -221,6 +221,10 @@ export const shadow = {
  */
 export const textGlow = {
   gold: "0 0 0.35em rgb(255 214 150 / 0.45)",
+  /** Quầng tối quanh chữ sáng đặt thẳng trên ảnh (không phủ dải màu lên ảnh):
+   *  một lớp toả rộng + một lớp sát nét để chữ kem đọc được trên váy trắng. */
+  shade: "0 0 0.5em rgb(40 0 0 / 0.45)",
+  shadeNear: "0 0 0.12em rgb(40 0 0 / 0.4)",
 } as const;
 
 /* ----------------------------------------------------------------- MOTION */

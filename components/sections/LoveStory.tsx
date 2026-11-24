@@ -31,7 +31,7 @@ export function LoveStory() {
       </h2>
       <p className="sr-only">{loveStory.quote}</p>
 
-      <Stage width={270} height={330}>
+      <Stage width={270} height={225}>
         <Layer name="story-curtain" x={0} y={0} w={270} />
       </Stage>
 

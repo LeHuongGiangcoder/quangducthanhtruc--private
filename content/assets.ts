@@ -85,7 +85,7 @@ export const assets = {
     "rose": { src: "/brand/elements/rose.webp", width: 1100, height: 926 },
     "silk-swag": { src: "/brand/elements/silk-swag.webp", width: 800, height: 523 },
     "stamp": { src: "/brand/elements/stamp.webp", width: 700, height: 884 },
-    "story-curtain": { src: "/brand/elements/story-curtain.webp", width: 1080, height: 1320 },
+    "story-curtain": { src: "/brand/elements/story-curtain.webp", width: 1080, height: 900 },
     "story-finale": { src: "/brand/elements/story-finale.webp", width: 1080, height: 1195 },
     "story-photo-1": { src: "/brand/elements/story-photo-1.webp", width: 406, height: 442 },
     "story-photo-2": { src: "/brand/elements/story-photo-2.webp", width: 406, height: 428 },

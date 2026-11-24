@@ -492,6 +492,11 @@ h4 {
     text-shadow: var(--t-glow-gold);
   }
 
+  /* Chữ (và hoạ tiết chữ) sáng nằm thẳng trên ảnh — filter để ăn cả ảnh lẫn chữ */
+  .glow-shade {
+    filter: drop-shadow(var(--t-glow-shade)) drop-shadow(var(--t-glow-shade-near));
+  }
+
   .container-prose {
     width: 100%;
     max-width: var(--t-size-container-prose);
