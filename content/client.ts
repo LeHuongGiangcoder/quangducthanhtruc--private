@@ -138,12 +138,7 @@ export const design: Record<SectionId, SectionDesign> = {
     background: "damask-wine",
     overlay: 0,
   },
-  dresscode: {
-    anchor: "dresscode",
-    tone: "light",
-    background: "damask-cream",
-    overlay: 0,
-  },
+  dresscode: { anchor: "dresscode", tone: "dark" },
   rsvp: {
     anchor: "rsvp",
     tone: "dark",
