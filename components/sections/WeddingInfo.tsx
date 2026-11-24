@@ -32,9 +32,8 @@ export function WeddingInfo() {
         {/* Nút vẽ trong ảnh nằm ở 91–179 × 416–434 (đơn vị Stage). Nút thật
             (cùng kiểu, cùng cỡ với nút gửi RSVP) đặt giữa đúng chỗ đó và phủ
             kín nút vẽ, nên cả site chỉ có một kiểu nút. */}
-        {/* Rộng 212/270 cột = đúng bề rộng nút gửi trong khung form RSVP */}
-        <Layer x={29} y={425} w={212} z={2}>
-          <div className="-translate-y-1/2">
+        <Layer x={0} y={425} w={270} z={2}>
+          <div className="flex -translate-y-1/2 justify-center">
             <ButtonLink
               variant="primary"
               href={venue.mapUrl}

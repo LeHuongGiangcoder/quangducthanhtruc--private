@@ -122,7 +122,8 @@ export function Intro() {
         </Layer>
 
         {monogram ? (
-          <Layer x={474} y={70} w={132} className="gate-fade">
+          /* Giữa dải rèm treo phía trên (0–297), không sát mép màn */
+          <Layer x={474} y={140} w={132} className="gate-fade">
             <Image
               src={monogram.src}
               alt=""

@@ -138,7 +138,8 @@ export const design: Record<SectionId, SectionDesign> = {
     background: "damask-wine",
     overlay: 0,
   },
-  dresscode: { anchor: "dresscode", tone: "dark" },
+  // Cùng nền damask đỏ rượu với Agenda và RSVP để ba section đọc liền một mạch
+  dresscode: { anchor: "dresscode", tone: "dark", background: "damask-wine", overlay: 0 },
   rsvp: {
     anchor: "rsvp",
     tone: "dark",
