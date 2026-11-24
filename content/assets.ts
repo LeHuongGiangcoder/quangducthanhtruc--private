@@ -14,6 +14,7 @@ export const assets = {
 
   /** Ảnh nền full-bleed của một section */
   backgrounds: {
+    "damask-cream-tile": { src: "/brand/backgrounds/damask-cream-tile.webp", width: 900, height: 3200 },
     "damask-cream": { src: "/brand/backgrounds/damask-cream.webp", width: 1125, height: 2000 },
     "damask-wine": { src: "/brand/backgrounds/damask-wine.webp", width: 1125, height: 2000 },
     "gate-stage": { src: "/brand/backgrounds/gate-stage.webp", width: 1080, height: 1920 },

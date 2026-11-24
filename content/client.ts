@@ -86,6 +86,14 @@ export type SectionDesign = {
   background?: BackgroundName | `/${string}` | null;
   /** Độ mờ của lớp phủ trên ảnh nền, 0–1. Cao hơn = chữ dễ đọc hơn. */
   overlay?: number;
+  /**
+   * Cách trải ảnh nền:
+   *   • "cover" (mặc định) — một ảnh phủ kín section
+   *   • "tile" — ảnh rộng bằng section, lặp dọc. Dùng cho section rất dài,
+   *     nơi "cover" sẽ phóng hoa văn lên gấp mấy lần. Ảnh nên là ô lặp liền
+   *     mép trên–dưới (vd. ảnh gốc + bản lật dọc nối vào nhau).
+   */
+  backgroundFit?: "cover" | "tile";
   /** Vân giấy lặp kín nền. */
   texture?: TextureName | null;
   /** Dải ngăn cưỡi lên đường nối với section phía trên. */
@@ -111,25 +119,24 @@ export const design: Record<SectionId, SectionDesign> = {
      dưới dạng toạ độ mockup, nên ở đây chỉ còn tông màu. */
   hero: { anchor: "hero", tone: "dark" },
   weddingInfo: { anchor: "wedding-info", tone: "dark" },
-  loveStory: { anchor: "love-story", tone: "mist" },
+  loveStory: {
+    anchor: "love-story",
+    tone: "mist",
+    background: "damask-cream-tile",
+    backgroundFit: "tile",
+    overlay: 0,
+  },
   gallery: {
     anchor: "gallery",
-    tone: "dark",
+    tone: "light",
+    background: "damask-cream",
+    overlay: 0,
   },
   agenda: {
     anchor: "agenda",
-    tone: "light",
-    decor: [
-      // Vân đồng mức: ~26% phía trên của file có các nét dừng lơ lửng theo một
-      // đường chéo (file bị cắt bằng mặt nạ). Ảnh cao 137% section, neo đáy:
-      // đoạn đó bị đẩy lên quá mép trên và cắt đi; đáy file trùng đáy section.
-      {
-        name: "contour-lines",
-        at: "inset-0 overflow-hidden [&_img]:absolute [&_img]:bottom-0 [&_img]:h-[137%]",
-      },
-      // Nằm gọn trong khoảng valance phía trên, không chạm chữ "Chương trình"
-      { name: "monogram-wine", at: "top-[2%] left-1/2 -translate-x-1/2 w-[19%]" },
-    ],
+    tone: "dark",
+    background: "damask-wine",
+    overlay: 0,
   },
   dresscode: {
     anchor: "dresscode",
