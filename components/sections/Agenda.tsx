@@ -7,6 +7,9 @@ import { agenda } from "@/content/client";
  * Agenda — trình tự buổi lễ: giờ bên trái, một viên thoi trên trục dọc, nội dung bên
  * phải. Trục kẻ bằng border của phần tử giữa nên nó tự dài đúng bằng hàng,
  * không cần đo chiều cao bằng JS.
+ *
+ * Mỗi mốc gắn `data-light`: chưa cuộn tới thì nhạt, cuộn tới thì giờ và viên
+ * thoi sáng lên (Motion.tsx + `[data-light]` trong globals.css).
  */
 export function Agenda() {
   return (
@@ -24,9 +27,10 @@ export function Agenda() {
             as="li"
             key={`${item.time}-${item.title}`}
             delay={i * 80}
+            light
             className="grid grid-cols-[4.5rem_1.5rem_1fr] items-start gap-stack sm:grid-cols-[6rem_1.5rem_1fr]"
           >
-            <p className="pt-1 text-right font-display text-h4 text-tone-accent">{item.time}</p>
+            <p className="light-key pt-1 text-right font-display text-h4">{item.time}</p>
 
             {/* Trục dọc: hàng cuối không kẻ tiếp để đường không thừa ra */}
             <div
@@ -35,7 +39,7 @@ export function Agenda() {
                 i === agenda.items.length - 1 ? "" : "pb-block"
               }`}
             >
-              <span className="mt-2 size-2 shrink-0 rotate-45 bg-tone-accent" />
+              <span className="light-dot mt-2 size-2 shrink-0 rotate-45" />
               {i === agenda.items.length - 1 ? null : (
                 <span className="mt-tight w-px flex-1 bg-tone-line" />
               )}
@@ -46,7 +50,9 @@ export function Agenda() {
             <div
               className={`flex flex-col gap-tight ${i === agenda.items.length - 1 ? "" : "pb-block"}`}
             >
-              <Heading level="h4">{item.title}</Heading>
+              <Heading level="h4" className="light-title">
+                {item.title}
+              </Heading>
               {item.note ? <p className="text-small text-tone-muted">{item.note}</p> : null}
             </div>
           </Reveal>

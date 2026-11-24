@@ -10,6 +10,7 @@ import type { CSSProperties, ElementType, ReactNode } from "react";
 export function Reveal({
   as: Tag = "div",
   delay = 0,
+  light = false,
   className = "",
   style,
   children,
@@ -17,6 +18,8 @@ export function Reveal({
   as?: ElementType;
   /** Trễ, tính bằng ms, để các khối trong cùng một hàng hiện so le nhau. */
   delay?: number;
+  /** Sáng lên khi cuộn tới (`data-light`, xem Motion.tsx). */
+  light?: boolean;
   className?: string;
   style?: CSSProperties;
   children: ReactNode;
@@ -25,6 +28,7 @@ export function Reveal({
     <Tag
       data-reveal
       data-reveal-delay={delay || undefined}
+      data-light={light || undefined}
       className={className}
       style={style}
     >

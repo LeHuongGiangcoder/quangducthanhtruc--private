@@ -17,6 +17,7 @@ export const OPEN_EVENT = "glow:open";
  *   [data-reveal]        hiện dần khi cuộn tới (một batch cho cả trang)
  *   [data-parallax="N"]  trôi chậm hơn trang N% khi cuộn
  *   [data-hero]          hiện khi thiệp được mở, không chờ cuộn
+ *   [data-light]         nhận `data-lit` khi cuộn tới (~60% màn), mất khi cuộn ngược
  *
  * Section chỉ cần gắn attribute, không section nào tự gọi GSAP — nhờ vậy
  * chúng vẫn là server component và không có hai hệ animation chạy song song.
@@ -28,6 +29,9 @@ export function Motion() {
     // Ai tắt hiệu ứng thì hiện hết ngay, không dựng trigger nào.
     if (reduce) {
       gsap.set("[data-reveal]", { opacity: 1 });
+      for (const node of document.querySelectorAll<HTMLElement>("[data-light]")) {
+        node.dataset.lit = "";
+      }
       return;
     }
 
@@ -53,6 +57,15 @@ export function Motion() {
           }
         },
       });
+
+      for (const node of gsap.utils.toArray<HTMLElement>("[data-light]")) {
+        ScrollTrigger.create({
+          trigger: node,
+          start: "top 60%",
+          onEnter: () => (node.dataset.lit = ""),
+          onLeaveBack: () => delete node.dataset.lit,
+        });
+      }
 
       for (const node of gsap.utils.toArray<HTMLElement>("[data-parallax]")) {
         gsap.to(node, {

@@ -492,6 +492,39 @@ h4 {
     text-shadow: var(--t-glow-gold);
   }
 
+  /*
+    Mốc sáng lên khi cuộn tới — Motion.tsx đặt `data-lit` lên `[data-light]`
+    khi mốc chạm ~60% màn hình, gỡ ra khi cuộn ngược lên. Chưa tới thì chữ về
+    màu muted (không hạ opacity), viên thoi về màu gạch; tới rồi thì giờ và
+    viên thoi đổi sang màu nhấn có quầng vàng, tiêu đề về màu chữ chính.
+  */
+  [data-light] .light-key,
+  [data-light] .light-title {
+    color: var(--t-section-muted);
+    transition:
+      color var(--t-duration-slow) var(--t-ease),
+      text-shadow var(--t-duration-slow) var(--t-ease);
+  }
+  [data-light] .light-dot {
+    background-color: var(--t-section-line);
+    transition:
+      background-color var(--t-duration-slow) var(--t-ease),
+      box-shadow var(--t-duration-slow) var(--t-ease),
+      scale var(--t-duration-slow) var(--t-ease);
+  }
+  [data-light][data-lit] .light-key {
+    color: var(--t-section-accent);
+    text-shadow: var(--t-glow-gold);
+  }
+  [data-light][data-lit] .light-title {
+    color: var(--t-section-fg);
+  }
+  [data-light][data-lit] .light-dot {
+    background-color: var(--t-section-accent);
+    box-shadow: var(--t-glow-gold);
+    scale: 1.5;
+  }
+
   /* Chữ (và hoạ tiết chữ) sáng nằm thẳng trên ảnh — filter để ăn cả ảnh lẫn chữ */
   .glow-shade {
     filter: drop-shadow(var(--t-glow-shade)) drop-shadow(var(--t-glow-shade-near));
