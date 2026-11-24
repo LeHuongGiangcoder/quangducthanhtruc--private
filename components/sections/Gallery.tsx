@@ -11,7 +11,15 @@ import { gallery } from "@/content/client";
  *
  * Ảnh KHÔNG có hiệu ứng hiện khi cuộn — khách lướt album nhanh, ảnh phải có
  * sẵn ở đó chứ không trồi lên từng tấm.
+ *
+ * Tải ảnh: album nằm xa dưới màn đầu nên không `priority` (preload sẽ giành
+ * băng thông của ảnh bìa). Ba tấm đầu tải sẵn ngay sau trang, vì lazy-load
+ * của trình duyệt thường không tính trước các tấm còn khuất bên phải băng
+ * ngang; các tấm sau lazy như thường. Ô trống có nền `bg-tone-line` để
+ * khách thấy khung ảnh trong lúc chờ, không phải một khoảng trắng.
  */
+const EAGER = 3;
+
 export function Gallery() {
   return (
     <SectionWrapper section="gallery" labelledBy="gallery-title">
@@ -25,13 +33,16 @@ export function Gallery() {
       {/* tabIndex để cuộn được bằng phím mũi tên khi focus vào băng ảnh */}
       <ul className="reel" aria-label={gallery.title} tabIndex={0}>
         {gallery.shots.map((shot, i) => (
-          <li key={shot.src} className="relative aspect-[2/3] w-4/5 overflow-hidden rounded-paper">
+          <li
+            key={shot.src}
+            className="relative aspect-[2/3] w-4/5 overflow-hidden rounded-paper bg-tone-line"
+          >
             <Image
               src={shot.src}
               alt={shot.alt}
               fill
               sizes="(max-width: 30rem) 80vw, 24rem"
-              priority={i === 0}
+              loading={i < EAGER ? "eager" : "lazy"}
               className="object-cover"
               draggable={false}
             />
