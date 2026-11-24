@@ -144,7 +144,6 @@ export const design: Record<SectionId, SectionDesign> = {
     tone: "dark",
     background: "damask-wine",
     overlay: 0,
-    decor: [{ name: "bouquet-right", at: "-top-[3%] -right-[6%] w-[30%]" }],
   },
   thankYou: { anchor: "thank-you", tone: "dark" },
   thankYouGrid: { anchor: "thank-you-album", tone: "dark" },
