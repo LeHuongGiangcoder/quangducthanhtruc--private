@@ -1,75 +1,122 @@
-import { Eyebrow, Title } from "@/components/ui/Heading";
+import Image from "next/image";
+
+import { Reveal } from "@/components/ui/Reveal";
 import { Layer, Stage } from "@/components/ui/Stage";
 import { SectionWrapper } from "@/components/ui/SectionWrapper";
-import { INFO_HEIGHT, SPILL_LAYERS, VELVET_TOP } from "@/components/sections/WeddingInfo";
 import { loveStory } from "@/content/client";
+import { element } from "@/lib/assets";
 
-/** Toạ độ dọc của từng chương, và chương lẻ/chẵn đổi bên chữ — ảnh. */
-const CHAPTER_TOP = 368;
-const CHAPTER_STEP = 200;
+/** Chiều cao ảnh story-finale (1080 × 1195) và mép trên đoạn chữ, đơn vị Stage. */
+const FINALE_HEIGHT = 298.75;
+const FINALE_TEXT_TOP = 205;
 
 /**
- * Love Story, dàn theo mockup: chữ "Our Love Story", ảnh oval, khung giấy
- * mang câu dẫn, rồi ba chương xen kẽ chữ trái — dải phim phải.
+ * Love Story, dàn theo mockup 1080 × 4394, ba khúc:
  *
- * Nền nhung là cùng một tấm với WeddingInfo: lớp nhung đặt lệch lên đúng
- * bằng phần đã hiện ở section trên, nên đường nối không lộ.
+ *   1. Rèm nhung + "Our Love Story / Đức & Trúc" + câu dẫn — một ảnh vẽ sẵn
+ *      trong Stage (chữ thật nằm ở h2 và câu dẫn sr-only phía trên).
+ *   2. Ba đoạn kể trên nền giấy xám ngà (tông `mist`), nối nhau như một mạch
+ *      truyện — không nhãn hay tên chương: cụm ảnh polaroid và chữ xen kẽ
+ *      trái — phải. Khúc này chạy theo dòng chảy chứ không đặt toạ độ,
+ *      vì chữ thật của cặp đôi dài hơn chữ mẫu và phải tự đẩy chiều cao.
+ *   3. Đoạn kết trên nền đỏ rượu — ba ảnh vẽ sẵn, đoạn chữ dưới ảnh là chữ thật.
  */
 export function LoveStory() {
-  const height = CHAPTER_TOP + CHAPTER_STEP * loveStory.chapters.length + 10;
+  const { chapters, finale } = loveStory;
 
   return (
-    <SectionWrapper section="loveStory" flush width="bleed" labelledBy="love-story-title">
-      {/* Câu dẫn là chữ vẽ sẵn trong asset — bản chữ thật cho trình đọc màn hình */}
+    <SectionWrapper
+      section="loveStory"
+      flush
+      width="bleed"
+      labelledBy="love-story-title"
+    >
+      <h2 id="love-story-title" className="sr-only">
+        {loveStory.title} — {loveStory.names}
+      </h2>
       <p className="sr-only">{loveStory.quote}</p>
 
-      <Stage width={270} height={height} className="bg-wine-soft">
-        <Layer name="velvet-long" x={0} y={VELVET_TOP - INFO_HEIGHT} w={270} />
-        {/* Phần đuôi của tấm thoi đỏ và chùm hoa vắt xuống từ WeddingInfo */}
-        {SPILL_LAYERS.map((layer) => (
-          <Layer key={layer.name} {...layer} y={layer.y - INFO_HEIGHT} z={1} />
-        ))}
-
-        {/* Đầu section chung như mọi section: eyebrow + tiêu đề hoa mỹ cùng cỡ */}
-        <Layer x={0} y={22} w={270} z={2} reveal>
-          <div className="flex flex-col items-center gap-tight text-center">
-            <Eyebrow>{loveStory.eyebrow}</Eyebrow>
-            <Title id="love-story-title">{loveStory.title}</Title>
-          </div>
-        </Layer>
-
-        <Layer name="love-oval" alt={loveStory.photoAlt} x={60} y={98} w={150} z={1} reveal />
-        <Layer name="bouquet-left" x={-16} y={196} w={104} z={3} />
-        <Layer name="story-quote" x={30} y={286} w={210} z={4} reveal revealDelay={120} />
-
-        {loveStory.chapters.map((chapter, i) => {
-          const top = CHAPTER_TOP + i * CHAPTER_STEP;
-          const textLeft = i % 2 === 0;
-
-          return (
-            <div key={chapter.label}>
-              <Layer x={textLeft ? 16 : 146} y={top} w={textLeft ? 116 : 110} z={2} reveal>
-                <article className="flex flex-col gap-stage font-display text-cream">
-                  <p className="text-stage-xs italic">{chapter.label}</p>
-                  <h3 className="text-stage-lg uppercase italic">{chapter.title}</h3>
-                  <span aria-hidden className="h-px w-[22%] bg-cream" />
-                  <p className="text-stage-sm">{chapter.body}</p>
-                </article>
-              </Layer>
-              <Layer
-                name={chapter.film}
-                alt={chapter.alt}
-                x={textLeft ? 134 : 4}
-                y={top + 14}
-                w={134}
-                z={1}
-                reveal
-                revealDelay={120}
-              />
-            </div>
-          );
-        })}
+      <Stage width={270} height={225}>
+        <Layer name="story-curtain" x={0} y={0} w={270} />
       </Stage>
+
+      {/*
+        Sợi chỉ đỏ: đi sau ba tấm polaroid (vào ở mép trên, ra ở mép dưới), võng
+        hình chữ S giữa hai ảnh, rồi xuống tới cụm ảnh của đoạn kết. Đường cong
+        dựng lúc chạy từ vị trí thật của các `[data-thread-pin]`, và hiện dần
+        theo nhịp cuộn — xem `[data-thread]` trong Motion.tsx.
+      */}
+      <div data-thread className="relative">
+        <svg
+          data-thread-svg
+          aria-hidden
+          className="pointer-events-none absolute inset-0 z-10 size-full overflow-visible"
+        >
+          <path className="thread-path" />
+        </svg>
+
+        <ol className="stage-flow relative z-20 flex flex-col gap-block px-gutter pt-stack pb-section">
+          {chapters.map((chapter, i) => {
+            const photo = element(chapter.photo);
+            const photoLeft = i % 2 === 0;
+
+            return (
+              <li
+                key={chapter.photo}
+                className="grid grid-cols-2 items-center gap-stack"
+              >
+                {photo ? (
+                  <Reveal className={photoLeft ? "order-1" : "order-2"}>
+                    {/* Polaroid viền mỏng, xoay so le trái — phải; thẻ đỏ lệch phía sau */}
+                    <div data-thread-pin className="relative isolate">
+                      <span
+                        aria-hidden
+                        data-side={photoLeft ? "left" : "right"}
+                        className={`polaroid-backing ${photoLeft ? "rotate-6" : "-rotate-6"}`}
+                      />
+                      <figure
+                        className={`polaroid ${photoLeft ? "-rotate-3" : "rotate-3"}`}
+                      >
+                        <Image
+                          src={photo.src}
+                          alt={chapter.alt}
+                          width={photo.width ?? 400}
+                          height={photo.height ?? 480}
+                          unoptimized
+                        />
+                      </figure>
+                    </div>
+                  </Reveal>
+                ) : null}
+
+                <Reveal
+                  as="p"
+                  delay={120}
+                  className={`font-display text-stage-sm ${photoLeft ? "order-2" : "order-1"}`}
+                >
+                  {chapter.body}
+                </Reveal>
+              </li>
+            );
+          })}
+        </ol>
+
+        <Stage width={270} height={FINALE_HEIGHT}>
+          <Layer name="story-finale" alt={finale.alt} x={0} y={0} w={270} />
+          {/* Điểm cuối sợi chỉ: khe giữa hai ảnh, ngay mép trên cụm ảnh */}
+          <Layer x={134} y={28.75} w={1}>
+            <span data-thread-pin className="block" />
+          </Layer>
+          <Layer x={30} y={FINALE_TEXT_TOP} w={210} z={2} reveal>
+            <p
+              data-tone="dark"
+              className="text-center font-display text-stage-sm text-tone-fg"
+            >
+              {finale.body}
+            </p>
+          </Layer>
+        </Stage>
+      </div>
     </SectionWrapper>
   );
 }

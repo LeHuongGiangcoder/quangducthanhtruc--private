@@ -86,6 +86,14 @@ export type SectionDesign = {
   background?: BackgroundName | `/${string}` | null;
   /** Độ mờ của lớp phủ trên ảnh nền, 0–1. Cao hơn = chữ dễ đọc hơn. */
   overlay?: number;
+  /**
+   * Cách trải ảnh nền:
+   *   • "cover" (mặc định) — một ảnh phủ kín section
+   *   • "tile" — ảnh rộng bằng section, lặp dọc. Dùng cho section rất dài,
+   *     nơi "cover" sẽ phóng hoa văn lên gấp mấy lần. Ảnh nên là ô lặp liền
+   *     mép trên–dưới (vd. ảnh gốc + bản lật dọc nối vào nhau).
+   */
+  backgroundFit?: "cover" | "tile";
   /** Vân giấy lặp kín nền. */
   texture?: TextureName | null;
   /** Dải ngăn cưỡi lên đường nối với section phía trên. */
@@ -111,40 +119,31 @@ export const design: Record<SectionId, SectionDesign> = {
      dưới dạng toạ độ mockup, nên ở đây chỉ còn tông màu. */
   hero: { anchor: "hero", tone: "dark" },
   weddingInfo: { anchor: "wedding-info", tone: "dark" },
-  loveStory: { anchor: "love-story", tone: "dark" },
+  loveStory: {
+    anchor: "love-story",
+    tone: "mist",
+    background: "damask-cream-tile",
+    backgroundFit: "tile",
+    overlay: 0,
+  },
   gallery: {
     anchor: "gallery",
-    tone: "dark",
-    decor: [
-      { name: "bouquet-right", at: "-top-[2%] -right-[10%] w-[34%]", parallax: 12 },
-      { name: "bouquet-left", at: "-bottom-[3%] -left-[12%] w-[34%]", parallax: 18 },
-    ],
+    tone: "light",
+    background: "damask-cream",
+    overlay: 0,
   },
   agenda: {
     anchor: "agenda",
-    tone: "light",
-    decor: [
-      // Vân đồng mức: ~26% phía trên của file có các nét dừng lơ lửng theo một
-      // đường chéo (file bị cắt bằng mặt nạ). Ảnh cao 137% section, neo đáy:
-      // đoạn đó bị đẩy lên quá mép trên và cắt đi; đáy file trùng đáy section.
-      {
-        name: "contour-lines",
-        at: "inset-0 overflow-hidden [&_img]:absolute [&_img]:bottom-0 [&_img]:h-[137%]",
-      },
-    ],
-  },
-  dresscode: {
-    anchor: "dresscode",
     tone: "dark",
-    background: "velvet",
+    background: "damask-wine",
     overlay: 0,
-    decor: [
-      { name: "drape-left", at: "top-0 left-0 w-[22%]" },
-    ],
   },
+  dresscode: { anchor: "dresscode", tone: "dark" },
   rsvp: {
     anchor: "rsvp",
     tone: "dark",
+    background: "damask-wine",
+    overlay: 0,
     decor: [{ name: "bouquet-right", at: "-top-[3%] -right-[6%] w-[30%]" }],
   },
   thankYou: { anchor: "thank-you", tone: "dark" },
@@ -222,10 +221,9 @@ export const intro = {
 /* ------------------------------------------------------------------- HERO */
 
 export const hero = {
-  /** Ảnh cặp đôi đã nằm sẵn trong khung của bộ nhận diện (brand/elements/hero-frame). */
-  photoAlt: "Quang Đức và Thanh Trúc trong khung ảnh Wedding Day",
-  /** Hai dòng mời đặt ở chân ảnh. */
-  invite: ["Trân trọng kính mời bạn đến", "chung vui cùng chúng mình"],
+  /** Ảnh cặp đôi tràn kín màn hình — ảnh dọc 2:3, xem public/images/README.md. */
+  photo: "/images/hero.jpg",
+  photoAlt: "Thanh Trúc và Quang Đức khoe nhẫn cưới trước tấm rèm",
   groomLabel: "chú rể",
   brideLabel: "cô dâu",
 };
@@ -233,40 +231,45 @@ export const hero = {
 /* -------------------------------------------------------------- LOVE STORY */
 
 export const loveStory = {
-  eyebrow: "Chuyện của chúng mình",
-  /** Tiêu đề hoa mỹ — chỉ chữ Latin không dấu (xem `<Title>`). */
+  /**
+   * Phần đầu section — rèm nhung, "Our Love Story", tên
+   * "Đức & Trúc" và câu dẫn — là một ảnh vẽ sẵn (brand/elements/story-curtain).
+   * Chữ ở đây chỉ cho trình đọc màn hình.
+   */
   title: "Our Love Story",
-  /** Ảnh oval dưới tiêu đề — ảnh đã cắt sẵn trong brand/elements/love-oval. */
-  photoAlt: "Thanh Trúc và Quang Đức trong ảnh cưới",
-  /** Câu dẫn nằm trong khung giấy dưới ảnh oval (brand/elements/story-quote). */
+  names: "Đức & Trúc",
   quote: "Mỗi câu chuyện tình yêu đều có một khởi đầu riêng. Và đây là câu chuyện của chúng mình.",
   /**
-   * Ba chương, mỗi chương một ảnh trong dải phim. `film` là tên hoạ tiết trong
-   * brand/elements — ảnh đã lồng sẵn vào khung phim của bộ nhận diện.
+   * Ba đoạn kể nối nhau như một mạch truyện, không nhãn chương hay tên chương,
+   * xen kẽ ảnh trái — chữ phải. `photo` là cụm ảnh polaroid + tấm
+   * giấy đỏ + hoa ly đã ráp sẵn trong brand/elements.
    */
   chapters: [
     {
-      label: "Chapter 1",
-      title: "Những ánh nhìn thoáng qua",
       body: "Trúc và Đức biết nhau từ những năm học trò ở trường Bùi Thị Xuân: hai người bạn khác lớp, vài lần kiếm cớ gặp gỡ vu vơ, những cái vẫy tay qua khung cửa lớp. Một lời kết bạn từ Đức mở đầu cho một mối quan hệ êm đềm mà bền bỉ. Rồi Đức đi du học, mỗi người một bước chuyển của riêng mình.",
-      film: "film-corridor",
+      photo: "story-shot-1",
       alt: "Hai đứa đi ngang nhau trên hành lang trường",
     },
     {
-      label: "Chapter 2",
-      title: "5 năm yêu xa",
       body: "Tưởng chỉ dừng lại ở tình bạn tuổi học trò, Đức và Trúc bất ngờ kết nối lại vào Tết năm 2016. Những cuộc trò chuyện lệch hai múi giờ, những cuộc gọi video cách nửa vòng trái đất, những lưu luyến trong buổi hẹn cuối mỗi dịp hè. Năm năm yêu xa trôi qua với thật nhiều kỉ niệm.",
-      film: "film-basketball",
-      alt: "Sân bóng rổ của trường, nơi gắn với những năm yêu xa",
+      photo: "story-shot-2",
+      alt: "Đức và Trúc nắm tay nhau bên khung cửa lớp học",
     },
     {
-      label: "Chapter 3",
-      title: "Cuộc gặp lại & sự dung hoà",
       body: "Rồi thêm năm năm nữa cùng nhau trưởng thành, chứng kiến phiên bản hoàn thiện hơn mỗi ngày của nhau. Sau 13 năm quen biết và hơn 10 năm yêu thương, Trúc và Đức cùng mở một cánh cửa mới, trong phiên bản đặc biệt nhất của chính mình: cô dâu và chú rể.",
-      film: "film-wedding",
-      alt: "Cô dâu chú rể trong ảnh cưới",
+      photo: "story-shot-3",
+      alt: "Cô dâu chú rể nắm tay giữa hai khóm hoa",
     },
   ] as const,
+  /**
+   * Đoạn kết trên nền đỏ rượu: ba ảnh vườn đã vẽ sẵn trong
+   * brand/elements/story-finale, đoạn chữ dưới ảnh là chữ thật.
+   */
+  finale: {
+    /** NHÁP — chờ cặp đôi gửi đoạn chữ chương 4. Giữ khoảng 4 dòng để vừa khung. */
+    body: "Hơn mười năm thương nhau lặng lẽ, Trúc và Đức đã cùng đi qua đủ những mùa thanh xuân. Từ hôm nay, chúng mình viết tiếp câu chuyện ấy dưới cùng một mái nhà.",
+    alt: "Ba ảnh cưới trong vườn: cô dâu ngoái lại, hai người ngồi trên lan can đá, nắm tay đi bên bức tường đá",
+  },
 };
 
 /* ---------------------------------------------------------------- GALLERY */
@@ -409,6 +412,8 @@ export const thankYou = {
   ],
   /** Trang 2: lưới 3×3 ảnh, ô giữa là lời cảm ơn. */
   grid: "/images/thankyou-grid.webp",
+  /** Nền lụa hiện qua viền và ô giữa (đã khoét trong suốt) của lưới */
+  gridBackground: "/back.png",
   gridAlt: "Tám khoảnh khắc trong bộ ảnh cưới của Quang Đức và Thanh Trúc",
   /** Ô giữa: một chữ hoa mỹ (Latin, không dấu) và một dòng chữ hoa. */
   /** Tiêu đề hoa mỹ ở ô giữa lưới ảnh, mỗi phần tử một dòng. */

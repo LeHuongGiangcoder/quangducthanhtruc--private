@@ -14,6 +14,7 @@ export const assets = {
 
   /** Ảnh nền full-bleed của một section */
   backgrounds: {
+    "damask-cream-tile": { src: "/brand/backgrounds/damask-cream-tile.webp", width: 900, height: 3200 },
     "damask-cream": { src: "/brand/backgrounds/damask-cream.webp", width: 1125, height: 2000 },
     "damask-wine": { src: "/brand/backgrounds/damask-wine.webp", width: 1125, height: 2000 },
     "gate-stage": { src: "/brand/backgrounds/gate-stage.webp", width: 1080, height: 1920 },
@@ -85,9 +86,18 @@ export const assets = {
     "rose": { src: "/brand/elements/rose.webp", width: 1100, height: 926 },
     "silk-swag": { src: "/brand/elements/silk-swag.webp", width: 800, height: 523 },
     "stamp": { src: "/brand/elements/stamp.webp", width: 700, height: 884 },
+    "story-curtain": { src: "/brand/elements/story-curtain.webp", width: 1080, height: 900 },
+    "story-finale": { src: "/brand/elements/story-finale.webp", width: 1080, height: 1195 },
+    "story-photo-1": { src: "/brand/elements/story-photo-1.webp", width: 406, height: 442 },
+    "story-photo-2": { src: "/brand/elements/story-photo-2.webp", width: 406, height: 428 },
+    "story-photo-3": { src: "/brand/elements/story-photo-3.webp", width: 407, height: 442 },
     "story-quote": { src: "/brand/elements/story-quote.webp", width: 900, height: 167 },
+    "story-shot-1": { src: "/brand/elements/story-shot-1.webp", width: 402, height: 472 },
+    "story-shot-2": { src: "/brand/elements/story-shot-2.webp", width: 388, height: 456 },
+    "story-shot-3": { src: "/brand/elements/story-shot-3.webp", width: 348, height: 410 },
     "tassel": { src: "/brand/elements/tassel.webp", width: 291, height: 900 },
     "velvet-long": { src: "/brand/elements/velvet-long.webp", width: 1000, height: 4411 },
+    "venue-card": { src: "/brand/elements/venue-card.webp", width: 1080, height: 1920 },
     "wave-wine": { src: "/brand/elements/wave-wine.webp", width: 900, height: 3753 },
     "wax-seal": { src: "/brand/elements/wax-seal.webp", width: 760, height: 776 },
     "wedding-day": { src: "/brand/elements/wedding-day.webp", width: 700, height: 213 },
