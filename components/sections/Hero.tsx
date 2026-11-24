@@ -40,9 +40,9 @@ export function Hero() {
       </div>
 
       {/* Chữ đỏ rượu trên rèm kem: mượn tông light để nét đậm của Title viền
-          màu mực, không phải màu kem + quầng vàng của tông dark. Đặt sát mép
-          trên để không đè lên đầu chú rể. */}
-      <div data-tone="light" className="pt-stack px-gutter text-center text-tone-fg">
+          màu mực, không phải màu kem + quầng vàng của tông dark. Cách mép
+          trên một nhịp section: nằm giữa khoảng rèm trống, vẫn trên đầu chú rể. */}
+      <div data-tone="light" className="pt-section px-gutter text-center text-tone-fg">
         <div data-hero data-reveal-delay={150}>
           <Title as="p">Wedding Day</Title>
         </div>
