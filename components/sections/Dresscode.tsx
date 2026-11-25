@@ -30,13 +30,13 @@ export function Dresscode() {
         <Layer x={40} y={126} w={190} z={4} reveal>
           <div
             data-tone="light"
-            className="flex flex-col items-center text-center font-display text-tone-fg"
+            className="flex flex-col items-center text-center font-body text-tone-fg"
           >
             <Eyebrow>{dresscode.eyebrow}</Eyebrow>
             <Title id="dresscode-title" className="mt-stage">
               {dresscode.title}
             </Title>
-            <p className="mt-stage-lg text-stage-lg uppercase">{dresscode.headline}</p>
+            <p className="mt-stage-lg font-display text-stage-lg uppercase">{dresscode.headline}</p>
             <p className="mt-stage text-stage-sm">{dresscode.note}</p>
 
             {dresscode.swatches.length > 0 ? (

@@ -49,17 +49,18 @@ export function Hero() {
       </div>
 
       <div className="glow-shade pb-section">
-        {/* Tên hai người: nhãn nhỏ nghiêng ở trên, tên in hoa ở dưới */}
+        {/* Tên hai người: nhãn nhỏ nghiêng ở trên, tên in hoa ở dưới. Cô dâu bên
+            trái, chú rể bên phải — đúng chỗ hai người đứng trong ảnh bìa. */}
         <Stage width={270} height={74}>
           <Layer x={0} y={16} w={270} z={2} as="h1" reveal="hero" className="font-display">
             <span id="hero-title" className="grid grid-cols-2">
               <span className="flex flex-col items-center gap-tight">
-                <span className="text-stage-xs italic">{hero.groomLabel}</span>
-                <span className="text-stage-xl uppercase">{couple.groom}</span>
-              </span>
-              <span className="flex flex-col items-center gap-tight">
                 <span className="text-stage-xs italic">{hero.brideLabel}</span>
                 <span className="text-stage-xl uppercase">{couple.bride}</span>
+              </span>
+              <span className="flex flex-col items-center gap-tight">
+                <span className="text-stage-xs italic">{hero.groomLabel}</span>
+                <span className="text-stage-xl uppercase">{couple.groom}</span>
               </span>
             </span>
           </Layer>

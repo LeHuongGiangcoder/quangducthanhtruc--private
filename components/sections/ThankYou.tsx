@@ -63,16 +63,25 @@ export function ThankYou() {
 }
 
 /**
- * Trang cảm ơn thứ hai: lưới 3×3 ảnh, ô giữa là tiêu đề "Thank you" — cùng
+ * Trang cảm ơn thứ hai, cao đủ một màn hình điện thoại: lưới 3×3 ảnh, ô giữa là tiêu đề "Thank you" — cùng
  * kiểu và cỡ với tiêu đề của mọi section.
  * Ô giữa trong ảnh đã để trống màu đỏ rượu; chữ là chữ thật đặt lên đó.
  */
 export function ThankYouGrid() {
   return (
-    <SectionWrapper section="thankYouGrid" flush width="bleed" labelledBy="thank-you-grid-title">
-      <Stage width={1080} height={1371}>
-        {/* Viền và ô giữa của lưới đã khoét trong suốt: nền lụa đỏ hiện qua */}
+    <SectionWrapper
+      section="thankYouGrid"
+      flush
+      width="bleed"
+      labelledBy="thank-you-grid-title"
+      className="flex min-h-svh flex-col justify-center short:min-h-0"
+    >
+      {/* Nền lụa đỏ phủ kín cả màn hình; lưới nằm giữa theo chiều dọc. Viền và
+          ô giữa của lưới đã khoét trong suốt nên nền hiện qua. */}
+      <div className="absolute inset-0 -z-10">
         <Image src={thankYou.gridBackground} alt="" fill unoptimized className="object-cover" />
+      </div>
+      <Stage width={1080} height={1371}>
         <Image
           src={thankYou.grid}
           alt={thankYou.gridAlt}

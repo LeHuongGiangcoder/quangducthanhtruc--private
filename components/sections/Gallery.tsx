@@ -25,12 +25,7 @@ const EAGER = 3;
 export function Gallery() {
   return (
     <SectionWrapper section="gallery" labelledBy="gallery-title">
-      <SectionHead
-        eyebrow={gallery.eyebrow}
-        title={gallery.title}
-        titleId="gallery-title"
-        intro={gallery.note}
-      />
+      <SectionHead title={gallery.title} titleId="gallery-title" />
 
       <Reel label={gallery.title}>
         {gallery.shots.map((shot, i) => (

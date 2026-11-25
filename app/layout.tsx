@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
-import { Pinyon_Script } from "next/font/google";
+import { Inter, Pinyon_Script } from "next/font/google";
 
 import { meta } from "@/content/client";
 import { palette, themeCssVars } from "@/content/theme";
@@ -10,7 +10,7 @@ import "./globals.css";
   Font của bộ nhận diện, nằm ở public/font.
 
   ITC Benguiat Book Condensed có đủ dấu tiếng Việt (đã kiểm ơ ư đ ứ ậ ỹ ễ) —
-  dùng cho cả tiêu đề lẫn chữ thường, như trên mockup. Có italic thật cho
+  dùng cho tiêu đề và tên; chữ thường đi Inter (xem bên dưới). Có italic thật cho
   tên chương Love Story, nên trình duyệt không phải kéo nghiêng giả.
 
   Bellissima Script THIẾU ơ ư ứ ậ ễ, nên chỉ được gắn vào `font-flourish` cho
@@ -22,6 +22,17 @@ const benguiat = localFont({
     { path: "../public/font/ITC Benguiat Book Condensed Regular.ttf", weight: "400", style: "normal" },
     { path: "../public/font/ITC Benguiat Book Condensed Italic.ttf", weight: "400", style: "italic" },
   ],
+  display: "swap",
+});
+
+/*
+  Chữ thường (body) đi Inter — một họ sans gọn, đủ subset vietnamese và có
+  italic thật. Benguiat chỉ còn cho tiêu đề và tên.
+*/
+const inter = Inter({
+  variable: "--ff-body",
+  subsets: ["latin", "vietnamese"],
+  style: ["normal", "italic"],
   display: "swap",
 });
 
@@ -64,7 +75,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang={meta.lang}
-      className={`${benguiat.variable} ${script.variable} ${flourish.variable}`}
+      className={`${benguiat.variable} ${inter.variable} ${script.variable} ${flourish.variable}`}
     >
       <head>
         {/* Token của content/theme.ts, in ra dưới dạng CSS variable */}

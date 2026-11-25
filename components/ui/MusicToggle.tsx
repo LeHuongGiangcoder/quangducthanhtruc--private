@@ -17,18 +17,31 @@ export function MusicToggle() {
       type="button"
       onClick={toggleMusic}
       aria-pressed={musicOn}
-      aria-label={musicOn ? `Tắt nhạc: ${music.title}` : `Bật nhạc: ${music.title}`}
+      aria-label={
+        musicOn ? `Tắt nhạc: ${music.title}` : `Bật nhạc: ${music.title}`
+      }
       className="fixed z-50 flex size-tap items-center justify-center rounded-btn border border-line bg-surface/85 text-ink shadow-paper backdrop-blur-sm"
       style={{
         right: "max(var(--t-space-gutter), env(safe-area-inset-right))",
         bottom: "calc(var(--t-space-stack) + env(safe-area-inset-bottom))",
       }}
     >
-      <span aria-hidden className={`flex h-4 items-end gap-[3px] ${musicOn ? "" : "opacity-45"}`}>
-        <i className="block h-2 w-[2px] bg-current" />
-        <i className="block h-4 w-[2px] bg-current" />
-        <i className="block h-3 w-[2px] bg-current" />
-      </span>
+      {/* Nốt nhạc đôi; tắt nhạc thì có gạch chéo đè lên */}
+      <svg
+        aria-hidden
+        viewBox="0 0 24 24"
+        className="size-5"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth={1.6}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M9 18V5l11-2v13" />
+        <circle cx="6.5" cy="18" r="2.5" fill="currentColor" />
+        <circle cx="17.5" cy="16" r="2.5" fill="currentColor" />
+        {musicOn ? null : <path d="M3 3l18 18" />}
+      </svg>
     </button>
   );
 }

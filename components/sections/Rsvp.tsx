@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type CSSProperties, type FormEvent } from "react";
+import { useState, type FormEvent } from "react";
 
 import { useGuest } from "@/components/experience/GuestProvider";
 import { Button } from "@/components/ui/Button";
@@ -9,10 +9,6 @@ import { Choice, Field, FieldLabel } from "@/components/ui/Field";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionWrapper } from "@/components/ui/SectionWrapper";
 import { rsvp } from "@/content/client";
-import { element, texture } from "@/lib/assets";
-
-const archTop = element("arch-top");
-const paper = texture("paper-ivory");
 
 type Status = "idle" | "sending" | "sent" | "error";
 
@@ -37,7 +33,8 @@ export function Rsvp() {
   const { guest } = useGuest();
   const [status, setStatus] = useState<Status>("idle");
   const [attending, setAttending] = useState<"yes" | "no">("yes");
-  const [guests, setGuests] = useState(0);
+  const [guests, setGuests] = useState<string>(rsvp.fields.guests.options[0]);
+  const [otherGuests, setOtherGuests] = useState("");
 
   const personalized = rsvp.mode === "personalized";
   const fields = rsvp.fields;
@@ -52,8 +49,7 @@ export function Rsvp() {
       name: guest?.name ?? String(data.get("name") ?? "").trim(),
       contact: String(data.get("contact") ?? "").trim(),
       attending,
-      guests: going ? guests : 0,
-      companions: going ? String(data.get("companions") ?? "").trim() : "",
+      guests: going ? (guests === "other" ? otherGuests.trim() : guests) : "",
       meal: going ? String(data.get("meal") ?? "").trim() : "",
       message: String(data.get("message") ?? "").trim(),
     };
@@ -90,33 +86,18 @@ export function Rsvp() {
 
   return (
     <SectionWrapper section="rsvp" width="prose" labelledBy="rsvp-heading">
-      {/* Tấm giấy kem: đỉnh vòm của bộ nhận diện và thân là một khối liền, có
-          vân giấy; form bên trong đi tông sáng. Section không có đầu mục riêng
-          — tiêu đề "Dear," nằm ngay trong lòng vòm, `--sheet-cap-inset` cho
-          nó bắt đầu từ 30% chiều cao vòm, chỗ vòm đã đủ rộng. */}
-      <Reveal className="paper-sheet">
-        <div
-          data-tone="light"
-          className="paper-sheet-body text-tone-fg"
-          style={
-            {
-              "--sheet-cap": archTop ? `url(${archTop.src})` : undefined,
-              "--sheet-cap-ratio":
-                archTop?.width && archTop.height ? archTop.height / archTop.width : undefined,
-              "--sheet-grain": paper ? `url(${paper.src})` : undefined,
-              "--sheet-cap-inset": 0.3,
-            } as CSSProperties
-          }
-        >
-        {/* Vòm thu hẹp dần lên đỉnh, nên khối chữ hẹp hơn bề ngang tấm giấy */}
-        <div className="mx-auto mb-block flex w-[78%] flex-col items-center gap-stack text-center">
+      {/* Form đặt thẳng trên nền damask kem của cả section (tông sáng) —
+          không còn tấm giấy riêng. */}
+      <Reveal>
+        <div className="text-tone-fg">
+        <div className="mx-auto mb-block flex flex-col items-center gap-tight text-center">
           <Title id="rsvp-heading">{rsvp.heading}</Title>
           <Heading level="h3" className="uppercase">
-            {personalized && guest ? `${rsvp.greeting} ${guest.name}` : rsvp.title}
+            {rsvp.title}
           </Heading>
-          <Lead>{rsvp.note}</Lead>
+          {personalized && guest ? <Lead>{`${rsvp.greeting} ${guest.name}`}</Lead> : null}
         </div>
-        <div className="px-gutter pb-block">
+        <div className="pb-block">
         {status === "sent" ? (
           <div role="status" className="flex flex-col items-center gap-stack text-center">
             <Heading level="h3">{rsvp.successTitle}</Heading>
@@ -174,45 +155,44 @@ export function Rsvp() {
               </Choice>
             </fieldset>
 
-            {attending === "yes" ? (
-              <fieldset className="flex flex-col gap-tight">
-                <FieldLabel as="legend">{fields.guests.label}</FieldLabel>
-                <Choice
-                  name="guests"
-                  value="0"
-                  checked={guests === 0}
-                  onChange={() => setGuests(0)}
-                >
-                  {fields.guests.none}
-                </Choice>
-                {Array.from({ length: fields.guests.max }, (_, i) => i + 1).map((n) => (
-                  <Choice
-                    key={n}
-                    name="guests"
-                    value={String(n)}
-                    checked={guests === n}
-                    onChange={() => setGuests(n)}
-                  >
-                    {n} người
-                  </Choice>
-                ))}
-              </fieldset>
-            ) : null}
-
+            {/* Không tham dự thì bỏ qua câu 4 và 5, đi thẳng xuống lời chúc */}
             {attending === "yes" ? (
               <>
-                {guests > 0 ? (
-                  <Field label={fields.companions.label} htmlFor="rsvp-companions">
-                    <textarea
-                      id="rsvp-companions"
-                      name="companions"
-                      rows={2}
-                      maxLength={300}
-                      placeholder={fields.companions.placeholder}
+                <fieldset className="flex flex-col gap-tight">
+                  <FieldLabel as="legend">{fields.guests.label}</FieldLabel>
+                  {fields.guests.options.map((n) => (
+                    <Choice
+                      key={n}
+                      name="guests"
+                      value={n}
+                      checked={guests === n}
+                      onChange={() => setGuests(n)}
+                    >
+                      {n}
+                    </Choice>
+                  ))}
+                  <Choice
+                    name="guests"
+                    value="other"
+                    checked={guests === "other"}
+                    onChange={() => setGuests("other")}
+                  >
+                    {fields.guests.other}
+                  </Choice>
+                  {guests === "other" ? (
+                    <input
+                      aria-label={fields.guests.otherPlaceholder}
+                      name="guestsOther"
+                      required
+                      inputMode="numeric"
+                      maxLength={20}
+                      value={otherGuests}
+                      onChange={(e) => setOtherGuests(e.target.value)}
+                      placeholder={fields.guests.otherPlaceholder}
                       className="field-input"
                     />
-                  </Field>
-                ) : null}
+                  ) : null}
+                </fieldset>
 
                 <Field label={fields.meal.label} htmlFor="rsvp-meal">
                   <input

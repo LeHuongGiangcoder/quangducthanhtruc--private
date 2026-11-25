@@ -93,7 +93,7 @@ export type Tone = keyof typeof tones;
 
 /**
  * Ba họ chữ. Giá trị là CSS variable do next/font sinh ra trong layout.tsx
- * (--ff-display / --ff-script / --ff-flourish; body dùng chung Benguiat với display) — đổi font thì sửa cả hai nơi.
+ * (--ff-display / --ff-body / --ff-script / --ff-flourish; body là Inter) — đổi font thì sửa cả hai nơi.
  *
  * Lưu ý tiếng Việt: chỉ chọn font có subset "vietnamese" trên Google Fonts.
  * Font script mua ngoài thường thiếu dấu (ơ, ư, đ, dấu chồng) nên không dùng
@@ -101,7 +101,7 @@ export type Tone = keyof typeof tones;
  */
 export const fonts = {
   display: 'var(--ff-display), Georgia, "Times New Roman", serif',
-  body: 'var(--ff-display), Georgia, "Times New Roman", serif',
+  body: 'var(--ff-body), system-ui, -apple-system, "Segoe UI", sans-serif',
   script: 'var(--ff-script), "Apple Chancery", cursive',
   /**
    * Chữ hoa mỹ của bộ nhận diện (Bellissima). Font này THIẾU ơ ư ứ ậ ễ — chỉ
