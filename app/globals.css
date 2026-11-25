@@ -464,28 +464,21 @@ h4 {
   }
 
   /*
-    Làm đậm nét một ảnh chữ / nét vẽ mảnh (chữ hoa mỹ xuất sẵn thành ảnh):
-    hai lớp drop-shadow sát nét tô thêm viền cùng màu chữ của section, rồi một
-    quầng vàng nhẹ để nét tách khỏi nền nhung. Không làm mờ gì cả.
+    Làm đậm nét chữ hoa mỹ (Bellissima): tô thêm viền mảnh cùng màu chữ theo
+    tỷ lệ cỡ chữ (`em`) để nét mảnh dày đều, sắc nét và đồng bộ mọi section.
   */
   .ink-bold {
-    filter:
-      drop-shadow(0 0 0.6px var(--t-section-fg))
-      drop-shadow(0 0 0.6px var(--t-section-fg));
+    paint-order: stroke fill;
+    -webkit-text-stroke: 0.018em currentColor;
   }
 
   /* Quầng vàng chỉ có nghĩa trên nền tối; trên nền kem nó thành vệt bẩn */
   [data-tone="dark"] .ink-bold {
-    filter:
-      drop-shadow(0 0 0.6px var(--t-section-fg))
-      drop-shadow(0 0 0.6px var(--t-section-fg))
-      drop-shadow(var(--t-glow-gold));
+    text-shadow: var(--t-glow-gold);
   }
 
   [data-tone="dark"] [data-tone="light"] .ink-bold {
-    filter:
-      drop-shadow(0 0 0.6px var(--t-section-fg))
-      drop-shadow(0 0 0.6px var(--t-section-fg));
+    text-shadow: none;
   }
 
   .text-glow-gold {
