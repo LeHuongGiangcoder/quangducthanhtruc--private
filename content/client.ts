@@ -41,9 +41,7 @@ export const sections: SectionId[] = [
   "loveStory",
   "gallery",
   "agenda",
-  "dresscode",
   "rsvp",
-  "thankYou",
   "thankYouGrid",
 ];
 
@@ -142,8 +140,8 @@ export const design: Record<SectionId, SectionDesign> = {
   dresscode: { anchor: "dresscode", tone: "dark", background: "damask-wine", overlay: 0 },
   rsvp: {
     anchor: "rsvp",
-    tone: "dark",
-    background: "damask-wine",
+    tone: "light",
+    background: "damask-cream",
     overlay: 0,
   },
   thankYou: { anchor: "thank-you", tone: "dark" },
@@ -185,8 +183,8 @@ export const families = [
 /* -------------------------------------------------------------- NGÀY & GIỜ */
 
 export const ceremony = {
-  /** Giờ khai tiệc. Lịch, đồng hồ đếm ngược và link Google Calendar đều tính từ đây. */
-  startISO: "2026-12-20T17:30:00+07:00",
+  /** Giờ đón khách. Lịch, đồng hồ đếm ngược và link Google Calendar đều tính từ đây. */
+  startISO: "2026-12-20T18:00:00+07:00",
   /** Giờ tan tiệc — chỉ dùng cho link thêm vào lịch. */
   endISO: "2026-12-20T21:30:00+07:00",
   weekday: "Chủ Nhật",
@@ -232,64 +230,76 @@ export const hero = {
 
 export const loveStory = {
   /**
-   * Phần đầu section — rèm nhung, "Our Love Story", tên
-   * "Đức & Trúc" và câu dẫn — là một ảnh vẽ sẵn (brand/elements/story-curtain).
-   * Chữ ở đây chỉ cho trình đọc màn hình.
+   * Đầu section: `title` là dòng nhỏ phía trên, `names` là tiêu đề viết tay.
    */
   title: "Our Love Story",
   names: "Đức & Trúc",
-  quote: "Mỗi câu chuyện tình yêu đều có một khởi đầu riêng. Và đây là câu chuyện của chúng mình.",
   /**
    * Ba đoạn kể nối nhau như một mạch truyện, không nhãn chương hay tên chương,
-   * xen kẽ ảnh trái — chữ phải. `photo` là cụm ảnh polaroid + tấm
-   * giấy đỏ + hoa ly đã ráp sẵn trong brand/elements.
+   * xen kẽ ảnh trái — chữ phải. `photo` là ảnh trần, component lồng vào
+   * khung polaroid và cắt về cùng tỉ lệ 4:5. Mỗi phần tử của `body` là một đoạn.
    */
   chapters: [
     {
-      body: "Trúc và Đức biết nhau từ những năm học trò ở trường Bùi Thị Xuân: hai người bạn khác lớp, vài lần kiếm cớ gặp gỡ vu vơ, những cái vẫy tay qua khung cửa lớp. Một lời kết bạn từ Đức mở đầu cho một mối quan hệ êm đềm mà bền bỉ. Rồi Đức đi du học, mỗi người một bước chuyển của riêng mình.",
-      photo: "story-shot-1",
+      body: [
+        "Biết nhau từ những năm tháng học trò tại trường Bùi Thị Xuân, cả hai là những người bạn khác lớp, đôi lần thấy nhau nơi sân trường, những cái vẫy tay qua khung cửa lớp quen thuộc, một lời kết bạn mở đầu cho một mối quan hệ êm đềm mà bền bỉ suốt nhiều năm sau đó.",
+      ],
+      photo: { src: "/brand/elements/story-shot-1.webp", width: 402, height: 472 },
       alt: "Hai đứa đi ngang nhau trên hành lang trường",
     },
     {
-      body: "Tưởng chỉ dừng lại ở tình bạn tuổi học trò, Đức và Trúc bất ngờ kết nối lại vào Tết năm 2016. Những cuộc trò chuyện lệch hai múi giờ, những cuộc gọi video cách nửa vòng trái đất, những lưu luyến trong buổi hẹn cuối mỗi dịp hè. Năm năm yêu xa trôi qua với thật nhiều kỉ niệm.",
-      photo: "story-shot-2",
-      alt: "Đức và Trúc nắm tay nhau bên khung cửa lớp học",
+      body: [
+        "Hết cấp ba, cả hai tập trung cho những bước chuyển quan trọng của riêng mình.",
+        "Tưởng chừng câu chuyện chỉ dừng lại ở một tình bạn tuổi học trò, Đức và Trúc bất ngờ kết nối lại vào dịp Tết năm 2016.",
+      ],
+      photo: { src: "/images/story-2.webp", width: 600, height: 900 },
+      alt: "Cô dâu ngồi trên bãi cỏ cạnh bức tường đá",
     },
     {
-      body: "Rồi thêm năm năm nữa cùng nhau trưởng thành, chứng kiến phiên bản hoàn thiện hơn mỗi ngày của nhau. Sau 13 năm quen biết và hơn 10 năm yêu thương, Trúc và Đức cùng mở một cánh cửa mới, trong phiên bản đặc biệt nhất của chính mình: cô dâu và chú rể.",
-      photo: "story-shot-3",
-      alt: "Cô dâu chú rể nắm tay giữa hai khóm hoa",
+      body: [
+        "Những cuộc trò chuyện đan xen vào hai múi giờ trái ngược nhau. Những cuộc gọi video kết nối hai cuộc sống cách nhau nửa vòng trái đất. Những lưu luyến trong buổi hẹn cuối cùng mỗi dịp hè gặp lại.",
+        "Năm năm yêu xa cứ thế trôi qua với thật nhiều kỷ niệm và cung bậc cảm xúc.",
+      ],
+      photo: { src: "/images/story-3.webp", width: 600, height: 900 },
+      alt: "Chú rể đứng dưới vòm cây trước lối vào nhà đá",
     },
-  ] as const,
+  ],
   /**
-   * Đoạn kết trên nền đỏ rượu: ba ảnh vườn đã vẽ sẵn trong
-   * brand/elements/story-finale, đoạn chữ dưới ảnh là chữ thật.
+   * Đoạn nối ba chương với đoạn kết: hai nửa câu đứng hai bên cặp nhẫn
+   * (brand/elements/rings-gold), sợi chỉ đỏ xuyên qua nhẫn ở giữa.
+   */
+  interlude: [
+    "Rồi lại thêm năm năm nữa, cùng nhau trưởng thành, đi qua nhiều thay đổi",
+    "và chứng kiến phiên bản hoàn thiện hơn mỗi ngày của đối phương.",
+  ],
+  interludeRings: "rings-gold",
+  /**
+   * Đoạn kết trên nền nhung đỏ: ba ảnh (một dọc bên trái, hai ngang bên
+   * phải) rồi đoạn chữ.
    */
   finale: {
-    /** NHÁP — chờ cặp đôi gửi đoạn chữ chương 4. Giữ khoảng 4 dòng để vừa khung. */
-    body: "Hơn mười năm thương nhau lặng lẽ, Trúc và Đức đã cùng đi qua đủ những mùa thanh xuân. Từ hôm nay, chúng mình viết tiếp câu chuyện ấy dưới cùng một mái nhà.",
-    alt: "Ba ảnh cưới trong vườn: cô dâu ngoái lại, hai người ngồi trên lan can đá, nắm tay đi bên bức tường đá",
+    photos: [
+      { src: "/images/story-finale-1.webp", alt: "Cô dâu chú rể nắm tay trước tấm rèm xanh rêu" },
+      { src: "/images/story-finale-3.webp", alt: "Bàn tay chú rể đưa chiếc nhẫn về phía tay cô dâu" },
+      { src: "/images/story-finale-2.webp", alt: "Cô dâu chú rể ngồi trò chuyện, cười với nhau" },
+    ],
+    body: [
+      "Để hôm nay, sau 13 năm quen biết và hơn 10 năm yêu thương, Trúc và Đức sẽ cùng nhau mở một cánh cửa mới, bước sang một chương mới, trong phiên bản đặc biệt nhất của chính mình: cô dâu và chú rể.",
+      "Và câu chuyện ấy sẽ còn được viết tiếp, qua từng trải nghiệm, sự trưởng thành và những phiên bản mới mà cả hai sẽ cùng nhau gặp gỡ.",
+    ],
   },
 };
 
 /* ---------------------------------------------------------------- GALLERY */
 
 export const gallery = {
-  eyebrow: "Album ảnh",
-  /** Tiêu đề hoa mỹ — chỉ chữ Latin không dấu (xem `<Title>`). */
-  title: "Our Gallery",
-  note: "Những tấm hình chúng mình thương nhất.",
-  shots: [
-    { src: "/images/gallery-01.jpg", alt: "Cô dâu chú rể hôn nhau giữa vườn" },
-    { src: "/images/gallery-02.jpg", alt: "Hai người nắm tay bước đi, ảnh đen trắng" },
-    { src: "/images/gallery-03.jpg", alt: "Cô dâu chú rể trên lối đi trong vườn" },
-    { src: "/images/gallery-04.jpg", alt: "Chú rể kéo tay cô dâu xoay vòng" },
-    { src: "/images/gallery-05.jpg", alt: "Chú rể dắt cô dâu chạy trước bức tường, ảnh đen trắng" },
-    { src: "/images/gallery-06.jpg", alt: "Cô dâu chú rể đứng giữa khu vườn xanh" },
-    { src: "/images/gallery-07.jpg", alt: "Chú rể ngả cô dâu trước bức tường hoa văn" },
-    { src: "/images/gallery-08.jpg", alt: "Cô dâu chú rể bước đi trên bãi cỏ" },
-    { src: "/images/gallery-09.jpg", alt: "Chú rể và cô dâu ngồi trên lan can đá" },
-  ],
+  /** Tiêu đề section — tiếng Việt, `<Title>` tự dùng font script có dấu. */
+  title: "Album ảnh",
+  /** Ảnh ở public/gallery/td1…td22.jpg, dọc 2:3, theo đúng thứ tự tên file. */
+  shots: Array.from({ length: 22 }, (_, i) => ({
+    src: `/gallery/td${i + 1}.jpg`,
+    alt: `Ảnh cưới của Quang Đức và Thanh Trúc, tấm ${i + 1}`,
+  })),
 };
 
 /* ------------------------------------------------------------ WEDDING INFO */
@@ -304,16 +314,18 @@ export const weddingInfo = {
 /* ----------------------------------------------------------------- AGENDA */
 
 export const agenda = {
-  eyebrow: "Chương trình",
-  /** Tiêu đề hoa mỹ — chỉ chữ Latin không dấu (xem `<Title>`). */
-  title: "Agenda",
-  intro: "Trình tự buổi lễ và giờ dự kiến của buổi tiệc.",
+  title: "Chương trình",
   items: [
-    { time: "17:30", title: "Đón khách", note: "Quý khách nhận chỗ và chụp hình lưu niệm" },
-    { time: "18:00", title: "Làm lễ", note: "Nghi thức thành hôn" },
-    { time: "18:30", title: "Khai tiệc", note: "Mở tiệc cùng gia đình hai bên" },
-    { time: "19:30", title: "Tiệc sau lễ", note: "Âm nhạc và chúc phúc" },
-  ],
+    { time: "18:00", title: "Đón Khách - Chụp Hình" },
+    { time: "19:00", title: "Nghi Thức Lễ" },
+    { time: "21:00", title: "Chào Khách" },
+  ] as { time: string; title: string; note?: string }[],
+  /** Ghi chú trang phục, nằm cuối section Chương trình. */
+  dresscode: {
+    title: "Trang phục",
+    headline: "Trang trọng, lịch sự",
+    note: "*Vui lòng không mặc màu trắng",
+  },
 };
 
 /* -------------------------------------------------------------- DRESSCODE */
@@ -352,13 +364,9 @@ export const rsvp = {
   /** Slug của khách, trùng subdomain: ten-khach.gloweb.site → "ten-khach" */
   client: "quangducthanhtruc",
 
-  /**
-   * Tiêu đề hoa mỹ ở đầu tấm giấy kem, cùng bậc chữ với tiêu đề các section
-   * khác (`<Title>`). Chỉ chữ Latin không dấu.
-   */
-  heading: "Dear,",
-  title: "Quý khách sẽ đến chứ?",
-  note: "Nhắn giúp chúng mình một tiếng để gia đình chuẩn bị chỗ ngồi chu đáo.",
+  /** Đầu tấm giấy kem: tiêu đề viết tay + dòng chữ hoa bên dưới. */
+  heading: "Thư mời",
+  title: "Tham dự lễ cưới",
   deadline: "Vui lòng phản hồi trước ngày 10 . 12 . 2026",
 
   /**
@@ -366,32 +374,34 @@ export const rsvp = {
    * thì phải chạy lại: ~/glow-tools/glow-rsvp.sh fields <client> --fields "…"
    */
   fields: {
-    name: { label: "Họ và tên", placeholder: "Nguyễn Văn A" },
+    name: { label: "1 - Họ tên", placeholder: "Nguyễn Văn A" },
     contact: {
-      label: "Số điện thoại / Email",
+      label: "2 - Số điện thoại / Email",
       placeholder: "09xx xxx xxx hoặc email",
     },
     attending: {
-      label: "Quý khách có tham dự?",
-      yes: "Có, tôi sẽ đến",
-      no: "Rất tiếc, tôi xin vắng",
+      label: "3 - Xác nhận tham dự",
+      yes: "Sẽ đến chung vui",
+      no: "Tiếc quá, mình/gia đình không tham dự được",
     },
-    guests: { label: "Số lượng khách", none: "Tôi đi một mình", max: 4 },
-    companions: {
-      label: "Tên khách đi cùng (nếu có)",
-      placeholder: "Mỗi người một dòng, hoặc cách nhau bằng dấu phẩy",
+    /** Chọn "Khác" thì hiện ô gõ số người. */
+    guests: {
+      label: "4 - Số lượng người tham dự",
+      options: ["1", "2"],
+      other: "Khác",
+      otherPlaceholder: "Nhập số người",
     },
     meal: {
-      label: "Ưu tiên món ăn (không bắt buộc)",
-      placeholder: "Ăn chay, dị ứng hải sản…",
+      label: "5 - Lưu ý ăn uống",
+      placeholder: "Ăn chay/dị ứng món ăn",
     },
     message: {
-      label: "Lời chúc gửi cô dâu chú rể (không bắt buộc)",
+      label: "6 - Lời chúc gửi Đức & Trúc",
       placeholder: "Chúc hai bạn trăm năm hạnh phúc…",
     },
   },
 
-  submit: "Gửi phản hồi",
+  submit: "Gửi xác nhận tham dự",
   sending: "Đang gửi…",
   successTitle: "Đã nhận được!",
   successNote: "Cảm ơn quý khách. Chúng mình sẽ giữ sẵn một chỗ thật đẹp.",
@@ -411,7 +421,7 @@ export const thankYou = {
     { src: "/images/polaroid-bride.webp", alt: "Cô dâu Thanh Trúc trước cổng sắt", caption: "Thanh Trúc" },
   ],
   /** Trang 2: lưới 3×3 ảnh, ô giữa là lời cảm ơn. */
-  grid: "/images/thankyou-grid.webp",
+  grid: "/images/thankyou-grid-v3.webp",
   /** Nền lụa hiện qua viền và ô giữa (đã khoét trong suốt) của lưới */
   gridBackground: "/back.png",
   gridAlt: "Tám khoảnh khắc trong bộ ảnh cưới của Quang Đức và Thanh Trúc",
@@ -430,7 +440,7 @@ export const thankYou = {
 export const music = {
   src: "/audio/music.mp3",
   enabled: true,
-  title: "PLACEHOLDER — tên bài hát & nghệ sĩ",
+  title: "Có em đời bỗng vui",
   volume: 0.55,
 };
 

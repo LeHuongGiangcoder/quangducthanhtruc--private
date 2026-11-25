@@ -152,12 +152,12 @@ export function Intro() {
 
         <Layer x={330} y={1340} w={420} z={2} className="gate-fade">
           <div className="flex flex-col items-center gap-stage text-center">
-            <p className="font-display text-stage-sm text-cream">{intro.note}</p>
+            <p className="font-body text-stage-sm text-cream">{intro.note}</p>
             <button
               type="button"
               onClick={handleOpen}
               disabled={phase !== "idle"}
-              className="min-h-tap w-[78%] rounded-btn border border-tone-line bg-wine-soft font-display text-stage-md uppercase text-cream shadow-lift transition-transform duration-200 ease-glow hover:[@media(hover:hover)]:-translate-y-px"
+              className="min-h-tap w-[78%] rounded-btn border border-tone-line bg-wine-soft font-body text-stage-md uppercase text-cream shadow-lift transition-transform duration-200 ease-glow hover:[@media(hover:hover)]:-translate-y-px"
             >
               {intro.cta}
             </button>

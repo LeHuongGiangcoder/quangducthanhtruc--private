@@ -50,8 +50,9 @@ export function Heading({
  * Font đặt ở span bên trong: h1–h4 nhận font display từ globals.css, và luật
  * đó thắng utility đặt trên chính thẻ h.
  *
- * Bellissima chỉ có chữ Latin không dấu — tiêu đề tiếng Việt có dấu thì đừng
- * dùng component này, nét sẽ vỡ sang font dự phòng.
+ * Bellissima chỉ có chữ Latin không dấu. Tiêu đề có dấu ("Album ảnh",
+ * "Chương trình") tự chuyển sang `font-script` (Pinyon, có subset vietnamese)
+ * để nét không vỡ sang font dự phòng.
  */
 export function Title({
   as: Tag = "h2",
@@ -59,9 +60,10 @@ export function Title({
   children,
   ...rest
 }: TextProps & { as?: ElementType }) {
+  const accented = typeof children === "string" && /[^\x00-\x7F]/.test(children);
   return (
     <Tag className={`text-title ${className}`} {...rest}>
-      <span className="ink-bold font-flourish">{children}</span>
+      <span className={`ink-bold ${accented ? "font-script" : "font-flourish"}`}>{children}</span>
     </Tag>
   );
 }

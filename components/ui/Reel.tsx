@@ -72,7 +72,7 @@ export function Reel({ label, children }: { label: string; children: ReactNode }
         >
           <Chevron dir="left" />
         </Button>
-        <p aria-live="polite" className="text-center font-display text-small tabular-nums text-tone-fg">
+        <p aria-live="polite" className="text-center font-body text-small tabular-nums text-tone-fg">
           {index + 1} / {count}
         </p>
         <Button
