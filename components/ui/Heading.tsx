@@ -44,15 +44,11 @@ export function Heading({
 }
 
 /**
- * Tiêu đề section: chữ hoa mỹ Latin ("Our Gallery", "Agenda", "Dress Code"…),
- * MỘT cỡ `text-title` cho mọi section, nét được tô dày (`ink-bold`).
+ * Tiêu đề section: chữ hoa mỹ (`BellissimaScriptPro-VN`, có đủ dấu tiếng Việt),
+ * MỘT cỡ `text-title` và MỘT độ dày nét (`ink-bold`) đồng nhất cho mọi section.
  *
  * Font đặt ở span bên trong: h1–h4 nhận font display từ globals.css, và luật
  * đó thắng utility đặt trên chính thẻ h.
- *
- * Bellissima chỉ có chữ Latin không dấu. Tiêu đề có dấu ("Album ảnh",
- * "Chương trình") tự chuyển sang `font-script` (Pinyon, có subset vietnamese)
- * để nét không vỡ sang font dự phòng.
  */
 export function Title({
   as: Tag = "h2",
@@ -60,10 +56,9 @@ export function Title({
   children,
   ...rest
 }: TextProps & { as?: ElementType }) {
-  const accented = typeof children === "string" && /[^\x00-\x7F]/.test(children);
   return (
     <Tag className={`text-title ${className}`} {...rest}>
-      <span className={`ink-bold ${accented ? "font-script" : "font-flourish"}`}>{children}</span>
+      <span className="font-flourish font-normal ink-bold">{children}</span>
     </Tag>
   );
 }

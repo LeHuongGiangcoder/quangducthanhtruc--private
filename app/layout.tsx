@@ -38,7 +38,8 @@ const inter = Inter({
 
 const flourish = localFont({
   variable: "--ff-flourish",
-  src: "../public/font/BellissimaScriptPro.otf",
+  src: "../public/font/BellissimaScriptPro-VN.otf",
+  weight: "400",
   display: "swap",
 });
 
