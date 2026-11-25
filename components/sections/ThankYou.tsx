@@ -63,15 +63,16 @@ export function ThankYou() {
 }
 
 /**
- * Trang cảm ơn thứ hai: lưới 3×3 ảnh trên nền lụa đỏ với nhịp padding trên/dưới
- * chuẩn của section, ô giữa là tiêu đề "Thank you" — cùng kiểu và cỡ với tiêu
- * đề của mọi section.
+ * Trang cảm ơn thứ hai: lưới 3×3 ảnh trên nền lụa đỏ với viền trên/dưới khớp
+ * đúng viền trái/phải của ảnh lưới, ô giữa là tiêu đề "Thank you" — cùng kiểu
+ * và cỡ với tiêu đề của mọi section.
  * Ô giữa trong ảnh đã để trống màu đỏ rượu; chữ là chữ thật đặt lên đó.
  */
 export function ThankYouGrid() {
   return (
     <SectionWrapper
       section="thankYouGrid"
+      flush
       width="bleed"
       labelledBy="thank-you-grid-title"
     >
