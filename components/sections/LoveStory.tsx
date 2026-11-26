@@ -16,11 +16,21 @@ import { background, element } from "@/lib/assets";
 const velvet = background("story-finale-velvet");
 const rings = element(loveStory.interludeRings);
 /**
- * Lòng chung của hai nhẫn trên ảnh rings-gold (tỉ lệ bề ngang × bề cao):
- * dải trong suốt nằm trong CẢ HAI vòng, x 46–52%, y 22–60%. Sợi chỉ đi qua
- * x 49%, và đây là điểm neo nhẫn vào đầu chỉ khi trượt.
+ * Hình học của ảnh nhẫn (tỉ lệ bề ngang × bề cao), theo từng file:
+ *   lens  — điểm sợi chỉ xuyên qua lòng nhẫn, cũng là điểm neo nhẫn vào đầu
+ *           chỉ khi trượt;
+ *   front — từ đâu trở xuống, vành nhẫn đè lên sợi chỉ (lớp trước).
+ *
+ * rings-gold: hai nhẫn lồng nhau, lòng chung x 46–52%, y 22–60%.
+ * rings-silver: hai nhẫn chồng nhau nhìn từ trên; chỉ rơi vào khe lòng nhẫn
+ * lớn (y 20–37%) rồi luồn sau đai nhẫn nhỏ.
  */
-const RING_LENS = { x: 0.49, y: 0.42 };
+const RING_GEOMETRY = {
+  "rings-gold": { lens: { x: 0.49, y: 0.42 }, front: 0.6 },
+  "rings-silver": { lens: { x: 0.5, y: 0.3 }, front: 0.37 },
+} as const;
+const { lens: RING_LENS, front: RING_FRONT } =
+  RING_GEOMETRY[loveStory.interludeRings as keyof typeof RING_GEOMETRY] ?? RING_GEOMETRY["rings-gold"];
 /** Nhẫn trong tay chú rể, theo đơn vị Stage 270 của khối ảnh cuối. */
 const HAND_RING = { x: 135.75 + 0.51 * 115.25, y: 28.75 + 0.26 * 78.75 };
 const FINALE_PHOTOS_HEIGHT = 196;
@@ -122,7 +132,7 @@ export function LoveStory() {
               data-thread-rest
               data-thread-in={RING_LENS.x}
               data-thread-out={RING_LENS.x}
-              className={rings ? "aspect-[497/435]" : undefined}
+              style={rings ? { aspectRatio: `${rings.width ?? 1} / ${rings.height ?? 1}` } : undefined}
             />
             <p className="text-left">{interlude[1]}</p>
           </Reveal>
@@ -134,7 +144,7 @@ export function LoveStory() {
           chú rể trong ảnh trao nhẫn và tan vào đó.
 
           Hai lớp cùng một ảnh để sợi chỉ luồn TRONG hai nhẫn: lớp sau nằm dưới
-          nét chỉ (chỉ đè lên vành trên), lớp trước chỉ giữ nửa dưới từ 60% —
+          nét chỉ (chỉ đè lên vành trên), lớp trước chỉ giữ phần dưới từ RING_FRONT —
           dưới lòng chung — nằm trên nét chỉ (vành dưới đè lên chỉ). SVG chỉ ở
           z-10, nên lớp sau z-[5], lớp trước z-[15].
         */}
@@ -147,8 +157,9 @@ export function LoveStory() {
                 data-anchor-x={RING_LENS.x}
                 data-anchor-y={RING_LENS.y}
                 className={`pointer-events-none absolute top-0 left-0 opacity-0 ${
-                  layer === "back" ? "z-[5]" : "z-[15] [clip-path:inset(60%_0_0_0)]"
+                  layer === "back" ? "z-[5]" : "z-[15]"
                 }`}
+                style={layer === "front" ? { clipPath: `inset(${RING_FRONT * 100}% 0 0 0)` } : undefined}
               >
                 <Image
                   src={rings.src}

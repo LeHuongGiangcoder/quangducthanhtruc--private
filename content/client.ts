@@ -116,7 +116,12 @@ export const design: Record<SectionId, SectionDesign> = {
      mockup của khách — hoa, tấm kem, nền nhung đều nằm trong file section
      dưới dạng toạ độ mockup, nên ở đây chỉ còn tông màu. */
   hero: { anchor: "hero", tone: "dark" },
-  weddingInfo: { anchor: "wedding-info", tone: "dark" },
+  weddingInfo: {
+    anchor: "wedding-info",
+    tone: "dark",
+    background: "damask-wine",
+    overlay: 0,
+  },
   loveStory: {
     anchor: "love-story",
     tone: "mist",
@@ -252,27 +257,26 @@ export const loveStory = {
         "Hết cấp ba, cả hai tập trung cho những bước chuyển quan trọng của riêng mình.",
         "Tưởng chừng câu chuyện chỉ dừng lại ở một tình bạn tuổi học trò, Đức và Trúc bất ngờ kết nối lại vào dịp Tết năm 2016.",
       ],
-      photo: { src: "/images/story-2.webp", width: 600, height: 900 },
+      photo: { src: "/images/story-3.webp", width: 600, height: 900 },
       alt: "Cô dâu ngồi trên bãi cỏ cạnh bức tường đá",
     },
     {
       body: [
         "Những cuộc trò chuyện đan xen vào hai múi giờ trái ngược nhau. Những cuộc gọi video kết nối hai cuộc sống cách nhau nửa vòng trái đất. Những lưu luyến trong buổi hẹn cuối cùng mỗi dịp hè gặp lại.",
-        "Năm năm yêu xa cứ thế trôi qua với thật nhiều kỷ niệm và cung bậc cảm xúc.",
       ],
-      photo: { src: "/images/story-3.webp", width: 600, height: 900 },
+      photo: { src: "/images/story-2.webp", width: 600, height: 900 },
       alt: "Chú rể đứng dưới vòm cây trước lối vào nhà đá",
     },
   ],
   /**
-   * Đoạn nối ba chương với đoạn kết: hai nửa câu đứng hai bên cặp nhẫn
+   * Đoạn nối ba chương với đoạn kết: hai đoạn đứng hai bên cặp nhẫn
    * (brand/elements/rings-gold), sợi chỉ đỏ xuyên qua nhẫn ở giữa.
    */
   interlude: [
-    "Rồi lại thêm năm năm nữa, cùng nhau trưởng thành, đi qua nhiều thay đổi",
-    "và chứng kiến phiên bản hoàn thiện hơn mỗi ngày của đối phương.",
+    "Năm năm yêu xa cứ thế trôi qua với thật nhiều kỷ niệm và cung bậc cảm xúc.",
+    "Rồi lại thêm năm năm nữa, cùng nhau trưởng thành, đi qua nhiều thay đổi và chứng kiến phiên bản hoàn thiện hơn mỗi ngày của đối phương.",
   ],
-  interludeRings: "rings-gold",
+  interludeRings: "rings-silver",
   /**
    * Đoạn kết trên nền nhung đỏ: ba ảnh (một dọc bên trái, hai ngang bên
    * phải) rồi đoạn chữ.
@@ -296,10 +300,12 @@ export const gallery = {
   /** Tiêu đề section — tiếng Việt, `<Title>` tự dùng font script có dấu. */
   title: "Album ảnh",
   /** Ảnh ở public/gallery/td1…td22.jpg, dọc 2:3, theo đúng thứ tự tên file. */
-  shots: Array.from({ length: 22 }, (_, i) => ({
-    src: `/gallery/td${i + 1}.jpg`,
-    alt: `Ảnh cưới của Quang Đức và Thanh Trúc, tấm ${i + 1}`,
-  })),
+  shots: [1, 2, 3, 4, 5, 6, 7, 22, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21].map(
+    (n, i) => ({
+      src: `/gallery/td${n}.jpg`,
+      alt: `Ảnh cưới của Quang Đức và Thanh Trúc, tấm ${i + 1}`,
+    }),
+  ),
 };
 
 /* ------------------------------------------------------------ WEDDING INFO */
@@ -374,29 +380,29 @@ export const rsvp = {
    * thì phải chạy lại: ~/glow-tools/glow-rsvp.sh fields <client> --fields "…"
    */
   fields: {
-    name: { label: "1 - Họ tên", placeholder: "Nguyễn Văn A" },
+    name: { label: "Họ tên", placeholder: "Nguyễn Văn A" },
     contact: {
-      label: "2 - Số điện thoại / Email",
+      label: "Số điện thoại / Email",
       placeholder: "09xx xxx xxx hoặc email",
     },
     attending: {
-      label: "3 - Xác nhận tham dự",
+      label: "Xác nhận tham dự",
       yes: "Sẽ đến chung vui",
       no: "Tiếc quá, mình/gia đình không tham dự được",
     },
     /** Chọn "Khác" thì hiện ô gõ số người. */
     guests: {
-      label: "4 - Số lượng người tham dự",
+      label: "Số lượng người tham dự",
       options: ["1", "2"],
       other: "Khác",
       otherPlaceholder: "Nhập số người",
     },
     meal: {
-      label: "5 - Lưu ý ăn uống",
+      label: "Lưu ý ăn uống",
       placeholder: "Ăn chay/dị ứng món ăn",
     },
     message: {
-      label: "6 - Lời chúc gửi Đức & Trúc",
+      label: "Lời chúc gửi Đức & Trúc",
       placeholder: "Chúc hai bạn trăm năm hạnh phúc…",
     },
   },
