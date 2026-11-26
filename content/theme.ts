@@ -160,6 +160,11 @@ export const weights = {
   bodyMedium: "500",
   bodyBold: "600",
   display: "400",
+  /**
+   * Bellissima chỉ có một độ dày. Tiêu đề hoa mỹ (`.ink-bold`) được làm đậm
+   * bằng viền cùng màu chữ, tính theo `em` — tăng số này là mọi tiêu đề dày lên.
+   */
+  inkStroke: "0.036em",
 } as const;
 
 /* ---------------------------------------------------------------- SPACING */
