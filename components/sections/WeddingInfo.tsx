@@ -1,21 +1,18 @@
 import { ButtonLink } from "@/components/ui/Button";
+import { Title } from "@/components/ui/Heading";
 import { Layer, Stage } from "@/components/ui/Stage";
 import { SectionWrapper } from "@/components/ui/SectionWrapper";
 import { ceremony, venue, weddingInfo } from "@/content/client";
 
 /**
- * Thời gian & Địa điểm, dàn theo mockup 1080 × 1920: nền lụa đỏ, chữ
- * "Thời gian & Địa điểm" vàng, tấm thiệp nổi hoa văn có dấu sáp, và nút
- * XEM BẢN ĐỒ. Cả trang là một ảnh vẽ sẵn (brand/elements/venue-card) —
- * bản chữ thật nằm trong khối sr-only cho trình đọc màn hình, còn nút bản đồ
- * là một <ButtonLink> thật phủ kín lên nút vẽ trong ảnh.
+ * Thời gian & Địa điểm, dàn theo mockup 1080 × 1920: nền lụa đỏ, tiêu đề
+ * `<Title>` đồng bộ font/size/weight với toàn site, tấm thiệp nổi hoa văn
+ * có dấu sáp (brand/elements/venue-card), và nút XEM BẢN ĐỒ thật phủ lên nút
+ * vẽ trong ảnh. Bản chữ chi tiết cho trình đọc màn hình nằm trong khối sr-only.
  */
 export function WeddingInfo() {
   return (
     <SectionWrapper section="weddingInfo" flush width="bleed" labelledBy="wedding-info-title">
-      <h2 id="wedding-info-title" className="sr-only">
-        {weddingInfo.title}
-      </h2>
       <div className="sr-only">
         <p>
           {weddingInfo.ceremonyLine} {ceremony.timeLabel}, {ceremony.weekday} {ceremony.dateShort} (
@@ -28,6 +25,15 @@ export function WeddingInfo() {
 
       <Stage width={270} height={480}>
         <Layer name="venue-card" x={0} y={0} w={270} />
+
+        {/* Tiêu đề thật dùng chung <Title> đặt giữa khoảng lụa phía trên dấu sáp */}
+        <Layer x={0} y={51} w={270} z={2} reveal>
+          <div className="-translate-y-1/2 text-center">
+            <Title id="wedding-info-title" className="whitespace-nowrap">
+              {weddingInfo.title}
+            </Title>
+          </div>
+        </Layer>
 
         {/* Nút vẽ trong ảnh nằm ở 91–179 × 416–434 (đơn vị Stage). Nút thật
             (cùng kiểu, cùng cỡ với nút gửi RSVP) đặt giữa đúng chỗ đó và phủ

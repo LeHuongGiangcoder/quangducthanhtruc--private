@@ -305,7 +305,7 @@ export const gallery = {
 /* ------------------------------------------------------------ WEDDING INFO */
 
 export const weddingInfo = {
-  title: "Thông tin lễ cưới",
+  title: "Thời gian & Địa điểm",
   /** Dòng đầu trên tấm kem, ghép với ceremony.timeLabel. */
   ceremonyLine: "Lễ Thành Hôn diễn ra vào lúc",
   venueLabel: "Địa điểm",
