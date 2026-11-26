@@ -84,6 +84,7 @@ export const assets = {
     "ribbon-bow": { src: "/brand/elements/ribbon-bow.webp", width: 1000, height: 921 },
     "ribbon-wine": { src: "/brand/elements/ribbon-wine.webp", width: 900, height: 2326 },
     "rings-gold": { src: "/brand/elements/rings-gold.webp", width: 497, height: 435 },
+    "rings-silver": { src: "/brand/elements/rings-silver.webp", width: 620, height: 512 },
     "rings": { src: "/brand/elements/rings.webp", width: 500, height: 413 },
     "rose": { src: "/brand/elements/rose.webp", width: 1100, height: 926 },
     "silk-swag": { src: "/brand/elements/silk-swag.webp", width: 800, height: 523 },
