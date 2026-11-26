@@ -469,7 +469,7 @@ h4 {
   */
   .ink-bold {
     paint-order: stroke fill;
-    -webkit-text-stroke: 0.018em currentColor;
+    -webkit-text-stroke: var(--t-weight-ink-stroke) currentColor;
   }
 
   /* Quầng vàng chỉ có nghĩa trên nền tối; trên nền kem nó thành vệt bẩn */
