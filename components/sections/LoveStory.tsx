@@ -188,7 +188,7 @@ export function LoveStory() {
             {finale.photos.map((photo, i) => {
               const slot = FINALE_SLOTS[i];
               return (
-                <Layer key={photo.src} x={slot.x} y={slot.y} w={slot.w} reveal revealDelay={i * 100}>
+                <Layer key={photo.src} x={slot.x} y={slot.y} w={slot.w}>
                   <div className={`relative overflow-hidden ${slot.ratio}`}>
                     <Image
                       src={photo.src}
