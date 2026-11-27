@@ -100,8 +100,8 @@ export function Rsvp() {
         <div className="pb-block">
         {status === "sent" ? (
           <div role="status" className="flex flex-col items-center gap-stack text-center">
-            <Heading level="h3">{rsvp.successTitle}</Heading>
-            <Script>{rsvp.successNote}</Script>
+            <Heading level="h3">{rsvp.success[attending].title}</Heading>
+            <Script>{rsvp.success[attending].note}</Script>
             <Button variant="outline" onClick={() => setStatus("idle")}>
               Sửa lại câu trả lời
             </Button>
