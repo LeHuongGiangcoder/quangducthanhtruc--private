@@ -409,8 +409,17 @@ export const rsvp = {
 
   submit: "Gửi xác nhận tham dự",
   sending: "Đang gửi…",
-  successTitle: "Đã nhận được!",
-  successNote: "Cảm ơn quý khách. Chúng mình sẽ giữ sẵn một chỗ thật đẹp.",
+  /** Lời cảm ơn sau khi gửi, tách theo câu trả lời tham dự. */
+  success: {
+    yes: {
+      title: "Đã nhận được phản hồi!",
+      note: "Cảm ơn quý khách đã dành thời gian phản hồi. Hẹn gặp quý khách trong ngày trọng đại của Đức và Trúc!",
+    },
+    no: {
+      title: "Đã nhận được phản hồi!",
+      note: "Cảm ơn quý khách đã dành thời gian phản hồi. Dù lỡ hẹn trong dịp đặc biệt, Đức, Trúc và gia đình vẫn rất quý tình cảm và những lời chúc tốt đẹp từ quý khách.",
+    },
+  },
   errorNote: "Gửi chưa được, quý khách thử lại giúp chúng mình một lần nữa nhé.",
   /** Chào khách vào bằng link riêng — chỉ dùng khi mode "personalized". */
   greeting: "Thân mời",
