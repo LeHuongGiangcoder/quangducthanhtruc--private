@@ -1,7 +1,6 @@
 import Image from "next/image";
 
 import { Title } from "@/components/ui/Heading";
-import { Reveal } from "@/components/ui/Reveal";
 import { SectionWrapper } from "@/components/ui/SectionWrapper";
 import { Layer, Stage } from "@/components/ui/Stage";
 import { thankYou } from "@/content/client";
@@ -92,7 +91,7 @@ export function ThankYouGrid() {
 
         {/* Ô giữa của lưới: x 368–712, y 467–904 trên ảnh 1080 × 1371 */}
         <Layer x={368} y={467} w={344} z={1}>
-          <Reveal className="flex aspect-[344/437] flex-col items-center justify-center text-cream">
+          <div className="flex aspect-[344/437] flex-col items-center justify-center text-cream">
             {/* Cùng kiểu và cỡ tiêu đề với mọi section, không trộn font như ô
                 "Save THE DATE" của mockup */}
             <Title id="thank-you-grid-title" className="text-center">
@@ -103,7 +102,7 @@ export function ThankYouGrid() {
                 </span>
               ))}
             </Title>
-          </Reveal>
+          </div>
         </Layer>
       </Stage>
     </SectionWrapper>
